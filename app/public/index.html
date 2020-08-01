@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<form
+			id="myForm"
+			type="POST"
+			onsubmit="foo(event)"
+			style="background: #dedede; width: 60vw; margin: 10vh auto;"
+		>
+			<fieldset>
+				<legend>Page name</legend>
+				<input
+					type="text"
+					name="pageName"
+					id="pageName"
+					placeholder="pageName"
+				/>
+			</fieldset>
+			<fieldset>
+				<legend>pageSource Information</legend>
+				<input
+					type="text"
+					name="type"
+					id="type"
+					placeholder="type: local or remote"
+				/>
+				<input type="text" name="path" id="path" placeholder="path" />
+			</fieldset>
+			<fieldset>
+				<legend>Path usually not required if type=remote</legend>
+				<input
+					type="text"
+					name="fsPath"
+					id="fsPath"
+					placeholder="fsPath"
+				/>
+				<input
+					type="text"
+					name="template"
+					id="template"
+					placeholder="template"
+				/>
+			</fieldset>
+			<br />
+			<button type="submit" id="submit">submit</button>
+		</form>
+
+		<script>
+			function foo(event) {
+				event.preventDefault();
+				const form = document.querySelector("#myForm");
+
+				// console.log(form);
+
+				const inputs = document.getElementsByTagName("input");
+
+				const myHeaders = new Headers();
+				myHeaders.append(
+					"Content-Type",
+					"application/x-www-form-urlencoded"
+				);
+
+				const urlencoded = new URLSearchParams();
+				// urlencoded.append("username", "AccountMaster");
+				// urlencoded.append("password", "rhinos");
+				// urlencoded.append(inputs[0].name, inputs[0].value);
+
+				for (input of inputs) {
+					console.log(input.name + " | " + input.value);
+					urlencoded.append(input.name, input.value);
+				}
+
+				console.log(urlencoded);
+
+				const requestOptions = {
+					method: "POST",
+					headers: myHeaders,
+					body: urlencoded,
+					redirect: "follow",
+				};
+
+				fetch("http://192.168.0.100:2020/page", requestOptions)
+					.then((response) => {
+						console.log("hello");
+						// console.log(response.json());
+						return response.json();
+					})
+					// .then((result) => {
+					// const myHeaders = new Headers();
+					// myHeaders.append("auth-token", result["auth-token"]);
+					// console.log("put the auth-token inside the header");
+					// window.location.href = "/";
+					// })
+					.catch((error) => console.log("error", error));
+			}
+		</script>
+	</body>
+</html>

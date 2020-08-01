@@ -1,0 +1,20 @@
+version: "2.2"
+services:
+    mongo:
+        container_name: mongo
+        image: mongo
+        environment:
+            # back up admin user in case something goes wrong
+            - MONGO_INITDB_DATABASE=imageHost
+            - MONGO_INITDB_ROOT_USERNAME=admin
+            - MONGO_INITDB_ROOT_PASSWORD=rhinos
+        volumes:
+            # For the startup script that mongo runs to create a new user
+            - ../app/docker-entrypoint-initdb.d/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+            # Store the mongo database on the host to make it persistent between container restarts
+            - ../app/mongo-volume:/data/db
+        ports:
+            - "27017:27017"
+        expose:
+            - 27017
+        command: mongod --auth --quiet
