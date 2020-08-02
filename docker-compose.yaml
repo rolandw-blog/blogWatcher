@@ -1,5 +1,18 @@
-version: "2.2"
+version: "3"
 services:
+    website:
+        container_name: blogwatcher
+        environment:
+            - VIRTUAL_HOST=0x4.host
+            - LETSENCRYPT_HOST=0x4.host
+            - VIRTUAL_PORT=3000
+            - VIRTUAL_NETWORK=proxy-network
+        image: blogwatcher
+        expose:
+            - 3000
+        ports:
+            - 3000
+
     mongo:
         container_name: mongo
         image: mongo
@@ -10,11 +23,16 @@ services:
             - MONGO_INITDB_ROOT_PASSWORD=rhinos
         volumes:
             # For the startup script that mongo runs to create a new user
-            - ../app/docker-entrypoint-initdb.d/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+            - ./app/docker-entrypoint-initdb.d/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
             # Store the mongo database on the host to make it persistent between container restarts
-            - ../app/mongo-volume:/data/db
+            - ./app/mongo-volume:/data/db
         ports:
             - "27017:27017"
         expose:
             - 27017
         command: mongod --auth --quiet
+
+networks:
+    default:
+        external:
+            name: nginx-proxy_default

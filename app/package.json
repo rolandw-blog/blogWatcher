@@ -4,7 +4,8 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"monitor": "nodemon app/server/server.js"
+		"monitor": "nodemon ./server/server.js",
+		"start": "DEBUG=blogWatcher:* node ./server/server.js"
 	},
 	"keywords": [],
 	"author": "",
