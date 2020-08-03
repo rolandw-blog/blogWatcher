@@ -18,10 +18,7 @@ app.use(cors());
 app.use("/", pageRoutes);
 
 // quick and dirty upload form
-app.use(
-	"/upload",
-	express.static(path.resolve(process.env.ROOT, "app/public"))
-);
+app.use("/upload", express.static(path.resolve(process.env.ROOT, "public")));
 
 const server = async () => {
 	await connectToDB(

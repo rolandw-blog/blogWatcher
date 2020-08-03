@@ -5,7 +5,7 @@ const schema = {
 		type: String,
 		require: true,
 	},
-	pageSource: {
+	source: {
 		type: {
 			type: String,
 			require: true,
