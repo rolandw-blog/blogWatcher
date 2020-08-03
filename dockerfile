@@ -20,7 +20,6 @@ WORKDIR /usr/src/app
 
 # Install dependencies
 COPY ./app/package.json /usr/src/app
-COPY ./app/package.json /usr/src/app/app
 RUN npm install
 
 RUN npm install -g nodemon
