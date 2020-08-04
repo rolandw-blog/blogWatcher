@@ -10,9 +10,9 @@
 			id="myForm"
 			type="POST"
 			onsubmit="foo(event)"
-			style="background: #dedede; width: 60vw; margin: 10vh auto;"
+			style="width: 60vw; margin: 10vh auto;"
 		>
-			<h1>Hello world</h1>
+			<h1>Page Submitter</h1>
 			<fieldset>
 				<legend>Page name</legend>
 				<input
@@ -42,6 +42,12 @@
 				/>
 				<input
 					type="text"
+					name="websitePath"
+					id="websitePath"
+					placeholder="websitePath (/example/page)"
+				/>
+				<input
+					type="text"
 					name="template"
 					id="template"
 					placeholder="template"
@@ -52,6 +58,16 @@
 		</form>
 
 		<script>
+			// local or remote
+			const type = document.getElementById("type");
+
+			// fs path
+			const fsPath = document.getElementById("fsPath");
+
+			type.oninput = function () {
+				fsPath.disabled = this.value != "";
+			};
+
 			function foo(event) {
 				event.preventDefault();
 				const form = document.querySelector("#myForm");
@@ -85,7 +101,7 @@
 					redirect: "follow",
 				};
 
-				fetch("http://192.168.0.100:2020/page", requestOptions)
+				fetch("http://devel:8080/page", requestOptions)
 					.then((response) => {
 						console.log("hello");
 						// console.log(response.json());
@@ -100,5 +116,46 @@
 					.catch((error) => console.log("error", error));
 			}
 		</script>
+
+		<style>
+			body {
+				background-color: #494f5c;
+				color: #e8eef2;
+				font-family: sans-serif;
+			}
+
+			h1 {
+				margin: 0;
+				padding: 0;
+			}
+
+			form {
+				background-color: #3b3e48;
+				color: #e8eef2;
+				padding: 2em;
+				margin: 2em;
+			}
+
+			fieldset {
+				border-radius: 0.25em;
+				color: #e8eef2;
+				display: flex;
+				flex-direction: row;
+			}
+
+			input {
+				background-color: #2c3e50;
+				color: #e8eef2;
+				box-sizing: border-box;
+				border: 1px solid #e8eef2;
+				padding: 0.5em;
+				margin: 0 2em;
+			}
+
+			input[disabled] {
+				background-color: darkgray;
+				color: #e8eef2;
+			}
+		</style>
 	</body>
 </html>
