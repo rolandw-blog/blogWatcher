@@ -19,12 +19,16 @@ const schema = {
 		type: String,
 		require: false,
 	},
-	template: {
+	websitePath: {
 		type: String,
-		require: false,
+		require: true,
 	},
 	meta: {
 		require: false,
+		template: {
+			type: String,
+			require: false,
+		},
 		history: {
 			type: Array,
 			require: false,

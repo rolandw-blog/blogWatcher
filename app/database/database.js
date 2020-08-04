@@ -13,7 +13,7 @@ mongoose.set("useFindAndModify", false);
 const db = mongoose.connection;
 
 // Create a dank loading effect
-const spinner = ora("Connecting to MongoDB...\n");
+const spinner = ora("Connecting to MongoDB...");
 spinner.spinner = {
 	interval: 100,
 	frames: ["▹▹▹▹▹", "▸▹▹▹▹", "▹▸▹▹▹", "▹▹▸▹▹", "▹▹▹▸▹", "▹▹▹▹▸"],
@@ -28,7 +28,7 @@ const connectToDB = async (username, password, port, database, auth) => {
 	const userAuth = username ? `${username}:${password}@` : "";
 	const url = `mongodb://${userAuth}${addr}:${port}/${database}?authsource=${auth}`;
 
-	debug(`authenticating as: ${url}`);
+	debug(`authenticating as:\n${url}`);
 
 	const connectionSchema = {
 		useNewUrlParser: true,
@@ -62,7 +62,6 @@ const disconnectFromDB = async () => {
 };
 
 db.once("open", function () {
-	debug("Connected to database successfully");
 	spinner.succeed(" MongoDB database connection established successfully");
 });
 

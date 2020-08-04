@@ -4,27 +4,20 @@ const debug = require("debug")("blogWatcher:postPage");
 const postPage = async (req, res) => {
 	debug("Saving a new page");
 
-	const pageName = req.body.pageName;
-	const type = req.body.type;
-	const path = req.body.path;
-	const fsPath = req.body.fsPath;
-	const template = req.body.template;
+	// ! this was a validator but im gonna use happi/joi eventually so...
+	// if (!pageName || !type || !path) {
+	// 	return res
+	// 		.status(422)
+	// 		.json({ success: false, error: "u didnt include enough info" });
+	// }
 
-	if (!pageName || !type || !path) {
-		return res
-			.status(422)
-			.json({ success: false, error: "u didnt include enough info" });
-	}
+	let page = new Page();
 
-	const page = new Page({
-		pageName: pageName,
-		pageSource: {
-			type: type,
-			path: path,
-		},
-		fsPath: fsPath,
-		template: template,
-	});
+	page.pageName = "a";
+	page.source.type = req.body.type;
+	page.source.path = req.body.path;
+	page.websitePath = req.body.websitePath;
+	page.meta.template = req.body.template;
 
 	page.save().then((doc) => {
 		debug(`Saved ${doc._id}`);

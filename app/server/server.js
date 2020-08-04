@@ -3,6 +3,7 @@ const buildPages = require("../build/buildPages");
 const debug = require("debug")("blogWatcher:server");
 const path = require("path");
 const cors = require("cors");
+const githubUserContentToPageName = require("../build/URLConverter");
 require("dotenv").config();
 
 const express = require("express");
@@ -10,10 +11,10 @@ const pageRoutes = require("../routes/pageRoutes.js");
 
 const app = express();
 // app.options("*", cors());
-// const corsOptions = {
-// 	origin: "*",
-// };
-app.use(cors());
+const corsOptions = {
+	origin: "*",
+};
+app.use(cors(corsOptions));
 
 app.use("/", pageRoutes);
 
@@ -41,7 +42,11 @@ const server = async () => {
 	});
 
 	// pull down all the markdown
-	buildPages();
+	// buildPages();
+
+	githubUserContentToPageName(
+		"https://raw.githubusercontent.com/RolandWarburton/knowledge/master/Writing/bookmarks.md"
+	);
 };
 
 module.exports = server();
