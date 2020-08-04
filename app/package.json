@@ -21,8 +21,9 @@
 		"is-docker": "^2.0.0",
 		"mongoose": "^5.9.27",
 		"node-fetch": "^2.6.0",
+		"nodemon": "latest",
 		"ora": "^4.0.5",
-		"nodemon": "latest"
+		"underscore": "^1.10.2"
 	},
 	"devDependencies": {
 		"nodemon": "^2.0.4"

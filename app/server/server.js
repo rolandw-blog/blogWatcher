@@ -3,6 +3,7 @@ const buildPages = require("../build/buildPages");
 const debug = require("debug")("blogWatcher:server");
 const path = require("path");
 const cors = require("cors");
+const previewSiteLayout = require("../build/previewSiteLayout");
 const githubUserContentToPageName = require("../build/URLConverter");
 require("dotenv").config();
 
@@ -41,12 +42,14 @@ const server = async () => {
 		});
 	});
 
+	previewSiteLayout();
+
 	// pull down all the markdown
 	// buildPages();
 
-	githubUserContentToPageName(
-		"https://raw.githubusercontent.com/RolandWarburton/knowledge/master/Writing/bookmarks.md"
-	);
+	// githubUserContentToPageName(
+	// 	"https://raw.githubusercontent.com/RolandWarburton/knowledge/master/Writing/bookmarks.md"
+	// );
 };
 
 module.exports = server();
