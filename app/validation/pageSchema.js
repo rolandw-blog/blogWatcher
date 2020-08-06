@@ -2,10 +2,10 @@ const yup = require("yup");
 
 const schema = yup.object().shape({
 	pageName: yup.string().required(),
-	source: {
+	source: yup.object().shape({
 		remote: yup.boolean().required(),
 		path: yup.string().required(),
-	},
+	}),
 	websitePath: yup.string().required(),
 });
 

@@ -19,7 +19,7 @@ const findPage = async (pageName) => {
 
 			if (!page) {
 				debug("no page found");
-				return null;
+				return undefined;
 			}
 
 			debug(`Found ${page.pageName}`);
