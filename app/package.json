@@ -24,7 +24,8 @@
 		"node-fetch": "^2.6.0",
 		"nodemon": "latest",
 		"ora": "^4.0.5",
-		"underscore": "^1.10.2"
+		"underscore": "^1.10.2",
+		"yup": "^0.29.3"
 	},
 	"devDependencies": {
 		"nodemon": "^2.0.4"
