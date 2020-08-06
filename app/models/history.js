@@ -9,10 +9,10 @@ const schema = {
 };
 
 const historySchema = mongoose.Schema(schema, {
-	collection: "pages",
+	collection: "History",
 	autoCreate: true,
 });
 
-const History = mongoose.model("Page", historySchema);
+const History = mongoose.model("History", historySchema);
 
 module.exports = { History, schema };
