@@ -7,22 +7,12 @@ const util = require("util");
 const postPage = async (req, res) => {
 	debug("Saving a new page");
 
-	// ! this was a validator but im gonna use happi/joi eventually so...
-	// if (!pageName || !type || !path) {
-	// 	return res
-	// 		.status(422)
-	// 		.json({ success: false, error: "u didnt include enough info" });
-	// }
-
 	let page = new Page();
-
 	page.pageName = req.body.pageName;
 	page.source.remote = req.body.remote;
 	page.source.path = req.body.path;
 	page.websitePath = req.body.websitePath;
 	page.meta.template = req.body.template;
-
-	// const validate = util.promisify(yupPageSchema.validate());
 
 	// check its a valid page against the yup schema
 	// TODO clean up this spaghetti
