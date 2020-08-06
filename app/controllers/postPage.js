@@ -22,31 +22,26 @@ const postPage = async (req, res) => {
 	page.websitePath = req.body.websitePath;
 	page.meta.template = req.body.template;
 
+	// const validate = util.promisify(yupPageSchema.validate());
+
 	// check its a valid page against the yup schema
 	// TODO clean up this spaghetti
-	yupPageSchema
-		.validate(page)
-		.then(async () => {
-			// if its valid make sure it doesnt exist
-			if (!(await findPage(page.pageName))) {
-				page.save().then((doc) => {
-					debug(`Saved ${doc._id}`);
-				});
-			} else {
-				debug(`the page ${page.pageName} already exists`);
-				return res.status(409).send("record already exists");
-				// .json({ success: false, error: "record already exists" });
-			}
-		})
-		.catch((err) => {
-			// if its a validation error (yup returns err.name object)
-			debug("validation error occured");
-			debug("It could already exist, or incorrectly formatted?");
+	try {
+		const isValid = await yupPageSchema.validate(page);
+	} catch (err) {
+		debug(`error: ${err.name}`);
+		debug(err.errors);
+		return res.status(400).send("validation error");
+	}
 
-			// if its not a generic error print it (ie. yup returned it)
-			if (err.name != "Error")
-				debug(`Name: ${err.name}\nMessage: ${err.errors}`);
+	if (!(await findPage(page.pageName))) {
+		page.save().then((doc) => {
+			debug(`Saved ${doc._id}`);
 		});
+	} else {
+		debug(`the page ${page.pageName} already exists`);
+		return res.status(409).send("record already exists");
+	}
 
 	res.status(200).json({ success: true });
 };
