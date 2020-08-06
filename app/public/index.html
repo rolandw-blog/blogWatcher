@@ -75,7 +75,7 @@
 
 					switch (input.name) {
 						case "remote":
-							console.info("parsing special value: " + input.name + " " + input.value)
+							console.info("parsing special value: " + input.name + " = " + input.value)
 							if (input.value == "on") {
 								console.log("remote will be true")
 								urlencoded.append(input.name, true);
@@ -85,9 +85,9 @@
 								urlencoded.append(input.name, false);
 							}
 						break;
-					
+
 						default:
-							console.log("parsing: " + input.name + " " + input.value)
+							console.log("parsing: " + input.name + " = " + input.value)
 							urlencoded.append(input.name, input.value);
 						break;
 					}
@@ -104,7 +104,7 @@
 
 				fetch("http://devel:8080/page", requestOptions)
 					.then((response) => {
-						console.log("hello");
+						console.log("post done!");
 						// console.log(response.json());
 						return response.json();
 					})
