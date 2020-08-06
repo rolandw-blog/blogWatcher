@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const schema = {
-	commit: {
+	head_commit: {
 		// a JSON string is submitted
 		type: String,
 		require: true,
