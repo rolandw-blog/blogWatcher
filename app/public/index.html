@@ -24,22 +24,11 @@
 			</fieldset>
 			<fieldset>
 				<legend>pageSource Information</legend>
-				<input
-					type="text"
-					name="type"
-					id="type"
-					placeholder="type: local or remote"
-				/>
+				<label for="remote">Tick if remote</label>
+				<input type="checkbox" name="remote" id="remote"></input>
 				<input type="text" name="path" id="path" placeholder="path" />
 			</fieldset>
 			<fieldset>
-				<legend>Path usually not required if type=remote</legend>
-				<input
-					type="text"
-					name="fsPath"
-					id="fsPath"
-					placeholder="fsPath"
-				/>
 				<input
 					type="text"
 					name="websitePath"
@@ -58,16 +47,6 @@
 		</form>
 
 		<script>
-			// local or remote
-			const type = document.getElementById("type");
-
-			// fs path
-			const fsPath = document.getElementById("fsPath");
-
-			type.oninput = function () {
-				fsPath.disabled = this.value != "";
-			};
-
 			function foo(event) {
 				event.preventDefault();
 				const form = document.querySelector("#myForm");
@@ -88,8 +67,26 @@
 				// urlencoded.append(inputs[0].name, inputs[0].value);
 
 				for (input of inputs) {
-					console.log(input.name + " | " + input.value);
-					urlencoded.append(input.name, input.value);
+					// console.log(input.name + " | " + input.value);
+
+					switch (input.name) {
+						case "remote":
+							console.info("parsing special value: " + input.name + " " + input.value)
+							if (input.value == "on") {
+								console.log("remote will be true")
+								urlencoded.append(input.name, true);
+							}
+							else {
+								console.log("remote will be false")
+								urlencoded.append(input.name, false);
+							}
+						break;
+					
+						default:
+							console.log("parsing: " + input.name + " " + input.value)
+							urlencoded.append(input.name, input.value);
+						break;
+					}
 				}
 
 				console.log(urlencoded);

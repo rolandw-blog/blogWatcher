@@ -14,7 +14,7 @@ const postPage = async (req, res) => {
 	let page = new Page();
 
 	page.pageName = "a";
-	page.source.type = req.body.type;
+	page.source.remote = req.body.remote;
 	page.source.path = req.body.path;
 	page.websitePath = req.body.websitePath;
 	page.meta.template = req.body.template;
