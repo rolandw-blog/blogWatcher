@@ -25,7 +25,7 @@
 			<fieldset>
 				<legend>pageSource Information</legend>
 				<label for="remote">Tick if remote</label>
-				<input type="checkbox" name="remote" id="remote"></input>
+				<input type="checkbox" defaultChecked name="remote" id="remote" checked="true"></input>
 				<input type="text" name="path" id="path" placeholder="path" />
 			</fieldset>
 			<fieldset>
@@ -47,6 +47,10 @@
 		</form>
 
 		<script>
+			// most of the time its going to be ticked
+			// this just reduces the chance of making mistakes
+			document.getElementById('remote').checked = true
+
 			function foo(event) {
 				event.preventDefault();
 				const form = document.querySelector("#myForm");
