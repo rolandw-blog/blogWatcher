@@ -1,6 +1,7 @@
 const express = require("express");
 const postPage = require("../controllers/postPage");
 const buildPages = require("../controllers/buildPages");
+const previewPages = require("../controllers/previewPages");
 const bodyParser = require("body-parser");
 const buildRouter = require("./buildRouter");
 const router = express.Router();
@@ -35,6 +36,18 @@ const routes = [
 			method: this.method,
 			parameters: [],
 			example: "/build",
+		},
+	},
+	{
+		path: "/preview",
+		method: "get",
+		middleware: [],
+		handler: previewPages,
+		help: {
+			description: "Preview the site structure",
+			method: this.method,
+			parameters: [],
+			example: "/preview",
 		},
 	},
 ];
