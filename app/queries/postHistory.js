@@ -3,7 +3,7 @@ const debug = require("debug")("blogWatcher:query");
 require("dotenv").config();
 
 /**
- *
+ * Push a commit head to the blogWatcher.history collection
  * @param {JSON} head_commit - Takes the req.body.head_commit from GH webooks
  */
 const postHistory = async (head_commit) => {

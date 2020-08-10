@@ -2,6 +2,7 @@ const { Page } = require("../models/page");
 const debug = require("debug")("blogWatcher:postPage");
 const findPage = require("../queries/findPage");
 const yupPageSchema = require("../validation/pageSchema");
+const postPageToDatabase = require("../queries/postPage");
 const util = require("util");
 
 const postPage = async (req, res) => {
@@ -14,23 +15,11 @@ const postPage = async (req, res) => {
 	page.websitePath = req.body.websitePath;
 	page.meta.template = req.body.template;
 
-	// check its a valid page against the yup schema
-	// TODO clean up this spaghetti
-	try {
-		const isValid = await yupPageSchema.validate(page);
-	} catch (err) {
-		debug(`error: ${err.name}`);
-		debug(err.errors);
-		return res.status(400).send("validation error");
-	}
-
-	if (!(await findPage(page.pageName))) {
-		page.save().then((doc) => {
-			debug(`Saved ${doc._id}`);
-		});
+	const pageStatus = await postPageToDatabase(page);
+	if (pageStatus != 200) {
+		debug(`error ${pageStatus} saving the page`);
 	} else {
-		debug(`the page ${page.pageName} already exists`);
-		return res.status(409).send("record already exists");
+		debug(`saved successfully: ${pageStatus}`);
 	}
 
 	res.status(200).json({ success: true });

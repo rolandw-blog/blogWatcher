@@ -5,7 +5,8 @@
 	"main": "index.js",
 	"scripts": {
 		"monitor": "nodemon ./server/server.js",
-		"start": "DEBUG=blogWatcher:* DEBUG_COLORS=true nodemon -L ./server/server.js"
+		"start": "DEBUG=blogWatcher:* DEBUG_COLORS=true nodemon -L ./server/server.js",
+		"test": "jest"
 	},
 	"keywords": [],
 	"author": "",
@@ -29,6 +30,12 @@
 		"yup": "^0.29.3"
 	},
 	"devDependencies": {
+		"@shelf/jest-mongodb": "^1.2.2",
 		"nodemon": "^2.0.4"
+	},
+	"config": {
+		"mongodbMemoryServer": {
+			"version": "latest"
+		}
 	}
 }

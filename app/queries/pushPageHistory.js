@@ -4,7 +4,7 @@ const findPage = require("./findPage");
 require("dotenv").config();
 
 /**
- *
+ * Push a commit head to a blogWatcher.page document
  * @param {String} pageName - The name of the page
  * @param {String} history - The req.body.head_commit from GH webhooks as a JSON string
  */

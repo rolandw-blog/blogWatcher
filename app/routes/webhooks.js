@@ -3,6 +3,7 @@ const buildRouter = require("./buildRouter");
 const bodyParser = require("body-parser");
 const ghwebhook = require("../controllers/ghwebhook");
 const verifyGithubPayload = require("../middleware/verifyGithubPayload");
+const debug = require("debug")("blogWatcher:routers");
 const router = express.Router();
 
 // create application/x-www-form-urlencoded parser
@@ -30,6 +31,7 @@ const routes = [
 ];
 
 // build the router!
+debug("building the webhook routes");
 buildRouter(router, routes);
 
 module.exports = router;

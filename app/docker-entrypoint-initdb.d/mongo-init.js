@@ -4,7 +4,7 @@ print("=========================================================================
 print("==================== RUNNING MONGO INIT-MONGO.JS SCRIPT ====================")
 print("============================================================================")
 
-const databases = ["blogWatcher"]
+const databases = ["blogWatcher", "test"]
 
 for (let i = databases.length - 1; i >= 0; i--) {
 	db = db.getSiblingDB(databases[i])

@@ -4,6 +4,7 @@ const buildPages = require("../controllers/buildPages");
 const previewPages = require("../controllers/previewPages");
 const bodyParser = require("body-parser");
 const buildRouter = require("./buildRouter");
+const debug = require("debug")("blogWatcher:routers");
 const router = express.Router();
 
 // create application/x-www-form-urlencoded parser
@@ -53,6 +54,7 @@ const routes = [
 ];
 
 // build the router!
+debug("building the page routes");
 buildRouter(router, routes);
 
 module.exports = router;
