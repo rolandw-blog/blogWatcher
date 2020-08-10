@@ -16,7 +16,7 @@ const schema = {
 		},
 	},
 	websitePath: {
-		type: String,
+		type: Array,
 		require: true,
 	},
 	meta: {
