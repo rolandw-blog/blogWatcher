@@ -16,7 +16,6 @@ const urlToJson = (websitePath) => {
 	const outputResult = [];
 
 	const pathArray = websitePath.split("/");
-	debug(pathArray);
 
 	// Remove the first element as a websitePath should start with "/" which splits into ['', 'path']
 	if (pathArray[0] === "") pathArray.splice(0, 1);
@@ -33,8 +32,6 @@ const urlToJson = (websitePath) => {
 
 	// convert it into JSON
 	outputResult.push(JSON.parse(jsonstr));
-	// }
-	debug(outputResult);
 	return outputResult;
 };
 
@@ -51,7 +48,6 @@ const previewSiteLayout = async () => {
 	const allJson = [];
 	// let prevItems = "";
 	for (page of pages) {
-		debug(page.websitePath);
 		const newJson = urlToJson(page.websitePath);
 		allJson.push(newJson);
 
