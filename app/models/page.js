@@ -11,12 +11,12 @@ const schema = {
 			require: true,
 		},
 		path: {
-			type: String,
+			type: Array,
 			require: true,
 		},
 	},
 	websitePath: {
-		type: Array,
+		type: String,
 		require: true,
 	},
 	meta: {
