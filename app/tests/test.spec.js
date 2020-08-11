@@ -31,23 +31,36 @@ describe("insert", () => {
 	});
 
 	afterAll(async () => {
-		await resetDatabase();
+		// await resetDatabase();
 		await disconnectFromDB();
 	});
 
 	it("should insert a doc into collection", async () => {
 		// dummy document
+		// const page = {
+		// 	source: {
+		// 		remote: true,
+		// 		path: [
+		// 			"website.com/test/file1.md",
+		// 			"website.com/test2/file2.md",
+		// 		],
+		// 	},
+		// 	meta: { template: "test" },
+		// 	pageName: "test",
+		// 	websitePath: "test/page/sample",
+		// };
+
 		const page = {
-			source: {
-				remote: true,
-				path: [
-					"website.com/test/file1.md",
-					"website.com/test2/file2.md",
-				],
-			},
+			source: [
+				{
+					remote: true,
+					path: "websitte.com/file.md",
+					websitePath: "/output/path",
+				},
+			],
 			meta: { template: "test" },
 			pageName: "test",
-			websitePath: "test/page/sample",
+			// websitePath: "test/page/sample",
 		};
 
 		// insert
