@@ -9,7 +9,7 @@
 		<form
 			id="myForm"
 			type="POST"
-			onsubmit="foo(event)"
+			
 			style="width: 60vw; margin: 10vh auto;"
 		>
 			<h1>Page Submitter</h1>
@@ -22,11 +22,15 @@
 					placeholder="pageName"
 				/>
 			</fieldset>
-			<fieldset>
+			<fieldset id="pageSourceWrapper" style="flex-direction: column;">
 				<legend>pageSource Information</legend>
-				<label for="remote">Remote</label>
-				<input type="checkbox" defaultChecked name="remote" id="remote" checked="true"></input>
-				<input type="text" name="url" id="url" placeholder="url/path" />
+				<fieldset id="pageSource0">
+					<legend>Source 1</legend>
+					<label for="remote">Remote</label>
+					<input type="checkbox" defaultChecked name="remote" class="remote" checked="true"></input>
+					<input type="text" name="url" class="url" placeholder="url/path" />
+				</fieldset>
+				<button id="addPageSource" style="align-self: flex-start;" onclick="addNewUrl()">Add Page Source</button>
 			</fieldset>
 			<fieldset>
 				<input
@@ -43,15 +47,42 @@
 				/>
 			</fieldset>
 			<br />
-			<button type="submit" id="submit">submit</button>
+			<button type="submit" id="submit" onclick="submitForm(event)">submit</button>
 		</form>
 
 		<script>
 			// most of the time its going to be ticked
 			// this just reduces the chance of making mistakes
-			document.getElementById('remote').checked = true
+			document.querySelector('.remote').checked = true
 
-			function foo(event) {
+			const addNewUrl = () => {
+				event.preventDefault();
+				const fieldsetWrapper = document.getElementById("pageSourceWrapper")
+
+				// get all of the wrappers children
+				const numberOFfields = fieldsetWrapper.querySelectorAll("fieldset");
+
+				const newFields = fieldsetWrapper.querySelectorAll("fieldset")
+				const fieldArr = Array.from(newFields)
+
+				// concat all the html fields together
+				const newFieldsHtml = fieldArr.reduce((acc, cur) => {return acc += cur.outerHTML; }, "");
+
+				fieldsetWrapper.innerHTML = 
+				`
+				<legend>pageSource Information</legend>
+				${newFieldsHtml}
+				<fieldset id="pageSource${numberOFfields.length}">
+					<legend>Source ${numberOFfields.length+1}</legend>
+					<label for="remote">Remote</label>
+					<input type="checkbox" defaultChecked name="remote" class="remote" checked="true"></input>
+					<input type="text" name="url" class="url" placeholder="url/path" />
+				</fieldset>
+				<button id="addPageSource" style="align-self: flex-start;" onclick="addNewUrl()">Add Page Source</button>
+				`
+			}
+
+			function submitForm(event) {
 				event.preventDefault();
 				const form = document.querySelector("#myForm");
 
@@ -66,51 +97,30 @@
 				);
 
 				const pageName = document.getElementById("pageName");
-				const remote = document.getElementById("remote");
-				const url = document.getElementById("url");
 				const websitePath = document.getElementById("websitePath");
 				const template = document.getElementById("template");
 
-				// const bodyObject = {
-				// 	pageName: pageName,
-				// 	source: 
-				// }
+				const remote = Array.from(document.getElementsByClassName("remote"));
+				const url = Array.from(document.getElementsByClassName("url"));
 
-				// const test = {
-				// 	a: (() => {return "a"})
-				// }
-				// console.log(test.a)
-
+				// const pathSources = []
+				// for (const i in remote) remote[i] == "on" ? true : false;
+				
 				const urlencoded = new URLSearchParams();
-				// urlencoded.append("username", "AccountMaster");
-				// urlencoded.append("password", "rhinos");
-				// urlencoded.append(inputs[0].name, inputs[0].value);
+				// append all the bits
+				urlencoded.append("pageName", pageName.value);
+				urlencoded.append("websitePath", websitePath.value);
+				urlencoded.append("template", template.value);
 
-				for (input of inputs) {
-					// console.log(input.name + " | " + input.value);
-
-					switch (input.name) {
-						case "remote":
-							console.info("parsing special value: " + input.name + " = " + input.value)
-							if (input.value == "on") {
-								console.log("remote will be true")
-								urlencoded.append(input.name, true);
-							}
-							else {
-								console.log("remote will be false")
-								urlencoded.append(input.name, false);
-							}
-						break;
-
-						default:
-							console.log("parsing: " + input.name + " = " + input.value)
-							urlencoded.append(input.name, input.value);
-						break;
-					}
+				// append the remote bools and urls
+				for (i in Array.from(remote)) {
+					const remoteBool = (remote[i] = "on") ? true : false;
+					urlencoded.append(`remote`, remoteBool);
+					console.log(url[0].value)
+					urlencoded.append(`url`, url[i].value);
 				}
 
-				console.log(urlencoded);
-
+				// construct a POST request
 				const requestOptions = {
 					method: "POST",
 					headers: myHeaders,
@@ -118,6 +128,7 @@
 					redirect: "follow",
 				};
 
+				// ship it!
 				fetch("http://devel:8080/page", requestOptions)
 					.then((response) => {
 						console.log("post done!");
@@ -158,6 +169,7 @@
 				color: #e8eef2;
 				display: flex;
 				flex-direction: row;
+				margin: 1em;
 			}
 
 			input {
@@ -172,6 +184,10 @@
 			input[disabled] {
 				background-color: darkgray;
 				color: #e8eef2;
+			}
+
+			button {
+				margin: 1em 0;
 			}
 		</style>
 	</body>
