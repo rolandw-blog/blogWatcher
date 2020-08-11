@@ -9,7 +9,8 @@ const getAllPages = require("../queries/getAllPages");
 
 const downloadMarkdown = async (url) => {
 	url = decodeURI(url);
-	debug("downloading page: " + url);
+	debug("downloading page: ");
+	debug(url);
 
 	// fetch the content in async. await the response immediately
 	const response = await fetch(url);
@@ -31,20 +32,29 @@ const buildPages = async () => {
 	const pages = await getAllPages();
 	debug(`got ${pages.length} pages`);
 
-	// debug(pages);
-
+	// for every page in the website
 	for (const page of pages) {
-		// download markdown stuff
-		const markdown = downloadMarkdown(page.source.path);
+		// for every pageSource (url) in the page
+		for (let i = 0; i < page.source.length; i++) {
+			// debug(page);
+			const pageSource = page.source[i];
 
-		const filename = page._id + ".md";
-		const writepath = path.resolve(process.env.ROOT, "content", filename);
+			// download markdown stuff
+			const markdown = downloadMarkdown(pageSource.url);
 
-		// write the file and then update the page.fsPath in the database
-		fs.writeFile(writepath, await markdown, () => {
-			debug(`wrote a file ${page._id}`);
-			updateLocalPathOfPage(page, writepath);
-		});
+			const filename = page._id + `_${i}` + ".md";
+			const writepath = path.resolve(
+				process.env.ROOT,
+				"content",
+				filename
+			);
+
+			// write the file and then update the page.fsPath in the database
+			fs.writeFile(writepath, await markdown, () => {
+				debug(`wrote a file ${page._id}`);
+				updateLocalPathOfPage(page, writepath);
+			});
+		}
 	}
 };
 
