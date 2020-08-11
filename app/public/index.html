@@ -24,9 +24,9 @@
 			</fieldset>
 			<fieldset>
 				<legend>pageSource Information</legend>
-				<label for="remote">Tick if remote</label>
+				<label for="remote">Remote</label>
 				<input type="checkbox" defaultChecked name="remote" id="remote" checked="true"></input>
-				<input type="text" name="path" id="path" placeholder="path" />
+				<input type="text" name="url" id="url" placeholder="url/path" />
 			</fieldset>
 			<fieldset>
 				<input
@@ -64,6 +64,22 @@
 					"Content-Type",
 					"application/x-www-form-urlencoded"
 				);
+
+				const pageName = document.getElementById("pageName");
+				const remote = document.getElementById("remote");
+				const url = document.getElementById("url");
+				const websitePath = document.getElementById("websitePath");
+				const template = document.getElementById("template");
+
+				// const bodyObject = {
+				// 	pageName: pageName,
+				// 	source: 
+				// }
+
+				// const test = {
+				// 	a: (() => {return "a"})
+				// }
+				// console.log(test.a)
 
 				const urlencoded = new URLSearchParams();
 				// urlencoded.append("username", "AccountMaster");

@@ -6,12 +6,14 @@ const schema = {
 		require: true,
 	},
 	source: {
+		type: Array,
+		require: true,
 		remote: {
 			type: Boolean,
 			require: true,
 		},
-		path: {
-			type: Array,
+		url: {
+			type: String,
 			require: true,
 		},
 	},

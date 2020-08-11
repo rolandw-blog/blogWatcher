@@ -10,8 +10,7 @@ const postPage = async (req, res) => {
 
 	let page = new Page();
 	page.pageName = req.body.pageName;
-	page.source.remote = req.body.remote;
-	page.source.path = req.body.path;
+	page.source = [{ remote: req.body.remote, url: req.body.url }];
 	page.websitePath = req.body.websitePath;
 	page.meta.template = req.body.template;
 
