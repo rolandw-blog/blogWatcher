@@ -1,4 +1,4 @@
-const { History } = require("../models/history");
+const { Page } = require("../models/page");
 const debug = require("debug")("blogWatcher:query");
 const pageSchema = require("../validation/pageSchema");
 const findPage = require("./findPage");
@@ -40,7 +40,8 @@ const postPage = async (page) => {
 	debug(`checking ${page.pageName} doesnt exist before saving`);
 	const existingPage = await findPage(page.pageName);
 	if (!existingPage) {
-		return page.save().then((doc) => {
+		const newPage = new Page(page);
+		return newPage.save().then((doc) => {
 			debug(`Saved ${doc._id}`);
 			return 200;
 		});
