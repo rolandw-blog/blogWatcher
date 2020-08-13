@@ -37,27 +37,30 @@ const urlToJson = (websitePath) => {
 
 /**
  * Returns a JSON object that represents the full websites path structure
+ * TODO: implement pathMask
+ * @param {String} pathMask - Mask the start of the path to restrict the paths returned
  */
-const previewSiteLayout = async () => {
+const previewSiteLayout = async (pathMask) => {
 	debug("running previewSiteLayout");
 
 	// get every page from the database
 	const pages = await getAllPages();
 
 	// this is where each JSON path is stored as an individual object
-	const allJson = [];
-	// let prevItems = "";
+	let allJson = [];
 	for (page of pages) {
+		debug(page.websitePath);
 		const newJson = urlToJson(page.websitePath);
 		allJson.push(newJson);
 
 		debug(`parsed ${page.websitePath} to a json path`);
 	}
 
+	// use lodash to merge the json array into 1 json object
+	allJson = merge(...allJson)[0];
 	debug("Finished formatting the path map:");
-	debug(JSON.stringify(merge(...allJson), null, 2));
-
-	return merge(...allJson);
+	debug(JSON.stringify(allJson, null, 2));
+	return allJson;
 };
 
 module.exports = previewSiteLayout;
