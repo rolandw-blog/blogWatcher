@@ -2,16 +2,16 @@ const { Page } = require("../models/page");
 const debug = require("debug")("blogWatcher:query");
 require("dotenv").config();
 
-// * get all pages in the database
-/** Returns a promise that resolves to an array of pages
+// * get a pages from the database by its id
+/** Returns a promise that resolves to a single pages
  * or undefined if not found
  * @example
- * getAllPages();
+ * findPage("5f32c4d24191ed02244b62d6");
  */
-const findPage = async (pageName) => {
-	debug("Running getAllPages from db queries...");
+const findPage = async (id) => {
+	debug("Running findPage from db queries...");
 	try {
-		return Page.findOne({ pageName: pageName }, "", (err, page) => {
+		return Page.findOne({ _id: id }, "", (err, page) => {
 			if (err) {
 				debug(`ERROR retrieving pages from mongo ${err}`);
 				return undefined;
