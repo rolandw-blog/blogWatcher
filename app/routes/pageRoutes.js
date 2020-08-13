@@ -2,6 +2,7 @@ const express = require("express");
 const postPage = require("../controllers/postPage");
 const buildPages = require("../controllers/buildPages");
 const previewPages = require("../controllers/previewPages");
+const getPage = require("../controllers/getPage");
 const bodyParser = require("body-parser");
 const buildRouter = require("./buildRouter");
 const debug = require("debug")("blogWatcher:routers");
@@ -24,6 +25,17 @@ const routes = [
 				'type: ("remote" or "local")',
 				"path: string",
 			],
+			example: "/page",
+		},
+	},
+	{
+		path: "/page/:id",
+		method: "get",
+		middleware: [],
+		handler: getPage,
+		help: {
+			description: "Get a page from the database",
+			method: this.method,
 			example: "/page",
 		},
 	},
