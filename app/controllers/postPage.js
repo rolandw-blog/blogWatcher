@@ -3,6 +3,7 @@ const debug = require("debug")("blogWatcher:postPage");
 const findPage = require("../queries/findPage");
 const yupPageSchema = require("../validation/pageSchema");
 const postPageToDatabase = require("../queries/postPage");
+const { getBaseNameFromUrl } = require("../build/URLConverter");
 const util = require("util");
 
 const postPage = async (req, res) => {
@@ -41,12 +42,21 @@ const postPage = async (req, res) => {
 		});
 	}
 
+	// if the autoName is true then guess the name from the first url
+	debug(req.body.autoName);
+	const pageName = req.body.autoName
+		? getBaseNameFromUrl(source[0].url)
+		: req.body.pageName;
+
 	const page = new Page({
-		pageName: req.body.pageName,
+		pageName: pageName,
 		websitePath: req.body.websitePath,
 		template: req.body.template,
 		source: source,
 	});
+
+	debug("attempting to post");
+	debug(page);
 
 	const pageStatus = await postPageToDatabase(page);
 	if (pageStatus != 200) {

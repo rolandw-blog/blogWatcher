@@ -4,11 +4,11 @@ const path = require("path");
 
 /**
  *
- * @param {String} url - Github URL to convert to page name
+ * @param {String} url - Github URL to convert to Path Array
  * @example RawgithubUserContentToPageName("https://raw.githubusercontent.com/RolandWarburton/knowledge/master/Writing/bookmarks.md")
  * @returns ["writing", "bookmarks"]
  */
-const githubUserContentToPageName = (url) => {
+const githubUserContentToPathArray = (url) => {
 	// Turn it into a URL
 	const urlObject = new URL(url);
 
@@ -25,4 +25,18 @@ const githubUserContentToPageName = (url) => {
 	debug(pathArray);
 };
 
-module.exports = { githubUserContentToPageName };
+/**
+ *
+ * @param {String} url - Github URL to convert to base name
+ * @example getBaseNameFromUrl("https://raw.githubusercontent.com/RolandWarburton/knowledge/master/Writing/bookmarks.md")
+ * @returns "bookmarks.md"
+ */
+const getBaseNameFromUrl = (url) => {
+	debug(`received ${url}`);
+	const urlObj = new URL(url);
+	const pageName = decodeURI(path.parse(urlObj.pathname).base);
+	debug(`returning the pageName ${pageName}`);
+	return pageName;
+};
+
+module.exports = { getBaseNameFromUrl, githubUserContentToPathArray };

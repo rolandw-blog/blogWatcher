@@ -15,6 +15,8 @@
 			<h1>Page Submitter</h1>
 			<fieldset>
 				<legend>Page name</legend>
+				<label for="autoName">Auto name!</label>
+				<input type="checkbox" onCLick="disableField(this, '#pageName')" defaultChecked name="autoName" id="autoName" checked="true"></input>
 				<input
 					type="text"
 					name="pageName"
@@ -55,6 +57,17 @@
 			// this just reduces the chance of making mistakes
 			document.querySelector('.remote').checked = true
 
+			// on load check these fields inputs
+			if (document.querySelector("#autoName").disabled) {
+				document.querySelector("#pageName").disabled = false;
+			}
+
+			const disableField = (checkbox, query) => {
+				const field = document.querySelector(query);
+				field.disabled = !field.disabled;
+				console.log(field.disabled);
+			}
+
 			const addNewUrl = () => {
 				event.preventDefault();
 				const fieldsetWrapper = document.getElementById("pageSourceWrapper")
@@ -86,8 +99,6 @@
 				event.preventDefault();
 				const form = document.querySelector("#myForm");
 
-				// console.log(form);
-
 				const inputs = document.getElementsByTagName("input");
 
 				const myHeaders = new Headers();
@@ -99,18 +110,17 @@
 				const pageName = document.getElementById("pageName");
 				const websitePath = document.getElementById("websitePath");
 				const template = document.getElementById("template");
+				const autoName = document.getElementById("autoName");
 
 				const remote = Array.from(document.getElementsByClassName("remote"));
 				const url = Array.from(document.getElementsByClassName("url"));
-
-				// const pathSources = []
-				// for (const i in remote) remote[i] == "on" ? true : false;
 				
 				const urlencoded = new URLSearchParams();
 				// append all the bits
 				urlencoded.append("pageName", pageName.value);
 				urlencoded.append("websitePath", websitePath.value);
 				urlencoded.append("template", template.value);
+				urlencoded.append("autoName", (autoName.value == "on") ? true : false);
 
 				// append the remote bools and urls
 				for (i in Array.from(remote)) {

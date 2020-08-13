@@ -10,6 +10,17 @@ const buildPages = async (req, res) => {
 	// TODO make an event emitter to .on("progress") and send data back to the client
 	// debug(req.body);
 
+	debug(req.body);
+	// const repoBaseURL = req.body.html_url;
+
+	// stop if theres no head_commit
+	// sometimes hooks dont come with head_commits and thats just life 🤷
+	if (req.body.head_commit) res.status(200).json({ success: true });
+	else return res.status(400).json({ success: false });
+	// https://github.com/RolandWarburton/knowledge
+	// /
+	// src/views/Notes/University/TNE30023 Advanced Switching.js
+	// https://github.com/RolandWarburton/knowledge/src/views/Notes/University/TNE30023%20Advanced%20Switching.js
 	const commit = JSON.stringify(req.body.head_commit);
 	// debug(req.body.head_commit);
 
@@ -19,10 +30,10 @@ const buildPages = async (req, res) => {
 	}
 
 	// tell github that its all good!
-	res.status(200).json({ success: true });
+	// res.status(200).json({ success: true });
 
-	// start saving the head_commit to the database
-	debug("Posting new commit to history database");
+	// // start saving the head_commit to the database
+	// debug("Posting new commit to history database");
 	await postHistory(commit);
 
 	// ! now lets search for existing pages with this name to see if it exists
@@ -31,6 +42,7 @@ const buildPages = async (req, res) => {
 		debug("found some modified changes in commit hook");
 		for (document of req.body.head_commit.modified) {
 			const documentName = path.parse(document).name;
+			debug(`the document name is ${documentName}`);
 			debug(`updating ${documentName}`);
 
 			// see if this pages exists in our existing "pages" db
