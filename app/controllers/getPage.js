@@ -3,7 +3,7 @@ const findPage = require("../queries/findPage");
 const debug = require("debug")("blogWatcher:postPage");
 
 const getPage = async (req, res) => {
-	const page = await findPage(req.params.id);
+	const page = await findPage("_id", req.params.id);
 
 	// debug(req.params.id);
 

@@ -6,12 +6,14 @@ require("dotenv").config();
 /** Returns a promise that resolves to a single pages
  * or undefined if not found
  * @example
- * findPage("5f32c4d24191ed02244b62d6");
+ * findPage("_id", "5f32c4d24191ed02244b62d6");
+ * findPage("pageName", "testPage");
  */
-const findPage = async (id) => {
+const findPage = async (key, value) => {
 	debug("Running findPage from db queries...");
 	try {
-		return Page.findOne({ _id: id }, "", (err, page) => {
+		debug(`looking for ${key} = ${value}`);
+		return Page.findOne({ [key]: value }, "", (err, page) => {
 			if (err) {
 				debug(`ERROR retrieving pages from mongo ${err}`);
 				return undefined;

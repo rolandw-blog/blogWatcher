@@ -46,7 +46,7 @@ const buildPages = async (req, res) => {
 			debug(`updating ${documentName}`);
 
 			// see if this pages exists in our existing "pages" db
-			const page = await findPage(documentName);
+			const page = await findPage("pageName", documentName);
 
 			// if it exists then push this commit to its history
 			if (page) {

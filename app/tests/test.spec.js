@@ -70,7 +70,7 @@ describe("insert", () => {
 		expect(pageStatus).toEqual(200);
 
 		// now fetch it and double check it exists
-		const fetchedPage = await findPage(page.pageName);
+		const fetchedPage = await findPage("pageName", page.pageName);
 		expect(await fetchedPage.pageName).toEqual(page.pageName);
 	});
 });

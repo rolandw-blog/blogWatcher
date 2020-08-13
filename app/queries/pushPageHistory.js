@@ -11,7 +11,7 @@ require("dotenv").config();
 const pushPageHistory = async (pageName, history) => {
 	debug("Running getAllPages from db queries...");
 	try {
-		const page = await findPage(pageName);
+		const page = await findPage("pageName", pageName);
 		debug(`pushed history to ${pageName}`);
 		page.meta.history.push(history);
 		page.save().then(() => debug("saved success!"));
