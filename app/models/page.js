@@ -25,7 +25,7 @@ const schema = {
 		require: false,
 		template: {
 			type: String,
-			require: false,
+			require: true,
 		},
 		history: {
 			type: Array,
