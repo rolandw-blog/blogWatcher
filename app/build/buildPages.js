@@ -43,7 +43,7 @@ const buildPages = async () => {
 			// stuff thats local will be at "/" on the docker container if placed inside "app"
 			const markdown = pageSource.remote
 				? downloadMarkdown(pageSource.url)
-				: fs.readFileSync(pageSource.url, () => {});
+				: fs.readFileSync(pageSource.url, "utf-8", () => {});
 
 			const filename = page._id + `_${i}` + ".md";
 			const writepath = path.resolve(
