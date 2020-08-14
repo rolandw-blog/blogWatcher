@@ -39,8 +39,11 @@ const buildPages = async () => {
 			// debug(page);
 			const pageSource = page.source[i];
 
-			// download markdown stuff
-			const markdown = downloadMarkdown(pageSource.url);
+			// download markdown stuff if its remote or read it
+			// stuff thats local will be at "/" on the docker container if placed inside "app"
+			const markdown = pageSource.remote
+				? downloadMarkdown(pageSource.url)
+				: fs.readFileSync(pageSource.url, () => {});
 
 			const filename = page._id + `_${i}` + ".md";
 			const writepath = path.resolve(

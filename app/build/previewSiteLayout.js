@@ -49,7 +49,6 @@ const previewSiteLayout = async (pathMask) => {
 	// this is where each JSON path is stored as an individual object
 	let allJson = [];
 	for (page of pages) {
-		debug(page.websitePath);
 		const newJson = urlToJson(page.websitePath);
 		allJson.push(newJson);
 
