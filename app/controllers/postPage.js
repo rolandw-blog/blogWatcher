@@ -66,7 +66,7 @@ const postPage = async (req, res) => {
 		debug(`saved successfully: ${pageStatus}`);
 	}
 
-	res.status(200).json({ success: true });
+	res.status(200).json(page);
 };
 
 module.exports = postPage;
