@@ -7,7 +7,7 @@ const schema = {
 	},
 	source: {
 		type: Array,
-		require: true,
+		require: false,
 		remote: {
 			type: Boolean,
 			require: true,
