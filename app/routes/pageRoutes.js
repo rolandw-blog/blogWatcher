@@ -12,7 +12,7 @@ const debug = require("debug")("blogWatcher:routers");
 const router = express.Router();
 
 // create application/x-www-form-urlencoded parser
-const urlencodedParser = bodyParser.urlencoded({ extended: false });
+const urlencodedParser = bodyParser.urlencoded({ extended: true });
 
 const routes = [
 	{
