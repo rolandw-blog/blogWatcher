@@ -6,6 +6,7 @@ const chalk = require("chalk");
 const updateLocalPathOfPage = require("../queries/updateLocalPathOfPage");
 require("dotenv").config();
 const getAllPages = require("../queries/getAllPages");
+const buildPage = require("./buildPage");
 
 const downloadMarkdown = async (url) => {
 	url = decodeURI(url);
@@ -35,29 +36,7 @@ const buildPages = async () => {
 	// for every page in the website
 	for (const page of pages) {
 		// for every pageSource (url) in the page
-		for (let i = 0; i < page.source.length; i++) {
-			// debug(page);
-			const pageSource = page.source[i];
-
-			// download markdown stuff if its remote or read it
-			// stuff thats local will be at "/" on the docker container if placed inside "app"
-			const markdown = pageSource.remote
-				? downloadMarkdown(pageSource.url)
-				: fs.readFileSync(pageSource.url, "utf-8", () => {});
-
-			const filename = page._id + `_${i}` + ".md";
-			const writepath = path.resolve(
-				process.env.ROOT,
-				"content",
-				filename
-			);
-
-			// write the file and then update the page.fsPath in the database
-			fs.writeFile(writepath, await markdown, () => {
-				debug(`wrote a file ${page._id}`);
-				updateLocalPathOfPage(page, writepath);
-			});
-		}
+		buildPage(page._id);
 	}
 };
 
