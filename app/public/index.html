@@ -16,7 +16,7 @@
 			<fieldset>
 				<legend>Page name</legend>
 				<label for="autoName">Auto name!</label>
-				<input type="checkbox" onCLick="disableField(this, '#pageName')" defaultChecked name="autoName" id="autoName" checked="true"></input>
+				<input type="checkbox" onCLick="disableField(this, '#pageName')" name="autoName" id="autoName"></input>
 				<input
 					type="text"
 					name="pageName"
@@ -58,8 +58,8 @@
 			document.querySelector('.remote').checked = true
 
 			// on load check these fields inputs
-			if (document.querySelector("#autoName").disabled) {
-				document.querySelector("#pageName").disabled = false;
+			if (document.querySelector("#autoName").checked) {
+				document.querySelector("#pageName").disabled = true;
 			}
 
 			const disableField = (checkbox, query) => {
@@ -111,6 +111,8 @@
 				const websitePath = document.getElementById("websitePath");
 				const template = document.getElementById("template");
 				const autoName = document.getElementById("autoName");
+				console.log(autoName)
+				console.log(autoName.checked)
 
 				const remote = Array.from(document.getElementsByClassName("remote"));
 				const url = Array.from(document.getElementsByClassName("url"));
@@ -120,20 +122,21 @@
 				urlencoded.append("pageName", pageName.value);
 				urlencoded.append("websitePath", websitePath.value);
 				urlencoded.append("template", template.value);
-				urlencoded.append("autoName", (autoName.value == "on") ? true : false);
+				urlencoded.append("autoName", autoName.checked);
 
 				// append the remote bools and urls
 				for (i in Array.from(remote)) {
 					const remoteBool = (remote[i] = "on") ? true : false;
 					urlencoded.append(`remote`, remoteBool);
-					console.log(url[0].value)
+					// console.log(url[0].value)
 					urlencoded.append(`url`, url[i].value);
 				}
 
 				// construct a POST request
+				// ! temp sign the payload
 				const requestOptions = {
 					method: "POST",
-					headers: myHeaders,
+					headers: {...myHeaders, "x-blogwatcher-signature": "sha1=1d1259e8562be1a1e1369bfddcfddc24deaa0c52"},
 					body: urlencoded,
 					redirect: "follow",
 				};

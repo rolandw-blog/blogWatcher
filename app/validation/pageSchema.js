@@ -2,6 +2,9 @@ const yup = require("yup");
 
 const schema = yup.object().shape({
 	pageName: yup.string().required(),
+	meta: yup.object().shape({
+		template: yup.string().required(),
+	}),
 	source: yup.array().of(
 		yup.object().shape({
 			remote: yup.boolean(),

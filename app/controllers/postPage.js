@@ -8,6 +8,7 @@ const util = require("util");
 
 const postPage = async (req, res) => {
 	debug(`Saving a new page:\t${req.body.pageName}`);
+	debug(req.body);
 
 	// if multiple pages come through it looks like this:
 	// blogwatcher |   blogWatcher:postPage   pageName: 'test2',
@@ -27,34 +28,41 @@ const postPage = async (req, res) => {
 	// ELSE one object is pushed to source[0] and can be deconsutructed later
 	const source = [];
 	if (Array.isArray(req.body.source)) {
+		debug("parsing array of sources");
 		for (i in req.body.remote) {
 			source.push({
-				remote: req.body.source.remote[i] == "true" ? true : false,
-				url: req.body.source.url[i],
+				remote: req.body.remote[i] == "true" ? true : false,
+				url: req.body.url[i],
 			});
 		}
-	} else if (req.body.source) {
+	} else if (req.body.url) {
+		debug("parsing single source");
 		source.push({
-			remote: req.body.source.remote == "true" ? true : false,
-			url: req.body.source.url,
+			remote: req.body.remote == "true" ? true : false,
+			url: req.body.url,
 		});
 	} else {
 		debug("no source information provided");
 	}
 
 	// if the autoName is true then guess the name from the first url
-	const pageName = req.body.autoName
-		? getBaseNameFromUrl(source[0].url)
-		: req.body.pageName;
+	debug(req.body.autoName);
+	const pageName =
+		req.body.autoName == true
+			? getBaseNameFromUrl(source[0].url)
+			: req.body.pageName;
 
 	// Create a page object using the above information
 	const page = new Page({
 		pageName: pageName,
 		websitePath: req.body.websitePath,
-		template: req.body.template,
+		meta: {
+			template: req.body.template,
+		},
 		source: source,
 	});
 
+	debug(JSON.stringify(req.body));
 	debug("attempting to post");
 	debug(page);
 

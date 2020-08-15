@@ -10,9 +10,6 @@ const sigHeaderName = "x-blogwatcher-Signature";
 
 function verifyBuilderPayload(req, res, next) {
 	debug("running payload verify middleware");
-	// const payload = JSON.stringify(req.body);
-	const payload = req.body;
-	debug(req.body);
 
 	let sig =
 		"sha1=" +
