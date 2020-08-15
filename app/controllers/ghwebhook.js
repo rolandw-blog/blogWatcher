@@ -7,12 +7,6 @@ const yup = require("yup");
 const path = require("path");
 
 const buildPages = async (req, res) => {
-	// TODO make an event emitter to .on("progress") and send data back to the client
-	// debug(req.body);
-
-	debug(req.body);
-	// const repoBaseURL = req.body.html_url;
-
 	// stop if theres no head_commit
 	// sometimes hooks dont come with head_commits and thats just life 🤷
 	if (req.body.head_commit) res.status(200).json({ success: true });
