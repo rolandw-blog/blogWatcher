@@ -32,9 +32,8 @@ const buildPage = async (_id) => {
 	debug(`building page ${_id}`);
 	const page = await findPage("_id", _id);
 
-	// for every pageSource (url) in the page
+	// for each source (url in page.source[])
 	for (let i = 0; i < page.source.length; i++) {
-		// debug(page);
 		const pageSource = page.source[i];
 
 		// download markdown stuff if its remote or read it
