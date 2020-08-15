@@ -6,6 +6,7 @@ const getPage = require("../controllers/getPage");
 const getPages = require("../controllers/getPages");
 const bodyParser = require("body-parser");
 const buildRouter = require("./buildRouter");
+const verifyBuilderPayload = require("../middleware/verifyBuilderPayload");
 const debug = require("debug")("blogWatcher:routers");
 const router = express.Router();
 
@@ -16,7 +17,7 @@ const routes = [
 	{
 		path: "/page",
 		method: "post",
-		middleware: [urlencodedParser],
+		middleware: [urlencodedParser, verifyBuilderPayload],
 		handler: postPage,
 		help: {
 			description: "Post a page to the database",
