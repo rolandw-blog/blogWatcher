@@ -1,5 +1,4 @@
 const debug = require("debug")("blogWatcher:buildFiles");
-const fetch = require("node-fetch");
 const fs = require("fs");
 const path = require("path");
 const chalk = require("chalk");
@@ -7,22 +6,7 @@ const updateLocalPathOfPage = require("../queries/updateLocalPathOfPage");
 require("dotenv").config();
 const getAllPages = require("../queries/getAllPages");
 const findPage = require("../queries/findPage");
-
-const downloadMarkdown = async (url) => {
-	url = decodeURI(url);
-	debug("downloading page: ");
-	debug(url);
-
-	// fetch the content in async. await the response immediately
-	const response = await fetch(url);
-
-	if (response.status != 200) {
-		debug(chalk.red(`Error fetching file: ${response.status}`));
-	}
-
-	// return the markdown text
-	return await response.text();
-};
+const downloadMarkdown = require("./downloadMarkdown");
 
 /**
  * Pull the markdown from the database and put it in the content folder

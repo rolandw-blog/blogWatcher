@@ -1,6 +1,7 @@
 const express = require("express");
 const postPage = require("../controllers/postPage");
 const buildPages = require("../controllers/buildPages");
+const buildPage = require("../controllers/buildPage");
 const previewPages = require("../controllers/previewPages");
 const getPage = require("../controllers/getPage");
 const getPages = require("../controllers/getPages");
@@ -62,6 +63,18 @@ const routes = [
 			method: this.method,
 			parameters: [],
 			example: "/build",
+		},
+	},
+	{
+		path: "/build/:id",
+		method: "get",
+		middleware: [],
+		handler: buildPage,
+		help: {
+			description: "Pull down and rebuild one page by its id",
+			method: this.method,
+			parameters: [],
+			example: "/build/5f32c4dc4191ed02244b62d9",
 		},
 	},
 	{
