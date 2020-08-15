@@ -1,5 +1,5 @@
 // const { Page } = require("../models/page");
-const buildPageFunction = require("../build/buildPages");
+const buildPagesFunction = require("../build/buildPages");
 const debug = require("debug")("blogWatcher:postPage");
 
 const buildPages = async (req, res) => {
@@ -16,7 +16,7 @@ const buildPages = async (req, res) => {
 	// 	}
 	//   }, 1000);
 
-	buildPageFunction().then(() => {
+	buildPagesFunction().then(() => {
 		res.status(200).json({
 			success: true,
 			message: "the pages are rebuilt!",
