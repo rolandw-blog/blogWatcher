@@ -7,9 +7,7 @@ const { getBaseNameFromUrl } = require("../build/URLConverter");
 const util = require("util");
 
 const postPage = async (req, res) => {
-	debug("Saving a new page");
-
-	debug(req.body);
+	debug(`Saving a new page:\t${req.body.pageName}`);
 
 	// if multiple pages come through it looks like this:
 	// blogwatcher |   blogWatcher:postPage   pageName: 'test2',
@@ -28,26 +26,28 @@ const postPage = async (req, res) => {
 	// IF its an array its pushed in an an object {remote, url}.
 	// ELSE one object is pushed to source[0] and can be deconsutructed later
 	const source = [];
-	if (Array.isArray(req.body.remote)) {
+	if (Array.isArray(req.body.source)) {
 		for (i in req.body.remote) {
 			source.push({
-				remote: req.body.remote[i] == "true" ? true : false,
-				url: req.body.url[i],
+				remote: req.body.source.remote[i] == "true" ? true : false,
+				url: req.body.source.url[i],
 			});
 		}
-	} else {
+	} else if (req.body.source) {
 		source.push({
-			remote: req.body.remote == "true" ? true : false,
-			url: req.body.url,
+			remote: req.body.source.remote == "true" ? true : false,
+			url: req.body.source.url,
 		});
+	} else {
+		debug("no source information provided");
 	}
 
 	// if the autoName is true then guess the name from the first url
-	debug(req.body.autoName);
 	const pageName = req.body.autoName
 		? getBaseNameFromUrl(source[0].url)
 		: req.body.pageName;
 
+	// Create a page object using the above information
 	const page = new Page({
 		pageName: pageName,
 		websitePath: req.body.websitePath,
@@ -61,6 +61,7 @@ const postPage = async (req, res) => {
 	const pageStatus = await postPageToDatabase(page);
 	if (pageStatus != 200) {
 		debug(`error ${pageStatus} saving the page`);
+		return res.status(pageStatus).json({ success: false });
 	} else {
 		debug(`saved successfully: ${pageStatus}`);
 	}
