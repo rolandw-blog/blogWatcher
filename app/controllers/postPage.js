@@ -8,7 +8,6 @@ const util = require("util");
 
 const postPage = async (req, res) => {
 	debug(`Saving a new page:\t${req.body.pageName}`);
-	debug(req.body);
 
 	// if multiple pages come through it looks like this:
 	// blogwatcher |   blogWatcher:postPage   pageName: 'test2',
@@ -46,7 +45,6 @@ const postPage = async (req, res) => {
 	}
 
 	// if the autoName is true then guess the name from the first url
-	debug(req.body.autoName);
 	const pageName =
 		req.body.autoName == true
 			? getBaseNameFromUrl(source[0].url)
@@ -62,7 +60,6 @@ const postPage = async (req, res) => {
 		source: source,
 	});
 
-	debug(JSON.stringify(req.body));
 	debug("attempting to post");
 	debug(page);
 
