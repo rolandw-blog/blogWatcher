@@ -31,13 +31,17 @@ const downloadMarkdown = async (url) => {
 const buildPages = async () => {
 	debug("getting all pages");
 	const pages = await getAllPages();
+	const jobs = [];
 	debug(`got ${pages.length} pages`);
 
 	// for every page in the website
 	for (const page of pages) {
 		// for every pageSource (url) in the page
-		buildPage(page._id);
+		jobs.push(buildPage(page._id));
 	}
+	await Promise.all(jobs);
+	debug("Finished downloading pages");
+	return true;
 };
 
 module.exports = buildPages;

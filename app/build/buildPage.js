@@ -1,4 +1,4 @@
-const debug = require("debug")("blogWatcher:buildFiles");
+const debug = require("debug")("blogWatcher:buildFile");
 const fs = require("fs");
 const path = require("path");
 const chalk = require("chalk");
@@ -13,28 +13,40 @@ const downloadMarkdown = require("./downloadMarkdown");
  * @example buildPages()
  */
 const buildPage = async (_id) => {
-	debug(`building page ${_id}`);
+	const jobs = [];
 	const page = await findPage("_id", _id);
 
 	// for each source (url in page.source[])
+	if (page.source.length == 0) {
+		return false;
+	} else {
+		debug(`downloading sources for "${page.pageName}"`);
+	}
 	for (let i = 0; i < page.source.length; i++) {
 		const pageSource = page.source[i];
 
 		// download markdown stuff if its remote or read it
 		// stuff thats local will be at "/" on the docker container if placed inside "app"
 		const markdown = pageSource.remote
-			? downloadMarkdown(pageSource.url)
+			? await downloadMarkdown(pageSource.url)
 			: fs.readFileSync(pageSource.url, "utf-8", () => {});
 
 		const filename = page._id + `_${i}` + ".md";
 		const writepath = path.resolve(process.env.ROOT, "content", filename);
 
 		// write the file and then update the page.fsPath in the database
-		fs.writeFile(writepath, await markdown, () => {
+		const writeJob = fs.writeFile(writepath, markdown, () => {
 			debug(`wrote a file ${page._id}`);
 			updateLocalPathOfPage(page, writepath);
 		});
+
+		jobs.push(writeJob);
 	}
+
+	// debug("waiting for sources to download");
+	await Promise.all(jobs);
+	debug(`finished downloading sources for "${page.pageName}"`);
+	return true;
 };
 
 module.exports = buildPage;

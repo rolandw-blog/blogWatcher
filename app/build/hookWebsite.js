@@ -2,7 +2,7 @@ const crypto = require("crypto");
 const fs = require("fs");
 const fetch = require("node-fetch");
 const { promisify } = require("util");
-const debug = require("debug")("blogWatcher:hookWebsite");
+const debug = require("debug")("blogWatcher:hookWeb");
 const read = promisify(fs.readFile);
 
 /**
@@ -11,20 +11,18 @@ const read = promisify(fs.readFile);
  * @example hookWebsite("http://192.168.0.100:2020/download")
  */
 const hookWebsite = async (url) => {
-	// for (page of pages) {
-	// 	for (source of page.source) {
+	debug("posting new content to", url);
+	const jobs = [];
 	const files = fs.readdirSync("/usr/src/app/content");
 	for (file of files) {
+		debug(files);
 		// read the file
-		const markdown = read(`/usr/src/app/content/${file}`);
-
+		const markdown = await read(`/usr/src/app/content/${file}`);
 		// construct a body for the request
 		const body = {
-			id: file.split("_")[0],
-			markdown: await markdown,
+			fileName: file,
+			markdown: markdown,
 		};
-
-		debug(file.split("_")[0]);
 
 		// convert the body into x-www-urlencoded params
 		const params = new URLSearchParams(body);
@@ -40,17 +38,21 @@ const hookWebsite = async (url) => {
 		debug(`signed as: ${sig}`);
 
 		// create a header object
+		debug("setting headers");
 		const headers = {
 			"x-payload-signature": sig,
 		};
 
-		fetch(`${url}/${file.split("_")[0]}`, {
+		const f = fetch(`http://192.168.0.100:2020/download`, {
 			method: "POST",
 			body: params,
 			headers: headers,
-		})
-			.then((res) => res.json())
-			.then((json) => console.log(json));
+		}).then((res) => res.json());
+
+		jobs.push(f);
 	}
+	debug("Finished pushing pages to website");
+	await Promise.all(jobs);
+	return true;
 };
 module.exports = hookWebsite;

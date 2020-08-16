@@ -3,8 +3,8 @@ const debug = require("debug")("blogWatcher:buildFiles");
 
 const downloadMarkdown = async (url) => {
 	url = decodeURI(url);
-	debug("downloading page: ");
-	debug(url);
+	// debug("downloading page: ");
+	// debug(url);
 
 	// fetch the content in async. await the response immediately
 	const response = await fetch(url);

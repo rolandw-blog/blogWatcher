@@ -1,5 +1,5 @@
 const { Page } = require("../models/page");
-const debug = require("debug")("blogWatcher:query");
+const debug = require("debug")("v_blogWatcher:query");
 require("dotenv").config();
 
 // * get a pages from the database by its id

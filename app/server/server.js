@@ -1,23 +1,27 @@
 const { connectToDB } = require("../database/database");
 const debug = require("debug")("blogWatcher:server");
 const path = require("path");
-const bodyParser = require("body-parser");
+const fs = require("fs");
+const fetch = require("node-fetch");
 const express = require("express");
 const cors = require("cors");
 const pageRoutes = require("../routes/pageRoutes.js");
 const webhooks = require("../routes/webhooks");
+const getAllPages = require("../queries/getAllPages");
+const { URLSearchParams } = require("url");
 require("dotenv").config();
 
 // stuff for testing
 const buildPages = require("../build/buildPages");
+const findPage = require("../queries/findPage");
 const previewSiteLayout = require("../build/previewSiteLayout");
 const urlConverter = require("../build/URLConverter");
+const hookWebsite = require("../build/hookWebsite");
 
 const app = express();
-const corsOptions = {
-	origin: "*",
-};
+const corsOptions = { origin: "*" };
 app.use(cors(corsOptions));
+// app.use(express.urlencoded({ extended: true }));
 
 app.use("/", pageRoutes);
 app.use("/hooks", webhooks);
@@ -46,6 +50,8 @@ const server = async () => {
 	});
 
 	// ! testing stuff
+
+	// hookWebsite("http://192.168.0.100:2020/download");
 
 	// previewSiteLayout();
 
