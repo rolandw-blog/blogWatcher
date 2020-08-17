@@ -21,6 +21,10 @@ const schema = {
 		type: String,
 		require: true,
 	},
+	hidden: {
+		type: Boolean,
+		require: false,
+	},
 	meta: {
 		require: false,
 		template: {

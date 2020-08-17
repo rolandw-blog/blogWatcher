@@ -1,6 +1,7 @@
 // const { Page } = require("../models/page");
 const buildPagesFunction = require("../build/buildPages");
-const hookWebsite = require("../build/hookWebsite");
+const hookWebsites = require("../build/hookWebsites");
+const signPayload = require("../build/signPayload");
 const { v4 } = require("uuid");
 const fetch = require("node-fetch");
 const crypto = require("crypto");
@@ -29,20 +30,16 @@ const buildPages = async (req, res) => {
 		// once buildpages has finished posting all the content
 		// then update the blog with new content
 		debug("posting pages to website...");
-		await hookWebsite("http://192.168.0.100:2020/download");
+		await hookWebsites("http://192.168.0.100:2020/download");
 		debug("finished posting pages to website...");
 
 		debug("now telling the website to build itself");
-
+		// body and params
 		const body = { uuid: v4() };
 		const params = new URLSearchParams(body);
-		let sig =
-			"sha1=" +
-			crypto
-				.createHmac("sha1", "P@ssw0rd")
-				.update(body.toString())
-				.digest("hex");
 
+		// sign the body
+		const sig = signPayload(body);
 		debug(`signed as: ${sig}`);
 
 		// create a header object

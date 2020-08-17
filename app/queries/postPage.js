@@ -38,8 +38,9 @@ const postPage = async (page) => {
 	}
 
 	debug(`checking ${page.pageName} doesnt exist before saving`);
-	const existingPage = await findPage("pageName", page.pageName);
-	if (!existingPage) {
+	const existingPageName = await findPage("pageName", page.pageName);
+	const existingPagePath = await findPage("websitePath", page.websitePath);
+	if (!existingPageName && !existingPagePath) {
 		const newPage = new Page(page);
 		return newPage.save().then((doc) => {
 			debug(`Saved ${doc._id}`);

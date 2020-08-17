@@ -2,6 +2,7 @@ const yup = require("yup");
 
 const schema = yup.object().shape({
 	pageName: yup.string().required(),
+	hidden: yup.bool(),
 	meta: yup.object().shape({
 		template: yup.string().required(),
 	}),
@@ -11,7 +12,7 @@ const schema = yup.object().shape({
 			url: yup.string(),
 		})
 	),
-	websitePath: yup.string().required(),
+	websitePath: yup.string().matches("^/.*").required(),
 });
 
 module.exports = schema;

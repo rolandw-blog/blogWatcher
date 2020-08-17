@@ -32,11 +32,52 @@ const githubUserContentToPathArray = (url) => {
  * @returns "bookmarks.md"
  */
 const getBaseNameFromUrl = (url) => {
-	debug(`received ${url}`);
 	const urlObj = new URL(url);
-	const pageName = decodeURI(path.parse(urlObj.pathname).base);
-	debug(`returning the pageName ${pageName}`);
+	const pageName = decodeURI(path.parse(urlObj.pathname).name);
 	return pageName;
 };
 
-module.exports = { getBaseNameFromUrl, githubUserContentToPathArray };
+// /**
+//  * Returns a best guess at the website path based on the url to a github repo
+//  * @param {String} url
+//  */
+// const getWebsitePathFromUrl = (url) => {
+// 	const urlObj = new URL(url);
+
+// 	// split the url by the origin "https://raw.githubusercontent.com"
+// 	const rhs = url.split(urlObj.origin)[1];
+// 	const rhsArray = rhs.split("/");
+// 	debug(rhsArray);
+// 	rhsArray.splice(0, 4);
+// 	debug(rhsArray.join("/"));
+// 	return rhsArray;
+// };
+
+/**
+ * formats a website path into something predictable
+ * @param {String} websitePath - A website path
+ * @example formatWebsitePath("/foo/bar/Page Name");
+ * @returns "/foo/bar/page_name"
+ */
+const formatWebsitePath = (websitePath) => {
+	const pathArray = websitePath.split("/");
+
+	for (i in pathArray) {
+		// process the path name
+		let newPathName = "";
+		newPathName = pathArray[i].replace(/ /g, "_");
+		newPathName = newPathName.toLocaleLowerCase();
+
+		// replace the pathArray with the formatted path
+		pathArray[i] = newPathName;
+	}
+
+	// return the new path
+	return pathArray.join("/");
+};
+
+module.exports = {
+	getBaseNameFromUrl,
+	githubUserContentToPathArray,
+	formatWebsitePath,
+};

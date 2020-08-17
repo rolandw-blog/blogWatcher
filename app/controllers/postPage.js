@@ -3,8 +3,11 @@ const debug = require("debug")("blogWatcher:postPage");
 const findPage = require("../queries/findPage");
 const yupPageSchema = require("../validation/pageSchema");
 const postPageToDatabase = require("../queries/postPage");
-const { getBaseNameFromUrl } = require("../build/URLConverter");
 const util = require("util");
+const {
+	getBaseNameFromUrl,
+	formatWebsitePath,
+} = require("../build/URLConverter");
 
 const postPage = async (req, res) => {
 	debug(`Saving a new page:\t${req.body.pageName}`);
@@ -45,15 +48,18 @@ const postPage = async (req, res) => {
 	}
 
 	// if the autoName is true then guess the name from the first url
-	const pageName =
-		req.body.autoName == true
-			? getBaseNameFromUrl(source[0].url)
-			: req.body.pageName;
+	let pageName = req.body.pageName;
+	debug(`autoname: ${req.body.autoName}`);
+	if (req.body.autoName == "true") {
+		pageName = getBaseNameFromUrl(source[0].url);
+		debug(`autoname renamed pageName to "${pageName}"`);
+	}
 
 	// Create a page object using the above information
 	const page = new Page({
 		pageName: pageName,
-		websitePath: req.body.websitePath,
+		hidden: req.body.hidden || false,
+		websitePath: formatWebsitePath(req.body.websitePath),
 		meta: {
 			template: req.body.template,
 		},
