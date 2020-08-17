@@ -66,6 +66,9 @@ const formatWebsitePath = (websitePath) => {
 		// process the path name
 		let newPathName = "";
 		newPathName = pathArray[i].replace(/ /g, "_");
+		newPathName = pathArray[i].replace(/,/g, "");
+		newPathName = pathArray[i].replace(/./g, "");
+		newPathName = pathArray[i].replace(/(|)/g, "");
 		newPathName = newPathName.toLocaleLowerCase();
 
 		// replace the pathArray with the formatted path
