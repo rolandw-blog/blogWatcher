@@ -12,13 +12,18 @@ const debug = require("debug")("blogWatcher:routers");
 const router = express.Router();
 
 // create application/x-www-form-urlencoded parser
-const urlencodedParser = bodyParser.urlencoded({ extended: true });
+const urlencodedParser = bodyParser.urlencoded({
+	limit: "50mb",
+	extended: true,
+});
 
+// ! remember to protect the POST /page route with
+//  [urlencodedParser, verifyBuilderPayload]
 const routes = [
 	{
 		path: "/page",
 		method: "post",
-		middleware: [urlencodedParser, verifyBuilderPayload],
+		middleware: [urlencodedParser],
 		handler: postPage,
 		help: {
 			description: "Post a page to the database",

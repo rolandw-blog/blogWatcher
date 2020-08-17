@@ -5,7 +5,7 @@ const debug = require("debug")("blogWatcher:postPage");
 const fetch = require("node-fetch");
 const { v4 } = require("uuid");
 
-const buildPages = async (req, res) => {
+const buildPage = async (req, res) => {
 	debug("=======================");
 	debug("running post page");
 	// TODO make an event emitter to .on("progress") and send data back to the client
@@ -22,7 +22,7 @@ const buildPages = async (req, res) => {
 	//   }, 1000);
 
 	await buildPageFunction(req.params.id);
-	const body = { uuid: v4() };
+	const body = { id: req.params.id, entropy: v4() };
 	const params = new URLSearchParams(body);
 
 	// sign the body
@@ -34,6 +34,7 @@ const buildPages = async (req, res) => {
 		"x-payload-signature": sig,
 	};
 
+	// tell the website to build this page
 	await fetch(`http://192.168.0.100:2020/build/${req.params.id}`, {
 		method: "POST",
 		body: params,
@@ -46,4 +47,4 @@ const buildPages = async (req, res) => {
 	});
 };
 
-module.exports = buildPages;
+module.exports = buildPage;

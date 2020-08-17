@@ -22,7 +22,6 @@ const hookWebsite = async (fileName, url) => {
 	const body = {
 		fileName: fileName,
 		markdown: markdown,
-		requestID: v4(),
 	};
 
 	// convert the body into x-www-urlencoded params

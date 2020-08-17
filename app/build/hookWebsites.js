@@ -1,5 +1,5 @@
 const fs = require("fs");
-const debug = require("debug")("blogWatcher:hookWeb");
+const debug = require("debug")("blogWatcher:hookUrl");
 const hookWebsite = require("./hookWebsite");
 
 /**
@@ -8,11 +8,11 @@ const hookWebsite = require("./hookWebsite");
  * @example hookWebsite("http://192.168.0.100:2020/download")
  */
 const hookWebsites = async (url) => {
-	debug("posting new content to", url);
 	const jobs = [];
 	const files = fs.readdirSync("/usr/src/app/content");
 	// const url = "http://192.168.0.100:2020/download";
 	for (file of files) {
+		debug(`posting ${file} to url`);
 		jobs.push(hookWebsite(file, url));
 	}
 	debug("Finished pushing pages to website");
