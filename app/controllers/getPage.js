@@ -1,6 +1,6 @@
 // const { Page } = require("../models/page");
 const findPage = require("../queries/findPage");
-const debug = require("debug")("blogWatcher:postPage");
+const debug = require("debug")("blogWatcher:getPage");
 
 const getPage = async (req, res) => {
 	const page = await findPage("_id", req.params.id);

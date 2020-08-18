@@ -7,15 +7,16 @@ const hookWebsite = require("./hookWebsite");
  * @param {String} url - url of the website endpoint to poll
  * @example hookWebsite("http://192.168.0.100:2020/download")
  */
-const hookWebsites = async (url) => {
+const hookWebsites = async (pages, url) => {
 	const jobs = [];
 	const files = fs.readdirSync("/usr/src/app/content");
 	// const url = "http://192.168.0.100:2020/download";
 	for (file of files) {
-		debug(`posting ${file} to url`);
-		jobs.push(hookWebsite(file, url));
+		// debug(`posting ${file} to url`);
+		// ! this wont work anymore
+		// jobs.push(hookWebsite(file, url));
 	}
-	debug("Finished pushing pages to website");
+	// debug("Finished pushing pages to website");
 	await Promise.all(jobs);
 	return true;
 };

@@ -21,6 +21,7 @@ const hookWebsite = require("../build/hookWebsite");
 const app = express();
 const corsOptions = { origin: "*" };
 app.use(cors(corsOptions));
+app.options("*", cors());
 // app.use(express.urlencoded({ extended: true }));
 
 app.use("/", pageRoutes);

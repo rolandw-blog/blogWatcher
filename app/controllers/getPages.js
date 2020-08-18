@@ -1,5 +1,5 @@
 const getAllPages = require("../queries/getAllPages");
-const debug = require("debug")("blogWatcher:postPage");
+const debug = require("debug")("blogWatcher:getPages");
 
 const getPage = async (req, res) => {
 	const pages = await getAllPages("_id", req.params.id);

@@ -1,9 +1,13 @@
 const fetch = require("node-fetch");
 const debug = require("debug")("blogWatcher:buildFiles");
 
+/**
+ * Downloads ram markdown from a url (usually github)
+ * @param {String} url
+ */
 const downloadMarkdown = async (url) => {
+	debug("downloading markdown...");
 	url = decodeURI(url);
-	// debug("downloading page: ");
 	// debug(url);
 
 	// fetch the content in async. await the response immediately

@@ -3,7 +3,7 @@ const fs = require("fs");
 const signPayload = require("./signPayload");
 const fetch = require("node-fetch");
 const { promisify } = require("util");
-const debug = require("debug")("blogWatcher:hookWeb");
+const debug = require("debug")("blogWatcher:hookBlog");
 const { v4 } = require("uuid");
 const read = promisify(fs.readFile);
 
@@ -12,15 +12,20 @@ const read = promisify(fs.readFile);
  * @param {String} url - url of the website endpoint to poll
  * @example hookWebsite("http://192.168.0.100:2020/download")
  */
-const hookWebsite = async (fileName, url) => {
+const hookWebsite = async (page, markdown, url) => {
 	debug("posting new content to", url);
+	debug(page._id);
 
 	// read the file
-	const markdown = await read(`/usr/src/app/content/${fileName}`, "utf-8");
+	// let markdown = "";
+	// for (let i = 0; i < page.source.length; i++) {
+	// 	const filename = `${page._id}_${i}.md`;
+	// 	markdown += await read(`content/${filename}`);
+	// }
 
 	// construct a body for the request
 	const body = {
-		fileName: fileName,
+		id: page._id,
 		markdown: markdown,
 	};
 
@@ -35,7 +40,7 @@ const hookWebsite = async (fileName, url) => {
 		"x-payload-signature": sig,
 	};
 
-	return fetch(`http://192.168.0.100:2020/download`, {
+	return fetch(`http://192.168.0.100:2020/download/${page._id}`, {
 		method: "POST",
 		body: params,
 		headers: headers,

@@ -4,6 +4,7 @@ const findPage = require("../queries/findPage");
 const yupPageSchema = require("../validation/pageSchema");
 const postPageToDatabase = require("../queries/postPage");
 const util = require("util");
+const updateLocalPathOfPage = require("../queries/updateLocalPathOfPage");
 const {
 	getBaseNameFromUrl,
 	formatWebsitePath,
@@ -28,6 +29,14 @@ const postPage = async (req, res) => {
 	// both are stored in an array,
 	// IF its an array its pushed in an an object {remote, url}.
 	// ELSE one object is pushed to source[0] and can be deconsutructed later
+	// TODO If a local url is passed in here
+	// TODO then its remote.url will point to the wrong place
+	// TODO E.G /localContent/test.md will be saved as /localContent/test.md
+	// TODO when it should really be saved as /localContent/5f36713524f4a368d7e2117c
+	// TODO wrote a query for updating the url after it has been posted
+	// TODO and check each source after its been posted (see below todo comment)
+	// ! The only manual fix for ^ is to just post the page and then change its source
+	// ! To something like /localContent/5f36713524f4a368d7e2117c_0.md
 	const source = [];
 	if (Array.isArray(req.body.source)) {
 		debug("parsing array of sources");
@@ -66,18 +75,19 @@ const postPage = async (req, res) => {
 		source: source,
 	});
 
-	debug("attempting to post");
-	debug(page);
+	// debug("attempting to post");
+	// debug(page);
 
-	const pageStatus = await postPageToDatabase(page);
-	if (pageStatus != 200) {
-		debug(`error ${pageStatus} saving the page`);
-		return res.status(pageStatus).json({ success: false });
+	const postedPage = await postPageToDatabase(page);
+	if (postedPage.status != 200) {
+		debug(`error ${postedPage.status} saving the page`);
+		return res.status(postedPage.status).json({ success: false });
 	} else {
-		debug(`saved successfully: ${pageStatus}`);
+		debug(`saved successfully: ${postedPage.pageStatus}`);
+		// TODO read above todo
 	}
 
-	res.status(200).json(page);
+	res.status(200).json(postedPage.page);
 };
 
 module.exports = postPage;

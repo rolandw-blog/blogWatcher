@@ -11,6 +11,15 @@ require("dotenv").config();
 // page.websitePath			string
 // page.meta.template		string
 
+const parseLocalUrl = (url, newId) => {
+	debug("parsing a local url...");
+	const pathArray = url.split("/");
+	pathArray[pathArray.length - 1] = newId;
+	const result = pathArray.join("/");
+	debug(result);
+	return result;
+};
+
 /**
  * Saves a page to the database
  * @param {JSON} page - A page json object to save to the database
@@ -44,11 +53,11 @@ const postPage = async (page) => {
 		const newPage = new Page(page);
 		return newPage.save().then((doc) => {
 			debug(`Saved ${doc._id}`);
-			return 200;
+			return { status: 200, page: doc };
 		});
 	} else {
 		debug(`the page ${page.pageName} already exists`);
-		return 400;
+		return { status: 400 };
 	}
 };
 

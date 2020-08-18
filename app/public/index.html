@@ -112,8 +112,7 @@
 				const websitePath = document.getElementById("websitePath");
 				const template = document.getElementById("template");
 				const autoName = document.getElementById("autoName");
-				console.log(autoName)
-				console.log(autoName.checked)
+
 
 				const remote = Array.from(document.getElementsByClassName("remote"));
 				const url = Array.from(document.getElementsByClassName("url"));
@@ -127,9 +126,8 @@
 
 				// append the remote bools and urls
 				for (i in Array.from(remote)) {
-					const remoteBool = (remote[i] = "on") ? true : false;
+					const remoteBool = remote[i].checked;
 					urlencoded.append(`remote`, remoteBool);
-					// console.log(url[0].value)
 					urlencoded.append(`url`, url[i].value);
 				}
 
@@ -143,7 +141,7 @@
 				};
 
 				// ship it!
-				fetch("http://devel:8080/page", requestOptions)
+				fetch("http://10.10.10.12:8080/page", requestOptions)
 					.then((response) => {
 						console.log("post done!");
 						// console.log(response.json());

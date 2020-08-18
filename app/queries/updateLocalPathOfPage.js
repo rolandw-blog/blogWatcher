@@ -1,5 +1,5 @@
 const { Page } = require("../models/page");
-const debug = require("debug")("v_blogWatcher:query");
+const debug = require("debug")("v_blogWatcher:queryUpdatePathOfPage");
 require("dotenv").config();
 
 // * get all pages in the database
@@ -17,7 +17,7 @@ const updateLocalPathOfPage = async (page, newPath) => {
 
 	let newPage = await Page.findOneAndUpdate(filter, update);
 	newPage.save();
-	debug("saved the new filepath!");
+	// debug("saved the new filepath!");
 };
 
 module.exports = updateLocalPathOfPage;
