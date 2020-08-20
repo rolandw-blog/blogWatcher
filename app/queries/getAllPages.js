@@ -6,12 +6,13 @@ require("dotenv").config();
 /** Returns a promise that resolves to an array of pages
  * or undefined if not found
  * @example
- * getAllPages();
+ * getAllPages({});
  */
-const getAllPages = async () => {
+const getAllPages = async (filters) => {
 	debug("Running getAllPages from db queries...");
+	debug(filters);
 	try {
-		return Page.find({}, "", (err, pages) => {
+		return Page.find(filters, "", (err, pages) => {
 			if (err) {
 				debug(`ERROR retrieving pages from mongo ${err}`);
 				return undefined;

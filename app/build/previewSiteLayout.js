@@ -13,7 +13,7 @@ const previewSiteLayout = async (pathMask) => {
 	debug("running previewSiteLayout");
 
 	// get every page from the database
-	const pages = await getAllPages();
+	const pages = await getAllPages({});
 
 	// this is where each JSON path is stored as an individual object
 	let allJson = [];

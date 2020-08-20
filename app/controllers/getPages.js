@@ -1,10 +1,17 @@
 const getAllPages = require("../queries/getAllPages");
-const debug = require("debug")("blogWatcher:getPages");
+const debug = require("debug")("blogWatcher:getPagesC");
 
 const getPage = async (req, res) => {
-	const pages = await getAllPages("_id", req.params.id);
+	// we are gonna use this to filter the query
+	const filters = {};
 
-	// debug(req.params.id);
+	// check that BS isnt being passed in
+	if (req.query.websitePath) filters.websitePath = req.query.websitePath;
+	// if (req.query.websitePath) filters.websitePath = req.query.websitePath;
+	// if (req.query.websitePath) filters.websitePath = req.query.websitePath;
+	// ? add more stuff...
+
+	const pages = await getAllPages(filters);
 
 	if (pages) return res.status(200).json(pages);
 	else

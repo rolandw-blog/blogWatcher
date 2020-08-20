@@ -3,7 +3,25 @@ const findPage = require("../queries/findPage");
 const debug = require("debug")("blogWatcher:getPage");
 
 const getPage = async (req, res) => {
-	const page = await findPage("_id", req.params.id);
+	debug(`page requested for ${JSON.stringify(req.query)}`);
+	let key = "_id";
+	let value = "";
+
+	if (req.query.id) {
+		key = "_id";
+		value = req.query.id;
+	}
+	if (req.query.websitePath) {
+		key = "websitePath";
+		value = req.query.websitePath;
+	}
+	if (req.query.pageName) {
+		key = "pageName";
+		value = req.query.pageName;
+	}
+
+	const page = await findPage(key, value);
+	// const page = await findPage("_id", req.params.id);
 
 	// debug(req.params.id);
 

@@ -14,7 +14,7 @@ const buildPage = require("./buildPage");
  */
 const buildPages = async () => {
 	debug("getting all pages");
-	const pages = await getAllPages();
+	const pages = await getAllPages({});
 	const jobs = [];
 	debug(`got ${pages.length} pages`);
 

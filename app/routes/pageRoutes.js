@@ -37,7 +37,7 @@ const routes = [
 		},
 	},
 	{
-		path: "/page/:id",
+		path: "/page",
 		method: "get",
 		middleware: [],
 		handler: getPage,

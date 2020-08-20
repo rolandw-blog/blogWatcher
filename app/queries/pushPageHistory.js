@@ -9,7 +9,7 @@ require("dotenv").config();
  * @param {String} history - The req.body.head_commit from GH webhooks as a JSON string
  */
 const pushPageHistory = async (pageName, history) => {
-	debug("Running getAllPages from db queries...");
+	debug("Running findPage from db queries...");
 	try {
 		const page = await findPage("pageName", pageName);
 		debug(`pushed history to ${pageName}`);
