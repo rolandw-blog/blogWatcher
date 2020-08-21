@@ -4,6 +4,7 @@ const findPage = require("../queries/findPage");
 const yupPageSchema = require("../validation/pageSchema");
 const postPageToDatabase = require("../queries/postPage");
 const util = require("util");
+const postPageHistory = require("../queries/pushPageHistory");
 const updateLocalPathOfPage = require("../queries/updateLocalPathOfPage");
 const {
 	getBaseNameFromUrl,
@@ -83,7 +84,12 @@ const postPage = async (req, res) => {
 		debug(`error ${postedPage.status} saving the page`);
 		return res.status(postedPage.status).json({ success: false });
 	} else {
-		debug(`saved successfully: ${postedPage.pageStatus}`);
+		debug(`saved successfully: ${postedPage.status}`);
+		historyDoc = {
+			timestamp: new Date(),
+			message: "Page was created",
+		};
+		postPageHistory(postedPage.page.pageName, historyDoc);
 		// TODO read above todo
 	}
 

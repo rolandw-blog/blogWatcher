@@ -1,10 +1,32 @@
 const mongoose = require("mongoose");
 
 const schema = {
-	head_commit: {
-		// a JSON string is submitted
+	timestamp: {
 		type: String,
 		require: true,
+	},
+	message: {
+		type: String,
+		require: true,
+	},
+	modified: {
+		type: Array,
+		require: false,
+	},
+	committer: {
+		require: false,
+		name: {
+			type: String,
+			require: true,
+		},
+		email: {
+			type: String,
+			require: true,
+		},
+		username: {
+			type: String,
+			require: true,
+		},
 	},
 };
 
