@@ -51,7 +51,7 @@ const buildPage = async (_id) => {
 
 	// send the changes to the blog
 	hookWebsite(page, markdownOutput, "http://192.168.0.100:2020/download");
-	return true;
+	return page;
 };
 
 module.exports = buildPage;
