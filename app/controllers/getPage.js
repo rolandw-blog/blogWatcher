@@ -3,7 +3,6 @@ const findPage = require("../queries/findPage");
 const debug = require("debug")("blogWatcher:getPage");
 
 const getPage = async (req, res) => {
-	debug(`page requested for ${JSON.stringify(req.query)}`);
 	let key = "_id";
 	let value = "";
 
@@ -21,14 +20,9 @@ const getPage = async (req, res) => {
 	}
 
 	const page = await findPage(key, value);
-	// const page = await findPage("_id", req.params.id);
-
-	// debug(req.params.id);
 
 	if (page) return res.status(200).json(page);
 	else return res.status(400).json({ success: false, error: page });
-
-	// return res.status(200).json({});
 };
 
 module.exports = getPage;
