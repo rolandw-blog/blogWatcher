@@ -21,7 +21,7 @@ const buildPage = async (req, res) => {
 	// 	}
 	//   }, 1000);
 
-	await buildPageFunction(req.params.id);
+	const page = await buildPageFunction(req.params.id);
 	// const body = { id: req.params.id, entropy: v4() };
 	// const params = new URLSearchParams(body);
 
@@ -43,6 +43,7 @@ const buildPage = async (req, res) => {
 
 	return res.status(200).json({
 		success: true,
+		page: page,
 		message: "the page is rebuilt!",
 	});
 };
