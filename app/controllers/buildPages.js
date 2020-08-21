@@ -5,7 +5,7 @@ const signPayload = require("../build/signPayload");
 const { v4 } = require("uuid");
 const fetch = require("node-fetch");
 const crypto = require("crypto");
-const debug = require("debug")("blogWatcher:buildFiless");
+const debug = require("debug")("blogWatcher:buildFiles");
 
 const buildPages = async (req, res) => {
 	// TODO make an event emitter to .on("progress") and send data back to the client
@@ -28,7 +28,7 @@ const buildPages = async (req, res) => {
 		debug("finished building pages...");
 		debug("finished posting pages to website...");
 		return res
-			.status(500)
+			.status(200)
 			.json({ success: true, message: "built ALL the pages!" });
 
 		// once buildpages has finished posting all the content

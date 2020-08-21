@@ -1,5 +1,5 @@
 const fetch = require("node-fetch");
-const debug = require("debug")("blogWatcher:buildFiles");
+const debug = require("debug")("blogWatcher:downloadMD");
 
 /**
  * Downloads ram markdown from a url (usually github)
