@@ -50,7 +50,13 @@ const buildPage = async (_id) => {
 	debug(`finished downloading sources for "${page.pageName}"`);
 
 	// send the changes to the blog
-	hookWebsite(page, markdownOutput, "http://192.168.0.100:2020/download");
+	await hookWebsite(
+		page,
+		markdownOutput,
+		"http://192.168.0.100:2020/download"
+	).then(() => {
+		debug("finished posting to");
+	});
 	return page;
 };
 
