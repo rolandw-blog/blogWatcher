@@ -1,5 +1,5 @@
 const { Page } = require("../models/page");
-const debug = require("debug")("blogWatcher:query");
+const debug = require("debug")("blogWatcher:pushPageHistC");
 const findPage = require("./findPage");
 require("dotenv").config();
 
@@ -11,6 +11,8 @@ require("dotenv").config();
 const pushPageHistory = async (pageName, history) => {
 	debug("Running pushPageHistory from db queries...");
 	debug(`looking for ${pageName}`);
+
+	history = JSON.parse(history);
 	try {
 		historyDoc = {
 			timestamp: history.timestamp,
@@ -24,7 +26,6 @@ const pushPageHistory = async (pageName, history) => {
 
 		debug(`pushing history to ${pageName}`);
 		const page = await findPage("pageName", pageName);
-		debug(page);
 		page.meta.history.push(historyDoc);
 		page.save().then(() => debug("saved success!"));
 	} catch (err) {

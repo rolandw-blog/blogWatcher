@@ -40,10 +40,10 @@ const hookWebsite = async (page, markdown, url) => {
 		"x-payload-signature": sig,
 	};
 
-	return fetch(`http://192.168.0.100:2020/download/${page._id}`, {
+	return fetch(`http://192.168.0.100:2020/download`, {
 		method: "POST",
 		body: params,
 		headers: headers,
-	}).then((res) => res.json());
+	});
 };
 module.exports = hookWebsite;
