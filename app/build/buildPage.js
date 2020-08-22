@@ -13,7 +13,6 @@ const hookWebsite = require("./hookWebsite");
  */
 const buildPage = async (_id) => {
 	debug(`building page: ${_id}`);
-	const jobs = [];
 	const page = await findPage("_id", _id);
 	let markdownOutput = "";
 
@@ -30,31 +29,37 @@ const buildPage = async (_id) => {
 
 		const filename = page._id + `_${i}` + ".md";
 		const writepath = path.resolve(process.env.ROOT, "content", filename);
-		updateLocalPathOfPage(page, writepath);
 
 		// ? For storing the page within blog watcher you can use this
-		// ? however its not required as
-		// write the file and then update the page.fsPath in the database
-		// const writeJob = fs.writeFile(writepath, markdown, () => {
-		// 	debug(`wrote a file ${page._id}`);
-		// });
-		// after starting the writejob push it to the list of jobs to complete
-		// jobs.push(updateLocalPathOfPage(page, writepath));
+		// ? however its not required as the website builder is immiediately sent the markdown
+		// ? so there is no performance gain for keeping it here
+		if (process.env.MD_STORE_LOCALLY == "true") {
+			// write the file and then update the page.fsPath in the database
+			fs.writeFile(writepath, markdown, () => {
+				debug(`wrote a file ${page._id} to ${writepath}`);
+			});
+			updateLocalPathOfPage(page, writepath);
+		}
 	}
-	// wait for all the markdown to be written
-	// await Promise.all(jobs);
 
 	debug(`finished downloading sources for "${page.pageName}"`);
 
 	// send the changes to the blog
-	await hookWebsite(
+	return hookWebsite(
 		page,
 		markdownOutput != "" ? markdownOutput : undefined,
 		"http://192.168.0.100:2020/download"
-	).then(() => {
-		debug("finished posting to");
-	});
-	return page;
+	)
+		.then(() => {
+			debug("finished posting markdown to blog");
+			return page;
+		})
+		.catch((err) => {
+			debug(
+				`failed to post markdown to blog builder. Perhaps its down? ${err}`
+			);
+			return undefined;
+		});
 };
 
 module.exports = buildPage;

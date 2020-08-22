@@ -21,8 +21,6 @@ const buildPage = async (req, res) => {
 	//   }, 1000);
 
 	const page = await buildPageFunction(req.params.id);
-	// debug(req.params);
-	// debug(page);
 
 	return res.status(200).json({
 		success: true,
