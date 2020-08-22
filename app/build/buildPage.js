@@ -1,16 +1,11 @@
 const debug = require("debug")("blogWatcher:buildFile");
 const fs = require("fs");
 const path = require("path");
-const chalk = require("chalk");
 const updateLocalPathOfPage = require("../queries/updateLocalPathOfPage");
 require("dotenv").config();
-const getAllPages = require("../queries/getAllPages");
 const findPage = require("../queries/findPage");
 const downloadMarkdown = require("./downloadMarkdown");
-const signPayload = require("./signPayload");
-const fetch = require("node-fetch");
 const hookWebsite = require("./hookWebsite");
-const { exec } = require("child_process");
 
 /**
  * Pull the markdown from the database and put it in the content folder
@@ -35,24 +30,26 @@ const buildPage = async (_id) => {
 
 		const filename = page._id + `_${i}` + ".md";
 		const writepath = path.resolve(process.env.ROOT, "content", filename);
+		updateLocalPathOfPage(page, writepath);
 
+		// ? For storing the page within blog watcher you can use this
+		// ? however its not required as
 		// write the file and then update the page.fsPath in the database
-		const writeJob = fs.writeFile(writepath, markdown, () => {
-			debug(`wrote a file ${page._id}`);
-			updateLocalPathOfPage(page, writepath);
-		});
-
-		jobs.push(writeJob);
+		// const writeJob = fs.writeFile(writepath, markdown, () => {
+		// 	debug(`wrote a file ${page._id}`);
+		// });
+		// after starting the writejob push it to the list of jobs to complete
+		// jobs.push(updateLocalPathOfPage(page, writepath));
 	}
+	// wait for all the markdown to be written
+	// await Promise.all(jobs);
 
-	// debug("waiting for sources to download");
-	await Promise.all(jobs);
 	debug(`finished downloading sources for "${page.pageName}"`);
 
 	// send the changes to the blog
 	await hookWebsite(
 		page,
-		markdownOutput,
+		markdownOutput != "" ? markdownOutput : undefined,
 		"http://192.168.0.100:2020/download"
 	).then(() => {
 		debug("finished posting to");
