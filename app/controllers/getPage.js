@@ -1,4 +1,3 @@
-// const { Page } = require("../models/page");
 const findPage = require("../queries/findPage");
 const debug = require("debug")("blogWatcher:getPage");
 

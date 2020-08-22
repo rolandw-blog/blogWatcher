@@ -1,6 +1,4 @@
 const crypto = require("crypto");
-const express = require("express");
-const bodyParser = require("body-parser");
 const debug = require("debug")("blogWatcher:PayloadVerify");
 const error = require("debug")("blogWatcher:");
 require("dotenv").config();

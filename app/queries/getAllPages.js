@@ -7,10 +7,11 @@ require("dotenv").config();
  * or undefined if not found
  * @example
  * getAllPages({});
+ * @example
+ * getAllPages({pageName: "home"});
  */
 const getAllPages = async (filters) => {
 	debug("Running getAllPages from db queries...");
-	// debug(filters);
 	try {
 		return Page.find(filters, "", (err, pages) => {
 			if (err) {

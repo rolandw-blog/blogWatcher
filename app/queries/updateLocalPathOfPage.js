@@ -19,7 +19,6 @@ const updateLocalPathOfPage = async (page, newPath) => {
 
 	let newPage = await Page.findOneAndUpdate(filter, update);
 	newPage.save();
-	// debug("saved the new filepath!");
 };
 
 module.exports = updateLocalPathOfPage;

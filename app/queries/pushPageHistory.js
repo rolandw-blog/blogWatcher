@@ -1,4 +1,3 @@
-const { Page } = require("../models/page");
 const debug = require("debug")("blogWatcher:pushPageHistC");
 const findPage = require("./findPage");
 require("dotenv").config();

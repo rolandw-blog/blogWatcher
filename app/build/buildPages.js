@@ -1,9 +1,4 @@
 const debug = require("debug")("blogWatcher:buildFiles");
-const fetch = require("node-fetch");
-const fs = require("fs");
-const path = require("path");
-const chalk = require("chalk");
-const updateLocalPathOfPage = require("../queries/updateLocalPathOfPage");
 require("dotenv").config();
 const getAllPages = require("../queries/getAllPages");
 const buildPage = require("./buildPage");

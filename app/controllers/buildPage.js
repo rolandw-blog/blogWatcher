@@ -1,9 +1,5 @@
-// const { Page } = require("../models/page");
 const buildPageFunction = require("../build/buildPage");
-const signPayload = require("../build/signPayload");
 const debug = require("debug")("blogWatcher:buildFile");
-const fetch = require("node-fetch");
-const { v4 } = require("uuid");
 
 const buildPage = async (req, res) => {
 	debug("=======================");

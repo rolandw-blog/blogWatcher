@@ -1,4 +1,3 @@
-// const { Page } = require("../models/page");
 const debug = require("debug")("blogWatcher:ghWebHook");
 const postHistory = require("../queries/postHistory");
 const findPage = require("../queries/findPage");
@@ -11,12 +10,9 @@ const buildPages = async (req, res) => {
 	// sometimes hooks dont come with head_commits and thats just life 🤷
 	if (req.body.head_commit) res.status(200).json({ success: true });
 	else return res.status(400).json({ success: false });
-	// https://github.com/RolandWarburton/knowledge
-	// /
-	// src/views/Notes/University/TNE30023 Advanced Switching.js
-	// https://github.com/RolandWarburton/knowledge/src/views/Notes/University/TNE30023%20Advanced%20Switching.js
+
+	// stringify the commit for posting to history
 	const commit = JSON.stringify(req.body.head_commit);
-	// debug(req.body.head_commit);
 
 	// print some helpful information
 	if (req.body.head_commit.modified) {
@@ -24,9 +20,9 @@ const buildPages = async (req, res) => {
 	}
 
 	// tell github that its all good!
-	// res.status(200).json({ success: true });
+	res.status(200).json({ success: true });
 
-	// // start saving the head_commit to the database
+	// start saving the head_commit to the database
 	// debug("Posting new commit to history database");
 	await postHistory(commit);
 

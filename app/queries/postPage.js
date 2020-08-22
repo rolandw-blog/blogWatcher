@@ -4,22 +4,6 @@ const pageSchema = require("../validation/pageSchema");
 const findPage = require("./findPage");
 require("dotenv").config();
 
-// ! A page should have
-// page.pageName			string
-// page.source.remote		string
-// page.source.path			array
-// page.websitePath			string
-// page.meta.template		string
-
-const parseLocalUrl = (url, newId) => {
-	debug("parsing a local url...");
-	const pathArray = url.split("/");
-	pathArray[pathArray.length - 1] = newId;
-	const result = pathArray.join("/");
-	debug(result);
-	return result;
-};
-
 /**
  * Saves a page to the database
  * @param {JSON} page - A page json object to save to the database

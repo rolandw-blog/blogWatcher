@@ -1,11 +1,7 @@
 const { Page } = require("../models/page");
 const debug = require("debug")("blogWatcher:postPage");
-const findPage = require("../queries/findPage");
-const yupPageSchema = require("../validation/pageSchema");
 const postPageToDatabase = require("../queries/postPage");
-const util = require("util");
 const postPageHistory = require("../queries/pushPageHistory");
-const updateLocalPathOfPage = require("../queries/updateLocalPathOfPage");
 const {
 	getBaseNameFromUrl,
 	formatWebsitePath,
