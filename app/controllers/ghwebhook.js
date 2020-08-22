@@ -19,9 +19,6 @@ const buildPages = async (req, res) => {
 		debug(`received ${req.body.head_commit.modified.length} new changes`);
 	}
 
-	// tell github that its all good!
-	res.status(200).json({ success: true });
-
 	// start saving the head_commit to the database
 	// debug("Posting new commit to history database");
 	await postHistory(commit);
