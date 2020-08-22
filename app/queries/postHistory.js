@@ -16,8 +16,7 @@ const postHistory = async (head_commit) => {
 		committer: commit.committer,
 	};
 	let history = new History(historyData);
-	await history.save().then((doc) => debug(`saved ${JSON.stringify(doc)}`));
-	debug("saved a new commit to history!");
+	await history.save().then((doc) => debug(`saved a new commit to history!`));
 	return historyData;
 };
 
