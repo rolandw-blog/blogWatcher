@@ -48,7 +48,7 @@ const buildPage = async (_id) => {
 	return hookWebsite(
 		page,
 		markdownOutput != "" ? markdownOutput : undefined,
-		`http://${process.env.BLOG_IP}/download`
+		`${process.env.PROTOCOL}://${process.env.BLOG_IP}/download`
 	)
 		.then(() => {
 			debug("finished posting markdown to blog");

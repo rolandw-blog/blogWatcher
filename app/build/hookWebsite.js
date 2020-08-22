@@ -26,7 +26,7 @@ const hookWebsite = async (page, markdown, url) => {
 		"x-payload-signature": sig,
 	};
 
-	return fetch(`http://${process.env.BLOG_IP}/download`, {
+	return fetch(`${process.env.PROTOCOL}://${process.env.BLOG_IP}/download`, {
 		method: "POST",
 		body: params,
 		headers: headers,

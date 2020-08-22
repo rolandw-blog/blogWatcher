@@ -38,7 +38,9 @@ const server = async () => {
 
 	// start the server
 	app.listen(process.env.PORT, () =>
-		debug(`app listening at http://localhost:${process.env.PORT}`)
+		debug(
+			`app listening at ${process.env.PROTOCOL}://localhost:${process.env.PORT}`
+		)
 	);
 
 	// fallback for root path
