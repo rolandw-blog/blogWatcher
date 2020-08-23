@@ -3,15 +3,14 @@ services:
     website:
         container_name: blogwatcher
         image: blogwatcher
-        ports:
-            - "8080:3000"
         environment:
-            - NGINX_HOST=foobar.com
-            - NGINX_PORT=3000
+            - VIRTUAL_HOST=watch.0x8.host
+            - LETSENCRYPT_HOST=watch.0x8.host
+            - LETSENCRYPT_EMAIL=warburtonroland@gmail.com
+            - VIRTUAL_PORT=3000
+            - VIRTUAL_NETWORK=proxy-network
         volumes:
-            - ./app:/usr/src/app
             - ./content:/usr/src/app/content
-            # - ./app/package.json:/usr/src/app
 
     mongo:
         container_name: mongo
@@ -33,8 +32,8 @@ services:
         command: mongod --auth --quiet
         logging:
             driver: none
-#
-# networks:
-#     default:
-#         external:
-#             name: nginx-proxy_default
+
+networks:
+    default:
+        external:
+            name: nginx-proxy
