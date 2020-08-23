@@ -2,10 +2,10 @@
 	"name": "blogwatcher",
 	"version": "1.0.0",
 	"description": "",
-	"main": "index.js",
+	"main": "server/server.js",
 	"scripts": {
-		"monitor": "nodemon ./server/server.js",
-		"start": "DEBUG=blogWatcher:* DEBUG_COLORS=true nodemon -L ./server/server.js",
+		"start": "DEBUG=blogWatcher:* DEBUG_COLORS=true node ./server/server.js",
+		"monitor": "DEBUG=blogWatcher:* DEBUG_COLORS=true node ./server/server.js",
 		"test": "jest"
 	},
 	"keywords": [],
