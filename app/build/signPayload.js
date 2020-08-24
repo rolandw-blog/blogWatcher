@@ -7,7 +7,6 @@ const debug = require("debug")("blogWatcher:crypto");
  */
 const signPayload = (body) => {
 	const secret = process.env.DB_API_SECRET;
-	debug(JSON.stringify(body));
 	let sig =
 		"sha1=" +
 		crypto
