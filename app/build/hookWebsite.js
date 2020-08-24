@@ -12,8 +12,13 @@ const hookWebsite = async (page, markdown, url) => {
 	// construct a body for the request
 	const body = {
 		id: page._id,
-		markdown: markdown,
 	};
+
+	// need to attach markdown in this seperate way
+	// otherwise if markdown = undefined is parsed to the URLparams
+	// but isnt parsed when the JSON is stringified in signPayload
+	// which causes the sig to be incorrect
+	if (markdown) body.markdown = markdown;
 
 	// convert the body into x-www-urlencoded params
 	const params = new URLSearchParams(body);

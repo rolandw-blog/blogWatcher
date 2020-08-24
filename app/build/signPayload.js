@@ -7,12 +7,12 @@ const debug = require("debug")("blogWatcher:crypto");
  */
 const signPayload = (body) => {
 	const secret = process.env.DB_API_SECRET;
-	const jsonBody = body;
+	debug(JSON.stringify(body));
 	let sig =
 		"sha1=" +
 		crypto
 			.createHmac("sha1", secret)
-			.update(JSON.stringify(jsonBody))
+			.update(JSON.stringify(body))
 			.digest("hex");
 	debug(sig);
 	return sig;

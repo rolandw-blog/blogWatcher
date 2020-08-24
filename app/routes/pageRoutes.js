@@ -7,7 +7,7 @@ const getPage = require("../controllers/getPage");
 const getPages = require("../controllers/getPages");
 const bodyParser = require("body-parser");
 const buildRouter = require("./buildRouter");
-const verifyBuilderPayload = require("../middleware/verifyBuilderPayload");
+const verifyPayload = require("../middleware/verifyPayload");
 const debug = require("debug")("blogWatcher:routers");
 const router = express.Router();
 
@@ -18,10 +18,10 @@ const urlencodedParser = bodyParser.urlencoded({
 });
 
 // ! remember to protect the POST /page route with
-//  [urlencodedParser, verifyBuilderPayload]
+//  [urlencodedParser, verifyPayload]
 const routes = [
 	{
-		path: "/page",
+		path: "/upload",
 		method: "post",
 		middleware: [urlencodedParser],
 		handler: postPage,
@@ -38,8 +38,8 @@ const routes = [
 	},
 	{
 		path: "/page",
-		method: "get",
-		middleware: [],
+		method: "post",
+		middleware: [verifyPayload],
 		handler: getPage,
 		help: {
 			description: "Get a page from the database",

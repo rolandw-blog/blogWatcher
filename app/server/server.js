@@ -5,12 +5,20 @@ const express = require("express");
 const cors = require("cors");
 const pageRoutes = require("../routes/pageRoutes.js");
 const webhooks = require("../routes/webhooks");
+const bodyParser = require("body-parser");
 require("dotenv").config();
 
 const app = express();
 const corsOptions = { origin: "*" };
 app.use(cors(corsOptions));
 app.options("*", cors());
+
+// Support x-www-urlencoded on all routes
+const urlencodedParser = bodyParser.urlencoded({
+	limit: "50mb",
+	extended: true,
+});
+app.use(urlencodedParser);
 
 // ? optional use express x-www-urlencoded parser
 // ? right now im using body-parser instead
