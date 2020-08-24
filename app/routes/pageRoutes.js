@@ -38,8 +38,8 @@ const routes = [
 	},
 	{
 		path: "/page",
-		method: "post",
-		middleware: [verifyPayload],
+		method: "get",
+		middleware: [],
 		handler: getPage,
 		help: {
 			description: "Get a page from the database",
@@ -53,7 +53,7 @@ const routes = [
 		middleware: [],
 		handler: getPages,
 		help: {
-			description: "Get a page from the database",
+			description: "Get all pages from the database",
 			method: this.method,
 			example: "/page",
 		},
