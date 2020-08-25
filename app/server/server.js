@@ -8,6 +8,13 @@ const webhooks = require("../routes/webhooks");
 const bodyParser = require("body-parser");
 require("dotenv").config();
 
+debug("============================================");
+debug("Blog watcher is starting...");
+debug(`WORKING IN:\t${process.env.ROOT}`);
+debug(`RUNNING ON PORT:\t${process.env.PROTOCOL}`);
+debug(`Builder IP:\t${process.env.PROTOCOL}:${process.env.BLOG_IP}`);
+debug("============================================");
+
 const app = express();
 const corsOptions = { origin: "*" };
 app.use(cors(corsOptions));
