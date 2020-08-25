@@ -9,18 +9,17 @@ const sigHeaderName = "x-Hub-Signature";
 function verifyGithubPayload(req, res, next) {
 	debug("running GH payload verify middleware");
 
-	const payload = JSON.stringify(req.body);
 	let sig =
 		"sha1=" +
 		crypto
 			.createHmac("sha1", secret)
-			.update(payload.toString())
+			.update(JSON.stringify(req.body))
 			.digest("hex");
 
 	debug(sig);
 	debug(req.headers["x-hub-signature"]);
+
 	if (req.headers["x-hub-signature"] == sig) {
-		// exec('cd ' + repo + ' && git pull');
 		debug("all good");
 	} else {
 		debug("all bad");
