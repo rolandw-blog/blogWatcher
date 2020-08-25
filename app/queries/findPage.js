@@ -13,20 +13,24 @@ const findPage = async (key, value) => {
 	debug("Running findPage from db queries...");
 	try {
 		debug(`looking for ${key} = ${value}`);
-		return Page.findOne({ [key]: value }, "", (err, page) => {
-			if (err) {
-				debug(`ERROR retrieving pages from mongo ${err}`);
-				return undefined;
-			}
+		return Page.findOne(
+			{ [key]: value, hidden: false },
+			"",
+			(err, page) => {
+				if (err) {
+					debug(`ERROR retrieving pages from mongo ${err}`);
+					return undefined;
+				}
 
-			if (!page) {
-				debug("no page found");
-				return undefined;
-			}
+				if (!page) {
+					debug("no page found");
+					return undefined;
+				}
 
-			debug(`Found ${page.pageName}`);
-			return page;
-		});
+				debug(`Found ${page.pageName}`);
+				return page;
+			}
+		);
 	} catch (err) {
 		return debug(`ERROR async block failed ${err}`);
 	}
