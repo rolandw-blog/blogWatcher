@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const ora = require("ora");
-const chalk = require("chalk");
 const util = require("util");
 const debug = require("debug")("blogWatcher:database");
 const isDocker = require("is-docker");
@@ -56,7 +55,7 @@ const disconnectFromDB = async () => {
 			return true;
 		})
 		.catch((err) => {
-			console.log(chalk.red(err));
+			debug(err);
 			return false;
 		});
 };

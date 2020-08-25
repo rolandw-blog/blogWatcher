@@ -14,7 +14,7 @@ const downloadMarkdown = async (url) => {
 	const response = await fetch(url);
 
 	if (response.status != 200) {
-		debug(chalk.red(`Error fetching file: ${response.status}`));
+		debug(`Error fetching file: ${response.status}`);
 	}
 
 	// return the markdown text

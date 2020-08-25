@@ -5,14 +5,13 @@
 	"main": "server/server.js",
 	"scripts": {
 		"start": "DEBUG=blogWatcher:* DEBUG_COLORS=true node ./server/server.js",
-		"monitor": "DEBUG=blogWatcher:* DEBUG_COLORS=true node ./server/server.js",
+		"monitor": "DEBUG=blogWatcher:* DEBUG_COLORS=true nodemon ./server/server.js",
 		"test": "jest"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
-		"chalk": "^4.1.0",
 		"cors": "^2.8.5",
 		"debug": "^4.1.1",
 		"dotenv": "^8.2.0",
