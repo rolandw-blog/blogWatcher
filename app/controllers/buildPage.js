@@ -18,6 +18,14 @@ const buildPage = async (req, res) => {
 
 	const page = await buildPageFunction(req.params.id);
 
+	if (page == undefined) {
+		debug("page wasnt found when building. perhaps its hidden?");
+		return res.status(400).json({
+			success: false,
+			message: "Page wasnt found, perhaps its hidden?",
+		});
+	}
+
 	return res.status(200).json({
 		success: true,
 		page: page,

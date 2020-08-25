@@ -14,6 +14,11 @@ const hookWebsite = require("./hookWebsite");
 const buildPage = async (_id) => {
 	debug(`building page: ${_id}`);
 	const page = await findPage("_id", _id);
+
+	if (!page) {
+		return undefined;
+	}
+
 	let markdownOutput = "";
 
 	debug(`downloading sources for "${page.pageName}"`);
