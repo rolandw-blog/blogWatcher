@@ -11,7 +11,6 @@ const pushPageHistory = async (pageName, history) => {
 	debug("Running pushPageHistory from db queries...");
 	debug(`looking for ${pageName}`);
 
-	history = JSON.parse(history);
 	try {
 		historyDoc = {
 			timestamp: history.timestamp,
