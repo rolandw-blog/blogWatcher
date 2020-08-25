@@ -12,6 +12,13 @@ require("dotenv").config();
  */
 const getAllPages = async (filters) => {
 	debug("Running getAllPages from db queries...");
+
+	// only return pages that should be built
+	filters = {
+		...filters,
+		hidden: false,
+	};
+
 	try {
 		return Page.find(filters, "", (err, pages) => {
 			if (err) {
