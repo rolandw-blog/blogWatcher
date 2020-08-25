@@ -7,8 +7,8 @@ const getPage = async (req, res) => {
 
 	// check that BS isnt being passed in
 	if (req.query.websitePath) filters.websitePath = req.query.websitePath;
-	// if (req.query.websitePath) filters.websitePath = req.query.websitePath;
-	// if (req.query.websitePath) filters.websitePath = req.query.websitePath;
+	if (req.query.regex)
+		filters.websitePath = new RegExp(req.query.websitePath);
 	// ? add more stuff...
 
 	const pages = await getAllPages(filters);
