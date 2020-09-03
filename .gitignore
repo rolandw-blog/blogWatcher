@@ -3,3 +3,4 @@ node_modules
 content
 *.env
 app/globalConfig.json
+jwtPublic.key

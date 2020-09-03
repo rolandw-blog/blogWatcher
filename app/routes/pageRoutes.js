@@ -11,6 +11,9 @@ const verifyPayload = require("../middleware/verifyPayload");
 const debug = require("debug")("blogWatcher:routers");
 const router = express.Router();
 
+// ! Single Sign On system
+const isAuthenticated = require("../middleware/isAuthenticated");
+
 // create application/x-www-form-urlencoded parser
 const urlencodedParser = bodyParser.urlencoded({
 	limit: "50mb",
@@ -23,7 +26,7 @@ const routes = [
 	{
 		path: "/upload",
 		method: "post",
-		middleware: [urlencodedParser],
+		middleware: [urlencodedParser, isAuthenticated],
 		handler: postPage,
 		help: {
 			description: "Post a page to the database",
@@ -39,7 +42,7 @@ const routes = [
 	{
 		path: "/page",
 		method: "get",
-		middleware: [],
+		middleware: [isAuthenticated],
 		handler: getPage,
 		help: {
 			description: "Get a page from the database",
@@ -50,7 +53,7 @@ const routes = [
 	{
 		path: "/pages",
 		method: "get",
-		middleware: [],
+		middleware: [isAuthenticated],
 		handler: getPages,
 		help: {
 			description: "Get all pages from the database",
@@ -61,7 +64,7 @@ const routes = [
 	{
 		path: "/build",
 		method: "get",
-		middleware: [],
+		middleware: [isAuthenticated],
 		handler: buildPages,
 		help: {
 			description: "Pull down and rebuild all the pages",
@@ -73,7 +76,7 @@ const routes = [
 	{
 		path: "/build/:id",
 		method: "get",
-		middleware: [],
+		middleware: [isAuthenticated],
 		handler: buildPage,
 		help: {
 			description: "Pull down and rebuild one page by its id",
@@ -85,7 +88,7 @@ const routes = [
 	{
 		path: "/preview",
 		method: "get",
-		middleware: [],
+		middleware: [isAuthenticated],
 		handler: previewPages,
 		help: {
 			description: "Preview the site structure",
