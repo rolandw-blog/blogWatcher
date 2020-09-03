@@ -3,7 +3,7 @@ EXPOSE 3000
 EXPOSE 27017
 COPY ./docker/nginx.conf /etc/nginx/nginx.conf
 
-FROM node:latest
+FROM node:12
 
 # Create app directory
 RUN mkdir -p /usr/src/app
