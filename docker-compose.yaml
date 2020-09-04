@@ -13,7 +13,7 @@ services:
             - ./content:/usr/src/app/content
 
     mongo:
-        container_name: mongo
+        container_name: blogwatcher_database
         image: mongo
         environment:
             # back up admin user in case something goes wrong
