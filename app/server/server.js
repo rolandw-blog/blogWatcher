@@ -40,6 +40,10 @@ app.use(
 // ! Single Sign On system
 app.use(checkSSORedirect());
 
+// run authentication on all GET routes
+// Will not work on the public exposed routes implemented by express.static
+app.use(isAuthenticated);
+
 // Support x-www-urlencoded on all routes
 const urlencodedParser = bodyParser.urlencoded({
 	limit: "50mb",
@@ -57,8 +61,9 @@ app.use("/", pageRoutes);
 // github weebhooks live here
 app.use("/hooks", webhooks);
 
-// quick and dirty upload form
-app.use("/upload", express.static(path.resolve(process.env.ROOT, "public")));
+// set the rendering engine
+app.set("view engine", "ejs");
+app.set("views", path.resolve(process.env.ROOT, "views"));
 
 // starts the server when called
 const server = async () => {
@@ -77,6 +82,12 @@ const server = async () => {
 			`app listening at ${process.env.PROTOCOL}://localhost:${process.env.PORT}`
 		)
 	);
+
+	// quick and dirty upload form
+	app.get("/upload", isAuthenticated, (req, res, next) => {
+		debug("rendering /upload");
+		return res.status(200).render("index", {});
+	});
 
 	// ! Single Sign On system
 	app.get("/", isAuthenticated, (req, res, next) => {
@@ -98,12 +109,13 @@ const server = async () => {
 	});
 
 	// ! Single Sign On system (error handling)
-	app.use((req, res, next) => {
-		// catch 404 and forward to error handler
-		const err = new Error("Resource Not Found");
-		err.status = 404;
-		next(err);
-	});
+	// ? only use when API endpoints are being used. IE. only returning JSON, will not work with ejs or express public dirs
+	// app.use((req, res, next) => {
+	// 	// catch 404 and forward to error handler
+	// 	const err = new Error("Resource Not Found");
+	// 	err.status = 404;
+	// 	next(err);
+	// });
 
 	// ! Single Sign On system (error handling)
 	app.use((err, req, res, next) => {
@@ -115,7 +127,6 @@ const server = async () => {
 		const statusCode = err.status || 500;
 		let message = err.message || "Internal Server Error";
 
-		debug(err.status);
 		debug(statusCode);
 
 		if (statusCode === 500) {

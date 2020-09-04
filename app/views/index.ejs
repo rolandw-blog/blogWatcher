@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<form
+			id="myForm"
+			type="POST"
+			
+			style="width: 60vw; margin: 10vh auto;"
+		>
+			<h1>Page Submitter</h1>
+			<fieldset>
+				<legend>Page name</legend>
+				<label for="autoName">Auto name!</label>
+				<input type="checkbox" onCLick="disableField(this, '#pageName')" name="autoName" id="autoName"></input>
+				<input
+					type="text"
+					name="pageName"
+					id="pageName"
+					placeholder="pageName"
+				/>
+			</fieldset>
+			<fieldset id="pageSourceWrapper" style="flex-direction: column;">
+				<legend>pageSource Information</legend>
+				<fieldset id="pageSource0">
+					<legend>Source 1</legend>
+					<label for="remote">Remote</label>
+					<input type="checkbox" defaultChecked name="remote" class="remote" checked="true"></input>
+					<input type="text" name="url" class="url" placeholder="url/path" />
+				</fieldset>
+				<button id="addPageSource" style="align-self: flex-start;" onclick="addNewUrl()">Add Page Source</button>
+			</fieldset>
+			<fieldset style="flex-direction: column;">
+				<legend>output information</legend>
+				<input
+					type="text"
+					name="websitePath"
+					id="websitePath"
+					placeholder="websitePath (/example/page)"
+				/> </br>
+				<input
+					type="text"
+					name="template"
+					id="template"
+					placeholder="template"
+				/>
+			</fieldset>
+			<br />
+			<button type="submit" id="submit" onclick="submitForm(event)">submit</button>
+		</form>
+
+		<script>
+			// most of the time its going to be ticked
+			// this just reduces the chance of making mistakes
+			document.querySelector('.remote').checked = true
+
+			// on load check these fields inputs
+			if (document.querySelector("#autoName").checked) {
+				document.querySelector("#pageName").disabled = true;
+			}
+
+			const disableField = (checkbox, query) => {
+				const field = document.querySelector(query);
+				field.disabled = !field.disabled;
+				console.log(field.disabled);
+			}
+
+			const addNewUrl = () => {
+				event.preventDefault();
+				const fieldsetWrapper = document.getElementById("pageSourceWrapper")
+
+				// get all of the wrappers children
+				const numberOFfields = fieldsetWrapper.querySelectorAll("fieldset");
+
+				const newFields = fieldsetWrapper.querySelectorAll("fieldset")
+				const fieldArr = Array.from(newFields)
+
+				// concat all the html fields together
+				const newFieldsHtml = fieldArr.reduce((acc, cur) => {return acc += cur.outerHTML; }, "");
+
+				fieldsetWrapper.innerHTML = 
+				`
+				<legend>pageSource Information</legend>
+				${newFieldsHtml}
+				<fieldset id="pageSource${numberOFfields.length}">
+					<legend>Source ${numberOFfields.length+1}</legend>
+					<label for="remote">Remote</label>
+					<input type="checkbox" defaultChecked name="remote" class="remote" checked="true"></input>
+					<input type="text" name="url" class="url" placeholder="url/path" />
+				</fieldset>
+				<button id="addPageSource" style="align-self: flex-start;" onclick="addNewUrl()">Add Page Source</button>
+				`
+			}
+
+			function submitForm(event) {
+				event.preventDefault();
+				const form = document.querySelector("#myForm");
+
+				const inputs = document.getElementsByTagName("input");
+
+				const myHeaders = new Headers();
+				myHeaders.append(
+					"Content-Type",
+					"application/x-www-form-urlencoded"
+				);
+
+				const pageName = document.getElementById("pageName");
+				const websitePath = document.getElementById("websitePath");
+				const template = document.getElementById("template");
+				const autoName = document.getElementById("autoName");
+
+
+				const remote = Array.from(document.getElementsByClassName("remote"));
+				const url = Array.from(document.getElementsByClassName("url"));
+				
+				const urlencoded = new URLSearchParams();
+				// append all the bits
+				urlencoded.append("pageName", pageName.value);
+				urlencoded.append("websitePath", websitePath.value);
+				urlencoded.append("template", template.value);
+				urlencoded.append("autoName", autoName.checked);
+
+				// append the remote bools and urls
+				for (i in Array.from(remote)) {
+					const remoteBool = remote[i].checked;
+					urlencoded.append(`remote`, remoteBool);
+					urlencoded.append(`url`, url[i].value);
+				}
+
+				// construct a POST request
+				// ! temp sign the payload
+				const requestOptions = {
+					method: "POST",
+					headers: {...myHeaders, "x-blogwatcher-signature": "sha1=1d1259e8562be1a1e1369bfddcfddc24deaa0c52"},
+					body: urlencoded,
+					redirect: "follow",
+				};
+
+				// ship it!
+				fetch("http://10.10.10.12:8080/page", requestOptions)
+					.then((response) => {
+						console.log("post done!");
+						// console.log(response.json());
+						return response.json();
+					})
+					// .then((result) => {
+					// const myHeaders = new Headers();
+					// myHeaders.append("auth-token", result["auth-token"]);
+					// console.log("put the auth-token inside the header");
+					// window.location.href = "/";
+					// })
+					.catch((error) => console.log("error", error));
+			}
+		</script>
+
+		<style>
+			body {
+				background-color: #494f5c;
+				color: #e8eef2;
+				font-family: sans-serif;
+			}
+
+			h1 {
+				margin: 0;
+				padding: 0;
+			}
+
+			form {
+				background-color: #3b3e48;
+				color: #e8eef2;
+				padding: 2em;
+				margin: 2em;
+			}
+
+			fieldset {
+				border-radius: 0.25em;
+				color: #e8eef2;
+				display: flex;
+				flex-direction: row;
+				margin: 1em;
+			}
+
+			input {
+				background-color: #2c3e50;
+				color: #e8eef2;
+				box-sizing: border-box;
+				border: 1px solid #e8eef2;
+				padding: 0.5em;
+				margin: 0 2em;
+			}
+
+			input[disabled] {
+				background-color: darkgray;
+				color: #e8eef2;
+			}
+
+			button {
+				margin: 1em 0;
+			}
+		</style>
+	</body>
+</html>
