@@ -41,8 +41,8 @@ const routes = [
 	},
 	{
 		path: "/page",
-		method: "get",
-		middleware: [isAuthenticated],
+		method: "post",
+		middleware: [verifyPayload],
 		handler: getPage,
 		help: {
 			description: "Get a page from the database",
@@ -52,8 +52,8 @@ const routes = [
 	},
 	{
 		path: "/pages",
-		method: "get",
-		middleware: [isAuthenticated],
+		method: "post",
+		middleware: [verifyPayload],
 		handler: getPages,
 		help: {
 			description: "Get all pages from the database",
