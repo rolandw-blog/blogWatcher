@@ -86,6 +86,18 @@ const routes = [
 		},
 	},
 	{
+		path: "/build/:id",
+		method: "post",
+		middleware: [verifyPayload],
+		handler: buildPage,
+		help: {
+			description: "Pull down and rebuild one page by its id",
+			method: this.method,
+			parameters: [],
+			example: "/build/5f32c4dc4191ed02244b62d9",
+		},
+	},
+	{
 		path: "/preview",
 		method: "get",
 		middleware: [isAuthenticated],

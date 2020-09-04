@@ -40,10 +40,6 @@ app.use(
 // ! Single Sign On system
 app.use(checkSSORedirect());
 
-// run authentication on all GET routes
-// Will not work on the public exposed routes implemented by express.static
-app.use(isAuthenticated);
-
 // Support x-www-urlencoded on all routes
 const urlencodedParser = bodyParser.urlencoded({
 	limit: "50mb",
@@ -91,6 +87,7 @@ const server = async () => {
 
 	// ! Single Sign On system
 	app.get("/", isAuthenticated, (req, res, next) => {
+		debug(`hit ${req.url}`);
 		// const now = new Date().toISOString();
 		debug(`This session is: ${req.session.id}`);
 		res.status(200).json({
