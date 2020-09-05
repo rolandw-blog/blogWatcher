@@ -96,7 +96,7 @@
 				const urlBox = document.createElement("input");
 				urlBox.type = "text";
 				urlBox.name = "url";
-				urlBox.className = "remote url";
+				urlBox.className = "url";
 				urlBox.checked = "true";
 
 				fieldSet.appendChild(legend);
@@ -152,7 +152,7 @@
 				};
 
 				// ship it!
-				fetch("http://10.10.10.12:3000/upload", requestOptions)
+				fetch("https://watch.rolandw.dev/upload", requestOptions)
 					.then((response) => {
 						console.log("post done!");
 						// console.log(response.json());
