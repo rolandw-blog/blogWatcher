@@ -9,6 +9,7 @@ const bodyParser = require("body-parser");
 const session = require("express-session");
 const checkSSORedirect = require("../middleware/checkSSORedirect");
 const isAuthenticated = require("../middleware/isAuthenticated");
+const ip = require("internal-ip");
 require("dotenv").config();
 
 debug("============================================");
@@ -77,9 +78,11 @@ const server = async () => {
 	);
 
 	// start the server
-	app.listen(process.env.PORT, () =>
+	app.listen(process.env.PORT, async () =>
 		debug(
-			`app listening at ${process.env.PROTOCOL}://localhost:${process.env.PORT}`
+			`app listening at ${process.env.PROTOCOL}://${await ip.v4()}:${
+				process.env.PORT
+			}`
 		)
 	);
 
