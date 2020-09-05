@@ -32,8 +32,8 @@
 					<input type="checkbox" defaultChecked name="remote" class="remote" checked="true"></input>
 					<input type="text" name="url" class="url" placeholder="url/path" />
 				</fieldset>
-				<button id="addPageSource" style="align-self: flex-start;" onclick="addNewUrl()">Add Page Source</button>
 			</fieldset>
+			<button id="addPageSource" style="align-self: flex-start;" onclick="addNewUrl()">Add Page Source</button>
 			<fieldset style="flex-direction: column;">
 				<legend>output information</legend>
 				<input
@@ -76,24 +76,35 @@
 				// get all of the wrappers children
 				const numberOFfields = fieldsetWrapper.querySelectorAll("fieldset");
 
-				const newFields = fieldsetWrapper.querySelectorAll("fieldset")
-				const fieldArr = Array.from(newFields)
+				const fieldSet = document.createElement("fieldset");
+				fieldSet.id = `"pageSource${numberOFfields.length}`;
 
-				// concat all the html fields together
-				const newFieldsHtml = fieldArr.reduce((acc, cur) => {return acc += cur.outerHTML; }, "");
+				const legend = document.createElement("legend");
+				legend.innerText = `Source: ${numberOFfields.length + 1}`;
 
-				fieldsetWrapper.innerHTML = 
-				`
-				<legend>pageSource Information</legend>
-				${newFieldsHtml}
-				<fieldset id="pageSource${numberOFfields.length}">
-					<legend>Source ${numberOFfields.length+1}</legend>
-					<label for="remote">Remote</label>
-					<input type="checkbox" defaultChecked name="remote" class="remote" checked="true"></input>
-					<input type="text" name="url" class="url" placeholder="url/path" />
-				</fieldset>
-				<button id="addPageSource" style="align-self: flex-start;" onclick="addNewUrl()">Add Page Source</button>
-				`
+				const label = document.createElement("label");
+				label.textContent = "Remote";
+				label.for = "checkbox";
+
+				const checkBox = document.createElement("input");
+				checkBox.type = "checkbox";
+				checkBox.defaultChecked = true;
+				checkBox.name = "remote";
+				checkBox.className = "remote"
+				checkBox.checked = true;
+
+				const urlBox = document.createElement("input");
+				urlBox.type = "text";
+				urlBox.name = "url";
+				urlBox.className = "remote url";
+				urlBox.checked = "true";
+
+				fieldSet.appendChild(legend);
+				fieldSet.appendChild(label)
+				fieldSet.appendChild(checkBox);
+				fieldSet.appendChild(urlBox);
+
+				fieldsetWrapper.appendChild(fieldSet);
 			}
 
 			function submitForm(event) {
@@ -141,7 +152,7 @@
 				};
 
 				// ship it!
-				fetch("http://10.10.10.12:8080/page", requestOptions)
+				fetch("http://10.10.10.12:3000/upload", requestOptions)
 					.then((response) => {
 						console.log("post done!");
 						// console.log(response.json());
@@ -171,6 +182,7 @@
 
 			form {
 				background-color: #3b3e48;
+				min-width: 80vw;
 				color: #e8eef2;
 				padding: 2em;
 				margin: 2em;
@@ -200,6 +212,10 @@
 
 			button {
 				margin: 1em 0;
+			}
+
+			.url {
+				width: 100%;
 			}
 		</style>
 	</body>
