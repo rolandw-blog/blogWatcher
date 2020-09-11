@@ -36,13 +36,24 @@ const routes = [
 				'type: ("remote" or "local")',
 				"path: string",
 			],
-			example: "/page",
+			example: "/upload",
 		},
 	},
 	{
 		path: "/page",
 		method: "post",
 		middleware: [verifyPayload],
+		handler: getPage,
+		help: {
+			description: "Get a page from the database",
+			method: this.method,
+			example: "/page",
+		},
+	},
+	{
+		path: "/page",
+		method: "get",
+		middleware: [isAuthenticated],
 		handler: getPage,
 		help: {
 			description: "Get a page from the database",
@@ -58,7 +69,7 @@ const routes = [
 		help: {
 			description: "Get all pages from the database",
 			method: this.method,
-			example: "/page",
+			example: "/pages",
 		},
 	},
 	{
