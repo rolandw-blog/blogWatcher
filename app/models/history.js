@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const schema = {
 	timestamp: {
-		type: String,
+		type: Date,
 		require: true,
 	},
 	message: {

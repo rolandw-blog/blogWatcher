@@ -1,4 +1,5 @@
 const debug = require("debug")("blogWatcher:pushPageHistC");
+const { History } = require("../models/history");
 const findPage = require("./findPage");
 require("dotenv").config();
 
@@ -24,7 +25,7 @@ const pushPageHistory = async (pageName, history) => {
 
 		debug(`pushing history to ${pageName}`);
 		const page = await findPage("pageName", pageName);
-		page.meta.history.push(historyDoc);
+		page.meta.history.push(new History(historyDoc));
 		page.save().then(() => debug("saved success!"));
 	} catch (err) {
 		return debug(`ERROR async block failed ${err}`);

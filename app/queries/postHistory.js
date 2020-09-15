@@ -8,7 +8,7 @@ require("dotenv").config();
  */
 const postHistory = async (head_commit) => {
 	debug("Running postHistory");
-	const commit = JSON.parse(head_commit);
+	const commit = head_commit;
 	const historyData = {
 		message: commit.message,
 		timestamp: commit.timestamp,
@@ -16,7 +16,11 @@ const postHistory = async (head_commit) => {
 		committer: commit.committer,
 	};
 	let history = new History(historyData);
-	await history.save().then((doc) => debug(`saved a new commit to history!`));
+
+	await history.save().then((doc) => {
+		debug(`saved a new commit to history!`);
+		// debug(doc);
+	});
 	return historyData;
 };
 

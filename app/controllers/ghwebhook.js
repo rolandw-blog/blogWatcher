@@ -11,22 +11,24 @@ const buildPages = async (req, res) => {
 	if (req.body.head_commit) res.status(200).json({ success: true });
 	else return res.status(400).json({ success: false });
 
-	// stringify the commit for posting to history
-	const commit = JSON.stringify(req.body.head_commit);
+	// store the commit here for easy access
+	const commit = req.body.head_commit;
 
 	// print some helpful information
 	if (req.body.head_commit.modified) {
 		debug(`received ${req.body.head_commit.modified.length} new changes`);
 	}
 
-	// start saving the head_commit to the database
-	// debug("Posting new commit to history database");
-	await postHistory(commit);
-
 	// ! now lets search for existing pages with this name to see if it exists
 	// first check the files that were modified using the head_commit modified [] array
 	if (req.body.head_commit.modified) {
 		debug("found some modified changes in commit hook");
+
+		// start saving the head_commit to the database
+		// debug("Posting new commit to history database");
+		await postHistory(commit);
+
+		// then iterate over each change and update the history for any pages of the same name
 		for (document of req.body.head_commit.modified) {
 			const documentName = path.parse(document).name;
 			debug(`the document name is ${documentName}`);
