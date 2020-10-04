@@ -30,8 +30,17 @@ const routes = [
 	},
 ];
 
+const help = [];
+for (route in routes) {
+	help.push({
+		path: route.path,
+		method: route.method,
+		help: route.help,
+	});
+}
+
 // build the router!
 debug("building the webhook routes");
 buildRouter(router, routes);
 
-module.exports = router;
+module.exports = { router: router, help: help };

@@ -53,10 +53,10 @@ app.use(urlencodedParser);
 // app.use(express.urlencoded({ extended: true }));
 
 // all the page routes live here
-app.use("/", pageRoutes);
+app.use("/", pageRoutes.router);
 
 // github weebhooks live here
-app.use("/hooks", webhooks);
+app.use("/hooks", webhooks.router);
 
 // set the rendering engine
 app.set("view engine", "ejs");
@@ -105,6 +105,7 @@ const server = async () => {
 			iss: req.session.user.iss,
 			cookie: req.session.cookie || "not sure",
 			expires: req.session.cookie.maxAge / 1000 + "'s",
+			pageroutes: pageRoutes.help,
 		});
 	});
 

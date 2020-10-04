@@ -73,6 +73,17 @@ const routes = [
 		},
 	},
 	{
+		path: "/pages",
+		method: "get",
+		middleware: [isAuthenticated],
+		handler: getPages,
+		help: {
+			description: "Get all pages from the database",
+			method: this.method,
+			example: "/pages",
+		},
+	},
+	{
 		path: "/build",
 		method: "get",
 		middleware: [isAuthenticated],
@@ -122,8 +133,18 @@ const routes = [
 	},
 ];
 
+const help = [];
+for (route of routes) {
+	debug(route);
+	help.push({
+		path: route.path,
+		method: route.method,
+		help: route.help,
+	});
+}
+
 // build the router!
 debug("building the page routes");
 buildRouter(router, routes);
 
-module.exports = router;
+module.exports = { router: router, help: help };
