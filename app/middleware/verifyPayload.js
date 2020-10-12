@@ -12,6 +12,10 @@ function verifyBuilderPayload(req, res, next) {
 	if (!req.body)
 		return res.status(500).json({ success: false, error: "no body" });
 
+	debug(`The secret is: ${secret}`);
+	debug(`the stringified body is:`);
+	debug(JSON.stringify(req.body));
+
 	let sig =
 		"sha1=" +
 		crypto
@@ -27,6 +31,7 @@ function verifyBuilderPayload(req, res, next) {
 		debug("all good");
 	} else {
 		debug("all bad");
+		debug(req.headers);
 		return res.status(500).json({ success: false });
 	}
 	return next();
