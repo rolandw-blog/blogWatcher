@@ -6,6 +6,7 @@ const cors = require("cors");
 const pageRoutes = require("../routes/pageRoutes.js");
 const webhooks = require("../routes/webhooks");
 const updateRoutes = require("../routes/updateRoutes");
+const historyRoutes = require("../routes/historyRoutes");
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const checkSSORedirect = require("../middleware/checkSSORedirect");
@@ -61,6 +62,9 @@ app.use("/hooks", webhooks.router);
 
 // page update routes live here
 app.use("/update", updateRoutes.router);
+
+// history routes live here
+app.use("/history", historyRoutes.router);
 
 // set the rendering engine
 app.set("view engine", "ejs");

@@ -1,31 +1,39 @@
 const mongoose = require("mongoose");
 
 const schema = {
-	timestamp: {
-		type: Date,
-		require: true,
-	},
-	message: {
+	for: {
 		type: String,
 		require: true,
 	},
-	modified: {
-		type: Array,
-		require: false,
-	},
-	committer: {
-		require: false,
-		name: {
+	data: {
+		type: Object,
+		require: true,
+		timestamp: {
+			type: Date,
+			require: true,
+		},
+		message: {
 			type: String,
 			require: true,
 		},
-		email: {
-			type: String,
-			require: true,
+		modified: {
+			type: Array,
+			require: false,
 		},
-		username: {
-			type: String,
-			require: true,
+		committer: {
+			require: false,
+			name: {
+				type: String,
+				require: true,
+			},
+			email: {
+				type: String,
+				require: true,
+			},
+			username: {
+				type: String,
+				require: true,
+			},
 		},
 	},
 };

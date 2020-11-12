@@ -6,7 +6,7 @@ require("dotenv").config();
  * Push a commit head to the blogWatcher.history collection
  * @param {JSON} head_commit - Takes the req.body.head_commit from GH webooks
  */
-const postHistory = async (head_commit) => {
+const postHistory = async (page, head_commit) => {
 	debug("Running postHistory");
 	const commit = head_commit;
 	const historyData = {
@@ -15,11 +15,11 @@ const postHistory = async (head_commit) => {
 		modified: commit.modified,
 		committer: commit.committer,
 	};
-	let history = new History(historyData);
+	let history = new History({ for: page._id, data: historyData });
 
 	await history.save().then((doc) => {
 		debug(`saved a new commit to history!`);
-		// debug(doc);
+		debug(doc);
 	});
 	return historyData;
 };

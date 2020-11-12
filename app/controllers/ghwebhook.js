@@ -24,26 +24,29 @@ const buildPages = async (req, res) => {
 	if (req.body.head_commit.modified) {
 		debug("found some modified changes in commit hook");
 
-		// start saving the head_commit to the database
-		// debug("Posting new commit to history database");
-		await postHistory(commit);
-
 		// then iterate over each change and update the history for any pages of the same name
 		for (document of req.body.head_commit.modified) {
 			const documentName = path.parse(document).name;
 			debug(`the document name is ${documentName}`);
-			debug(`updating ${documentName}`);
 
 			// see if this pages exists in our existing "pages" db
+			debug(`searching for page "${documentName}"`);
 			const page = await findPage("pageName", documentName);
 
 			// if it exists then push this commit to its history
 			if (page) {
-				await pushPageHistory(page.pageName, commit);
+				debug(`updating ${documentName}`);
+				// if theres a page then...
+				// start saving the head_commit to the database
+				// debug("Posting new commit to history database");
+				await postHistory(page, commit);
+				// await pushPageHistory(page.pageName, commit);
+			} else {
+				debug("no page found");
 			}
 		}
 	} else {
-		debug("nothing more to do");
+		debug("nothing more to do because no modified changes");
 	}
 };
 
