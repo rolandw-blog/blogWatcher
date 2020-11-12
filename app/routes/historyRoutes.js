@@ -15,7 +15,7 @@ router.use(urlencodedParser);
 
 const routes = [
 	{
-		path: "/find",
+		path: "/find/:_id",
 		method: "post",
 		middleware: [urlencodedParser, verifyPayload],
 		handler: findHistory,

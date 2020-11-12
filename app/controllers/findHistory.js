@@ -2,7 +2,7 @@ const debug = require("debug")("blogWatcher:findHistory");
 const findHistoryQuery = require("../queries/findHistory");
 
 const findHistory = async (req, res) => {
-	const pageID = req.body._id;
+	const pageID = req.params._id;
 	try {
 		// build the pages
 		const history = await findHistoryQuery(pageID);

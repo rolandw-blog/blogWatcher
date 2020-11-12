@@ -38,9 +38,8 @@ const buildPages = async (req, res) => {
 				debug(`updating ${documentName}`);
 				// if theres a page then...
 				// start saving the head_commit to the database
-				// debug("Posting new commit to history database");
+				debug("Posting new commit to history database");
 				await postHistory(page, commit);
-				// await pushPageHistory(page.pageName, commit);
 			} else {
 				debug("no page found");
 			}
