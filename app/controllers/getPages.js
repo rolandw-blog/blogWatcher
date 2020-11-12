@@ -4,6 +4,8 @@ const debug = require("debug")("blogWatcher:getPagesC");
 const getPages = async (req, res) => {
 	// we are gonna use this to filter the query
 	const filters = {};
+	// queries for ?per_page etc
+	const queries = req.query;
 
 	// check that BS isnt being passed in
 	if (req.query.websitePath) filters.websitePath = req.query.websitePath;
@@ -12,7 +14,7 @@ const getPages = async (req, res) => {
 	// ? add more stuff...
 
 	debug(`getting pages using the filter: "${JSON.stringify(filters)}"`);
-	const pages = await getAllPages(filters);
+	const pages = await getAllPages(filters, queries);
 
 	if (pages) return res.status(200).json(pages);
 	else

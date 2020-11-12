@@ -19,6 +19,9 @@ const buildPages = async (req, res) => {
 		debug(`received ${req.body.head_commit.modified.length} new changes`);
 	}
 
+	// ! first check if a file was renamed
+	// TODO This ^
+
 	// ! now lets search for existing pages with this name to see if it exists
 	// first check the files that were modified using the head_commit modified [] array
 	if (req.body.head_commit.modified) {
