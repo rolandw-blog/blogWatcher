@@ -53,7 +53,7 @@ const getPerPage = (per_page) => {
  * @example
  * getAllPages({pageName: "home"});
  */
-const getAllPages = async (filters, queries) => {
+const getAllPages = async (filters, queries = {}) => {
 	debug("Running getAllPages from db queries...");
 
 	// only return pages that should be built
