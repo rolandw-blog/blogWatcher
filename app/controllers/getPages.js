@@ -1,4 +1,5 @@
 const getAllPages = require("../queries/getAllPages");
+const countPages = require("../queries/countPages");
 const debug = require("debug")("blogWatcher:getPagesC");
 
 const getPages = async (req, res) => {
@@ -15,8 +16,8 @@ const getPages = async (req, res) => {
 
 	debug(`getting pages using the filter: "${JSON.stringify(filters)}"`);
 	const pages = await getAllPages(filters, queries);
-
-	if (pages) return res.status(200).json(pages);
+	const count = await countPages();
+	if (pages) return res.status(200).json({ count: count, data: pages });
 	else
 		return res
 			.status(400)
