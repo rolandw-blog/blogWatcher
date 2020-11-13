@@ -1,6 +1,7 @@
 const debug = require("debug")("blogWatcher:ghWebHook");
 const postHistory = require("../queries/postHistory");
 const findPage = require("../queries/findPage");
+const updatePage = require("../queries/updatePageData.js");
 const pushPageHistory = require("../queries/pushPageHistory");
 const yup = require("yup");
 const path = require("path");
@@ -43,6 +44,11 @@ const buildPages = async (req, res) => {
 				// start saving the head_commit to the database
 				debug("Posting new commit to history database");
 				await postHistory(page, commit);
+
+				// increment the revision number for the page
+				const filter = { _id: page._id };
+				const update = { __v: (page.__v += 1) };
+				await updatePage(filter, update);
 			} else {
 				debug("no page found");
 			}
