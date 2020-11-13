@@ -31,22 +31,6 @@ const schema = {
 			type: String,
 			require: true,
 		},
-		history: {
-			type: Array,
-			require: false,
-			date: {
-				type: String,
-				require: false,
-			},
-			hash: {
-				type: String,
-				require: false,
-			},
-			comment: {
-				type: String,
-				require: false,
-			},
-		},
 	},
 };
 
