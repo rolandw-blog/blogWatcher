@@ -59,6 +59,9 @@ const updatePageController = async (req, res) => {
 	filter._id = _id;
 	update[key] = decodedVal;
 
+	// make an exception for urls which need to be buried under source.url
+	if (key == "url") update = { source: { update } };
+
 	// ? uncomment for debugging
 	// debug("FILTER:");
 	// debug(filter);

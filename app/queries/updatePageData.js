@@ -4,6 +4,10 @@ require("dotenv").config();
 
 const updatePageDate = async (filter, update) => {
 	debug("Running update page data from db queries...");
+	debug("filter:");
+	debug(filter);
+	debug("update clause");
+	debug(update);
 
 	// find the page by its filter {_id: aaabbbccc} and then update {somefiled: newvalue}
 	return await Page.findOneAndUpdate(filter, update, (err, result) => {
