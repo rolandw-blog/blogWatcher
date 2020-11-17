@@ -6,7 +6,7 @@ const findHistory = async (req, res) => {
 	try {
 		// build the pages
 		const history = await findHistoryQuery(pageID);
-		return res.status(200).json({ success: true, history: history });
+		return res.status(200).json({ success: true, data: history });
 	} catch (err) {
 		return res.status(500).json({
 			success: false,
