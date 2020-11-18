@@ -19,4 +19,4 @@ COPY ./app /usr/src/app
 # Exports
 EXPOSE 3000
 EXPOSE 27017
-CMD [ "npm", "run", "start" ]
+CMD [ "npm", "run", "monitor" ]
