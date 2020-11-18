@@ -5,7 +5,7 @@ require("dotenv").config();
 const findHistory = async (filter = {}) => {
 	try {
 		debug(`Counting all pages`);
-		if (filter) debug(filter);
+		if (Object.keys(filter).length !== 0) debug(filter);
 		return Page.countDocuments((err, count) => {
 			if (err) {
 				debug(`ERROR retrieving history: ${err}`);
