@@ -6,6 +6,9 @@ const verifyPayload = require("../middleware/verifyPayload");
 const debug = require("debug")("blogWatcher:routers");
 const router = express.Router();
 
+// ! Single Sign On system
+const isAuthenticated = require("../middleware/isAuthenticated");
+
 const urlencodedParser = bodyParser.urlencoded({
 	extended: false,
 });
@@ -17,7 +20,7 @@ const routes = [
 	{
 		path: "/:id",
 		method: "post",
-		middleware: [urlencodedParser, verifyPayload],
+		middleware: [],
 		handler: updatePage,
 		help: {
 			description: "Update a document in the database",

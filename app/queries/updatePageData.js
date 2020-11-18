@@ -1,13 +1,11 @@
 const { Page } = require("../models/page");
-const debug = require("debug")("blogWatcher:queryUpdatePathOfPage");
+const debug = require("debug")("blogWatcher:query");
 require("dotenv").config();
 
 const updatePageDate = async (filter, update) => {
 	debug("Running update page data from db queries...");
-	debug("filter:");
-	debug(filter);
-	debug("update clause");
-	debug(update);
+	debug("updating where:...");
+	debug({ filter, update });
 
 	// find the page by its filter {_id: aaabbbccc} and then update {somefiled: newvalue}
 	return await Page.findOneAndUpdate(filter, update, (err, result) => {
@@ -17,7 +15,7 @@ const updatePageDate = async (filter, update) => {
 			return undefined;
 		} else {
 			debug(`saved document`);
-			return result._doc;
+			return result;
 		}
 	});
 };
