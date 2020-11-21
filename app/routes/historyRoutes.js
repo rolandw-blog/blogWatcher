@@ -16,8 +16,8 @@ router.use(urlencodedParser);
 const routes = [
 	{
 		path: "/find/:_id",
-		method: "post",
-		middleware: [urlencodedParser, verifyPayload],
+		method: "get",
+		middleware: [],
 		handler: findHistory,
 		help: {
 			description: "Find history for a page id in the database",
