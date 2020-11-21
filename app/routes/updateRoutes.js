@@ -2,6 +2,7 @@ const express = require("express");
 const buildRouter = require("./buildRouter");
 const bodyParser = require("body-parser");
 const updatePage = require("../controllers/updatePage");
+const addPageSource = require("../controllers/addPageSource");
 const verifyPayload = require("../middleware/verifyPayload");
 const debug = require("debug")("blogWatcher:routers");
 const router = express.Router();
@@ -25,14 +26,27 @@ const routes = [
 		help: {
 			description: "Update a document in the database",
 			method: this.method,
-			parameters: ["pageName: string"],
-			example: "/aaabbbccc?pageName=MyPage",
+			parameters: [],
+			example: "/aaabbbccc",
+		},
+	},
+	{
+		path: "/history/add",
+		method: "post",
+		middleware: [],
+		handler: addPageSource,
+		help: {
+			description: "Add source to a document in the database",
+			method: this.method,
+			parameters: [],
+			example: "",
 		},
 	},
 ];
 
 const help = [];
 for (route in routes) {
+	debug(route);
 	help.push({
 		path: route.path,
 		method: route.method,

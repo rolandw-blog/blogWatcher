@@ -20,13 +20,16 @@ const urlencodedParser = bodyParser.urlencoded({
 	extended: true,
 });
 
+router.use(bodyParser.json());
+
 // ! remember to protect the POST /page route with
 //  [urlencodedParser, verifyPayload]
 const routes = [
 	{
 		path: "/upload",
 		method: "post",
-		middleware: [urlencodedParser, isAuthenticated],
+		// isAuthenticated
+		middleware: [],
 		handler: postPage,
 		help: {
 			description: "Post a page to the database",
