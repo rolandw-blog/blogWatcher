@@ -25,7 +25,7 @@ const postPage = async (req, res) => {
 	const existingWebsitePath = await findPage("websitePath", websitePath);
 	if (existingPageName || existingWebsitePath) {
 		return res
-			.status(500)
+			.status(400)
 			.json({ success: false, message: "page already exists" });
 	}
 
