@@ -10,9 +10,12 @@ const pushPageHistory = async (_id, url, remote) => {
 	try {
 		debug(`pushing history to ${_id}`);
 		const page = await findPage("_id", _id);
+		debug("updating this page:");
+		debug(page);
 		page.source.push({ url: url, remote: remote });
-		page.save().then(() => {
+		page.save().then((doc) => {
 			debug("saved success!");
+			debug(doc);
 			return true;
 		});
 	} catch (err) {

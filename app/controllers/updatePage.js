@@ -8,11 +8,8 @@ require("dotenv").config();
 // website.com/update/aaabbbccc?pageName=MyPage
 
 const updatePageController = async (req, res) => {
+	debug("Updating a page...");
 	// ? uncomment for debugging
-	debug("PARAMS:");
-	debug(req.params);
-	debug("BODY:");
-	debug(req.body);
 
 	const document = await updatePage(req.body.filter, req.body.update);
 	debug(document);
