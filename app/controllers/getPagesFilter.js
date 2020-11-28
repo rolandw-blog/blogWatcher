@@ -7,8 +7,8 @@ const getPagesFilter = async (req, res) => {
 	const validFilters = [
 		"source.url",
 		"source.remote",
-		"pageName",
 		"meta.template",
+		"pageName",
 		"__v",
 		"hidden",
 		"websitePath",
@@ -18,13 +18,16 @@ const getPagesFilter = async (req, res) => {
 	let filter = {};
 	if (validFilters.includes(req.params.filter)) {
 		filter = { [req.params.filter]: new RegExp(req.params.value) };
+	} else {
+		// if we cant regex it (IE. make it fuzzy) then we can at least search for the complete string
+		filter = { [req.params.filter]: req.params.value };
 	}
 
 	// queries for ?per_page and ?page
 	const queries = req.query;
 
 	const pages = await getAllPages(filter, queries);
-	const count = await countPages();
+	const count = await countPages(filter);
 
 	if (pages) {
 		return res.status(200).json({ count: count, data: pages });
