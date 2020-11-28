@@ -5,6 +5,7 @@ const buildPage = require("../controllers/buildPage");
 const previewPages = require("../controllers/previewPages");
 const getPage = require("../controllers/getPage");
 const getPages = require("../controllers/getPages");
+const getPagesFilter = require("../controllers/getPagesFilter");
 const bodyParser = require("body-parser");
 const buildRouter = require("./buildRouter");
 const verifyPayload = require("../middleware/verifyPayload");
@@ -78,16 +79,28 @@ const routes = [
 		},
 	},
 	{
-		path: "/pages",
+		path: "/pages/:filter/:value",
 		method: "get",
-		middleware: [isAuthenticated],
-		handler: getPages,
+		// verifyPayload
+		middleware: [],
+		handler: getPagesFilter,
 		help: {
 			description: "Get all pages from the database",
 			method: this.method,
 			example: "/pages",
 		},
 	},
+	// {
+	// 	path: "/pages",
+	// 	method: "get",
+	// 	middleware: [isAuthenticated],
+	// 	handler: getPages,
+	// 	help: {
+	// 		description: "Get all pages from the database",
+	// 		method: this.method,
+	// 		example: "/pages",
+	// 	},
+	// },
 	{
 		path: "/build",
 		method: "get",

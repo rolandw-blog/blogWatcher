@@ -1,5 +1,6 @@
 const { Page } = require("../models/page");
 const debug = require("debug")("blogWatcher:query");
+const mongoose = require("mongoose");
 require("dotenv").config();
 
 /** Return the number of items that need to be skipped
@@ -61,6 +62,8 @@ const getAllPages = async (filters, queries = {}) => {
 		...filters,
 		hidden: false,
 	};
+
+	debug(filters);
 
 	// Internally controlls how many values to skip to give the illusion of pages
 	const skipCount = getSkipCount(queries.page, queries.per_page);
