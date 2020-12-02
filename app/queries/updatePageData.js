@@ -15,6 +15,7 @@ const updatePageDate = async (filter, update) => {
 			return undefined;
 		} else {
 			debug(`saved document`);
+			debug(result);
 			return result;
 		}
 	});

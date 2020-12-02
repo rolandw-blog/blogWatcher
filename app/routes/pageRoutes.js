@@ -1,5 +1,6 @@
 const express = require("express");
 const postPage = require("../controllers/postPage");
+const deletePage = require("../controllers/deletePage");
 const buildPages = require("../controllers/buildPages");
 const buildPage = require("../controllers/buildPage");
 const previewPages = require("../controllers/previewPages");
@@ -41,6 +42,19 @@ const routes = [
 				"path: string",
 			],
 			example: "/upload",
+		},
+	},
+	{
+		path: "/delete/:_id",
+		method: "post",
+		// isAuthenticated
+		middleware: [],
+		handler: deletePage,
+		help: {
+			description: "Delete a page from the database",
+			method: this.method,
+			parameters: ["id"],
+			example: "/delete/abcd1234",
 		},
 	},
 	{
