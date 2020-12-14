@@ -59,17 +59,6 @@ const routes = [
 	},
 	{
 		path: "/page",
-		method: "post",
-		middleware: [verifyPayload],
-		handler: getPage,
-		help: {
-			description: "Get a page from the database",
-			method: this.method,
-			example: "/page",
-		},
-	},
-	{
-		path: "/page",
 		method: "get",
 		// isAuthenticated
 		middleware: [],
@@ -104,21 +93,10 @@ const routes = [
 			example: "/pages",
 		},
 	},
-	// {
-	// 	path: "/pages",
-	// 	method: "get",
-	// 	middleware: [isAuthenticated],
-	// 	handler: getPages,
-	// 	help: {
-	// 		description: "Get all pages from the database",
-	// 		method: this.method,
-	// 		example: "/pages",
-	// 	},
-	// },
 	{
 		path: "/build",
 		method: "get",
-		middleware: [isAuthenticated],
+		middleware: [],
 		handler: buildPages,
 		help: {
 			description: "Pull down and rebuild all the pages",
@@ -130,19 +108,7 @@ const routes = [
 	{
 		path: "/build/:id",
 		method: "get",
-		middleware: [isAuthenticated],
-		handler: buildPage,
-		help: {
-			description: "Pull down and rebuild one page by its id",
-			method: this.method,
-			parameters: [],
-			example: "/build/5f32c4dc4191ed02244b62d9",
-		},
-	},
-	{
-		path: "/build/:id",
-		method: "post",
-		middleware: [verifyPayload],
+		middleware: [],
 		handler: buildPage,
 		help: {
 			description: "Pull down and rebuild one page by its id",
@@ -154,7 +120,7 @@ const routes = [
 	{
 		path: "/preview",
 		method: "get",
-		middleware: [isAuthenticated],
+		middleware: [],
 		handler: previewPages,
 		help: {
 			description: "Preview the site structure",

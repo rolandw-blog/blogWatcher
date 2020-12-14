@@ -91,13 +91,13 @@ const server = async () => {
 	);
 
 	// quick and dirty upload form
-	app.get("/upload", isAuthenticated, (req, res, next) => {
-		debug("rendering /upload");
-		return res.status(200).render("index", {});
-	});
+	//app.get("/upload", (req, res, next) => {
+	//	debug("rendering /upload");
+	//	return res.status(200).render("index", {});
+	//});
 
 	// ! Single Sign On system
-	app.get("/", isAuthenticated, (req, res, next) => {
+	app.get("/", (req, res, next) => {
 		debug(`hit ${req.url}`);
 		// const now = new Date().toISOString();
 		debug(`This session is: ${req.session.id}`);

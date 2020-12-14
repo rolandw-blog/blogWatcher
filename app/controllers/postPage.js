@@ -8,6 +8,7 @@ const {
 	formatWebsitePath,
 } = require("../build/URLConverter");
 
+// ? example post data
 // {
 //     "pageName": "testPage",
 //     "source": [{"remote": true, "url": "a.com"}],
@@ -21,9 +22,12 @@ const postPage = async (req, res) => {
 	debug(`Saving a new page:\t${req.body.pageName}`);
 	const { pageName, source, websitePath, hidden, meta } = req.body;
 
+	debug("looking for existing page by its name");
 	const existingPageName = await findPage("pageName", pageName);
+	debug("looking for an existing page by its websitePath");
 	const existingWebsitePath = await findPage("websitePath", websitePath);
 	if (existingPageName || existingWebsitePath) {
+		debug("the page already existed");
 		return res
 			.status(400)
 			.json({ success: false, message: "page already exists" });
@@ -37,6 +41,7 @@ const postPage = async (req, res) => {
 		websitePath: websitePath,
 		meta: meta,
 	});
+	debug("created a new page object");
 
 	// then save it
 	page.save().then((doc) => {
