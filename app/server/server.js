@@ -26,23 +26,6 @@ const corsOptions = { origin: "*" };
 app.use(cors(corsOptions));
 app.options("*", cors());
 
-// express session configuration
-// ! Single Sign On system
-app.use(
-	session({
-		secret: "keyboard cat",
-		resave: false,
-		saveUninitialized: true,
-		cookie: {
-			maxAge: 3600000,
-		},
-	})
-);
-
-// check for sign on communications from the sso server
-// ! Single Sign On system
-app.use(checkSSORedirect());
-
 // Support x-www-urlencoded on all routes
 const urlencodedParser = bodyParser.urlencoded({
 	limit: "50mb",
@@ -100,31 +83,12 @@ const server = async () => {
 	app.get("/", (req, res, next) => {
 		debug(`hit ${req.url}`);
 		// const now = new Date().toISOString();
-		debug(`This session is: ${req.session.id}`);
+		// debug(`This session is: ${req.session.id}`);
 		res.status(200).json({
-			what: `SSO-Consumer One`,
 			title: "Blog Builder | Home",
-			role: req.session.user.role,
-			email: req.session.user.email,
-			uid: req.session.user.uid,
-			globalSessionID: req.session.user.globalSessionID,
-			iat: req.session.user.iat,
-			exp: req.session.user.exp,
-			iss: req.session.user.iss,
-			cookie: req.session.cookie || "not sure",
-			expires: req.session.cookie.maxAge / 1000 + "'s",
 			pageroutes: pageRoutes.help,
 		});
 	});
-
-	// ! Single Sign On system (error handling)
-	// ? only use when API endpoints are being used. IE. only returning JSON, will not work with ejs or express public dirs
-	// app.use((req, res, next) => {
-	// 	// catch 404 and forward to error handler
-	// 	const err = new Error("Resource Not Found");
-	// 	err.status = 404;
-	// 	next(err);
-	// });
 
 	// ! Single Sign On system (error handling)
 	app.use((err, req, res, next) => {
