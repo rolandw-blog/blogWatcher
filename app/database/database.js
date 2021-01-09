@@ -23,6 +23,7 @@ spinner.spinner = {
  * @param {string} url - url to connect to
  */
 const connectToDB = async (username, password, port, database, auth) => {
+	// connect to the service name, not the container_name
 	const addr = isDocker() ? "blogwatcher_database" : "localhost";
 	const userAuth = username ? `${username}:${password}@` : "";
 	const url = `mongodb://${userAuth}${addr}:${port}/${database}?authsource=${auth}`;

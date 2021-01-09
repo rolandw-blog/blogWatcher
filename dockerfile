@@ -17,6 +17,6 @@ RUN npm install
 COPY ./app /usr/src/app
 
 # Exports
-EXPOSE 3000
+EXPOSE 3001
 EXPOSE 27017
 CMD [ "npm", "run", "monitor" ]
