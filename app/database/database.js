@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const ora = require("ora");
 const util = require("util");
 const debug = require("debug")("blogWatcher:database");
-const isDocker = require("is-docker");
 require("dotenv").config();
 
 // allow update commands
@@ -18,15 +17,11 @@ spinner.spinner = {
 	frames: ["▹▹▹▹▹", "▸▹▹▹▹", "▹▸▹▹▹", "▹▹▸▹▹", "▹▹▹▸▹", "▹▹▹▹▸"],
 };
 
-/**
- * @example connect("mongodb://user:pass(at)ip:27017/db?authSource=auth")
- * @param {string} url - url to connect to
- */
-const connectToDB = async (username, password, port, database, auth) => {
+const connectToDB = async () => {
 	// connect to the service name, not the container_name
-	const addr = isDocker() ? "blogwatcher_database" : "localhost";
-	const userAuth = username ? `${username}:${password}@` : "";
-	const url = `mongodb://${userAuth}${addr}:${port}/${database}?authsource=${auth}`;
+	// the connection URI should look something like...
+	// mongodb://roland:password@1.2.3.4:27017/blogWatcher?authSource=blogWatcher
+	const url = process.env.MONGO_URI;
 
 	debug(`authenticating as:\n${url}`);
 
@@ -41,8 +36,8 @@ const connectToDB = async (username, password, port, database, auth) => {
 	return con(url, connectionSchema);
 };
 
-/** Returns an promise that resolves to true or false after the database has closed
- *
+/**
+ * Returns a promise that resolves to true or false after the database has closed
  */
 const disconnectFromDB = async () => {
 	return new Promise((resolve, reject) => {

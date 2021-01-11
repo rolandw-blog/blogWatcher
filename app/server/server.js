@@ -56,13 +56,7 @@ app.set("views", path.resolve(process.env.ROOT, "views"));
 // starts the server when called
 const server = async () => {
 	// connect to mongodb database
-	await connectToDB(
-		process.env.DB_USERNAME,
-		process.env.DB_PASSWORD,
-		process.env.DB_PORT,
-		process.env.DB_DATABASE,
-		process.env.DB_AUTHENTICATION_DATABASE
-	);
+	await connectToDB();
 
 	// start the server
 	app.listen(process.env.PORT, async () =>
