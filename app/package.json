@@ -27,7 +27,6 @@
 		"mongoose": "^5.9.27",
 		"node-fetch": "^2.6.1",
 		"nodemon": "latest",
-		"ora": "^4.0.5",
 		"underscore": "^1.10.2",
 		"yup": "^0.29.3"
 	},
