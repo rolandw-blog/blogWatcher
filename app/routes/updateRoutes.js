@@ -7,9 +7,6 @@ const verifyPayload = require("../middleware/verifyPayload");
 const debug = require("debug")("blogWatcher:routers");
 const router = express.Router();
 
-// ! Single Sign On system
-const isAuthenticated = require("../middleware/isAuthenticated");
-
 const urlencodedParser = bodyParser.urlencoded({
 	extended: false,
 });

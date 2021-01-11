@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const ora = require("ora");
 const util = require("util");
 const debug = require("debug")("blogWatcher:database");
 require("dotenv").config();
@@ -9,13 +8,6 @@ mongoose.set("useFindAndModify", false);
 
 // the database connection object
 const db = mongoose.connection;
-
-// Create a dank loading effect
-const spinner = ora("Connecting to MongoDB...");
-spinner.spinner = {
-	interval: 100,
-	frames: ["▹▹▹▹▹", "▸▹▹▹▹", "▹▸▹▹▹", "▹▹▸▹▹", "▹▹▹▸▹", "▹▹▹▹▸"],
-};
 
 const connectToDB = async () => {
 	// connect to the service name, not the container_name
@@ -29,8 +21,6 @@ const connectToDB = async () => {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
 	};
-
-	spinner.start();
 
 	const con = util.promisify(mongoose.connect);
 	return con(url, connectionSchema);
@@ -57,7 +47,7 @@ const disconnectFromDB = async () => {
 };
 
 db.once("open", function () {
-	spinner.succeed(" MongoDB database connection established successfully");
+	debug("MongoDB database connection established successfully");
 });
 
 // throw an error if database conn fails

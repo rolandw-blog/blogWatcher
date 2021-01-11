@@ -9,8 +9,6 @@ const updateRoutes = require("../routes/updateRoutes");
 const historyRoutes = require("../routes/historyRoutes");
 const bodyParser = require("body-parser");
 const session = require("express-session");
-const checkSSORedirect = require("../middleware/checkSSORedirect");
-const isAuthenticated = require("../middleware/isAuthenticated");
 const ip = require("internal-ip");
 require("dotenv").config();
 

@@ -13,9 +13,6 @@ const verifyPayload = require("../middleware/verifyPayload");
 const debug = require("debug")("blogWatcher:routers");
 const router = express.Router();
 
-// ! Single Sign On system
-const isAuthenticated = require("../middleware/isAuthenticated");
-
 // create application/x-www-form-urlencoded parser
 const urlencodedParser = bodyParser.urlencoded({
 	limit: "50mb",
