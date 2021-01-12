@@ -3,7 +3,7 @@ const buildRouter = require("./buildRouter");
 const bodyParser = require("body-parser");
 const updatePage = require("../controllers/updatePage");
 const addPageSource = require("../controllers/addPageSource");
-const verifyPayload = require("../middleware/verifyPayload");
+// const verifyPayload = require("../middleware/verifyPayload");
 const debug = require("debug")("blogWatcher:routers");
 const router = express.Router();
 
@@ -15,9 +15,10 @@ router.use(bodyParser.json());
 router.use(urlencodedParser);
 
 const routes = [
+	// update 1 field, takes a {filter, update}
 	{
-		path: "/:id",
-		method: "post",
+		path: "/:_id",
+		method: "patch",
 		middleware: [],
 		handler: updatePage,
 		help: {
@@ -28,15 +29,16 @@ const routes = [
 		},
 	},
 	{
-		path: "/history/add",
-		method: "post",
+		path: "/history/:_id",
+		// add 1 field
+		method: "patch",
 		middleware: [],
 		handler: addPageSource,
 		help: {
-			description: "Add source to a document in the database",
+			description: "Add a source to a page in the database",
 			method: this.method,
 			parameters: [],
-			example: "",
+			example: "/aaabbbccc",
 		},
 	},
 ];
