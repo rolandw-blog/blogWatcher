@@ -47,7 +47,7 @@ const addPageSource = async (req, res) => {
 			message: `Added new URL`,
 			timestamp: new Date().toISOString(),
 			modified: [],
-			cinnutter: {
+			committer: {
 				name: "RolandWarburton",
 				email: "warburtonroland@gmail.com",
 				username: "RolandWarburton",
