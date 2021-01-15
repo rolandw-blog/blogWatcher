@@ -29,7 +29,7 @@ const routes = [
 		},
 	},
 	{
-		path: "/history/:_id",
+		path: "/source/:_id",
 		// add 1 field
 		method: "patch",
 		middleware: [],
@@ -45,7 +45,6 @@ const routes = [
 
 const help = [];
 for (route in routes) {
-	debug(route);
 	help.push({
 		path: route.path,
 		method: route.method,
@@ -54,7 +53,6 @@ for (route in routes) {
 }
 
 // build the router!
-debug("building the update routes");
 buildRouter(router, routes);
 
 module.exports = { router: router, help: help };
