@@ -15,8 +15,6 @@ const connectToDB = async () => {
 	// mongodb://roland:password@1.2.3.4:27017/blogWatcher?authSource=blogWatcher
 	const url = process.env.MONGO_URI;
 
-	debug(`authenticating as:\n${url}`);
-
 	const connectionSchema = {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
