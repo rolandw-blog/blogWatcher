@@ -40,7 +40,6 @@ for (route in routes) {
 }
 
 // build the router!
-debug("building the webhook routes");
 buildRouter(router, routes);
 
 module.exports = { router: router, help: help };

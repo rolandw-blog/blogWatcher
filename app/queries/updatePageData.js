@@ -11,7 +11,8 @@ const updatePageDate = async (filter, update) => {
 	// find the page by its filter {_id: aaabbbccc} and then update {somefiled: newvalue}
 	try {
 		const result = await Page.findOneAndUpdate(filter, update).exec();
-		debug(`new Object: ${JSON.stringify(result)}`);
+		debug(`new Object:`);
+		debug(result);
 		return result;
 	} catch (err) {
 		return new Error("Failed to update page somehow");

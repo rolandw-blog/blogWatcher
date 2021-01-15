@@ -1,6 +1,6 @@
 const express = require("express");
-const postPage = require("../controllers/postPage");
-const deletePage = require("../controllers/deletePage");
+const postPage = require("../controllers/pageRoutes/postPage");
+const deletePage = require("../controllers/pageRoutes/deletePage");
 const buildPages = require("../controllers/buildPages");
 const buildPage = require("../controllers/buildPage");
 const previewPages = require("../controllers/previewPages");
@@ -9,7 +9,7 @@ const getPages = require("../controllers/getPages");
 const getPagesFilter = require("../controllers/getPagesFilter");
 const bodyParser = require("body-parser");
 const buildRouter = require("./buildRouter");
-const verifyPayload = require("../middleware/verifyPayload");
+// const verifyPayload = require("../middleware/verifyPayload");
 const debug = require("debug")("blogWatcher:routers");
 const router = express.Router();
 
@@ -19,10 +19,6 @@ const urlencodedParser = bodyParser.urlencoded({
 	extended: true,
 });
 
-router.use(bodyParser.json());
-
-// ! remember to protect the POST /page route with
-//  [urlencodedParser, verifyPayload]
 const routes = [
 	{
 		path: "/upload",
@@ -130,7 +126,6 @@ const routes = [
 
 const help = [];
 for (route of routes) {
-	debug(route);
 	help.push({
 		path: route.path,
 		method: route.method,
@@ -139,7 +134,6 @@ for (route of routes) {
 }
 
 // build the router!
-debug("building the page routes");
 buildRouter(router, routes);
 
 module.exports = { router: router, help: help };
