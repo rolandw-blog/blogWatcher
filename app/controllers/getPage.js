@@ -23,17 +23,35 @@ const getPage = async (req, res) => {
 		let temp = {};
 
 		// construct an array from the website filepath given
-		const arr = req.query.websitePath.split("/").filter(String)
+		const arr = (req.query.websitePath !== "/") ? req.query.websitePath.split("/").filter(String) : ["/"]
 
 		// create the object for the query: {"websitePath.0": "hello", "websitePath.1": "world"}
 		for(let i = 0; i < arr.length; i++) {
 			temp[`websitePath.${i}`] = arr[i];
 		}
 
-		// by default just get the siblings to the website filepath given
-		const drillLayers = arr.length + 1 + req.query.levels || arr.length + 1
-		query = {...query, ...temp, websitePathLength: drillLayers};
-		// console.log(value)
+		// By default, we ONLY pass back the page if its an EXACT match, however, with the &level query this can be changed
+		// =====================================================================================================================
+		// In the following situation:
+		// /notes
+		// /notes/linux
+		// /notes/networking
+		// /notes/linux/printers
+		// =====================================================================================================================
+		// /page?websitePath=/notes => returns /notes
+		// /page?websitePath=/notes&level=1 => returns /notes, and /notes/networking (level 1 = neighbors)
+		// /page?websitePath=/notes&level=2 => returns /notes, and /notes/networking (level 2 = neighbors and neighbors children)
+
+		// If we give no level, then the returned path will match the exact website path
+		// If we give it a level, then we use "$gte" and the number of levels parsed in the query to get siblings
+		const drillLayers = arr.length + parseInt(req.query.level) || arr.length
+		let level = "$eq"
+		if (req.query.level) {
+			level="$gte"
+		}
+		
+		query = {...query, ...temp, websitePathLength: {[level]: drillLayers, "$lt": drillLayers + 1}};
+		console.log(query)
 	}
 
 	if (req.query.pageName) {
@@ -42,15 +60,8 @@ const getPage = async (req, res) => {
 		value = req.query.pageName;
 	}
 
-	// if (key == "" || value == "") {
-	// 	debug("nothing found");
-	// 	return res.status(400).json({ success: false, error: "nothing found" });
-	// }
-
 	const pages = await findPage(query);
-	// console.log(page)
-	// return res.status(200).json(page);
-
+	
 	if (pages) return res.status(200).json(pages);
 	else return res.status(400).json({ success: false, error: pages });
 };
