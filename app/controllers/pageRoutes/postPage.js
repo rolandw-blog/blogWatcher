@@ -1,12 +1,7 @@
-const { Page } = require("../models/page");
+const { Page } = require("../../models/page");
 const debug = require("debug")("blogWatcher:postPage");
-const findPage = require("../queries/findPage");
-const postPageToDatabase = require("../queries/postPage");
-const postHistory = require("../queries/postHistory");
-const {
-	getBaseNameFromUrl,
-	formatWebsitePath,
-} = require("../build/URLConverter");
+const findPage = require("../../queries/findPage");
+const postHistory = require("../../queries/postHistory");
 
 // ? example post data
 // {

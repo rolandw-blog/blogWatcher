@@ -2,7 +2,7 @@ const { Page } = require("../models/page");
 const debug = require("debug")("blogWatcher:query_count");
 require("dotenv").config();
 
-const findHistory = async (filter = {}) => {
+const countPages = async (filter = {}) => {
 	try {
 		debug(`Counting all pages`);
 		if (Object.keys(filter).length !== 0) debug(filter);
@@ -25,4 +25,4 @@ const findHistory = async (filter = {}) => {
 	}
 };
 
-module.exports = findHistory;
+module.exports = countPages;

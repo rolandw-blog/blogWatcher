@@ -9,12 +9,17 @@ require("dotenv").config();
  * findPage("_id", "5f32c4d24191ed02244b62d6");
  * findPage("pageName", "testPage");
  */
-const findPage = async (key, value) => {
-	debug("Running findPage from db queries...");
+const findPage = async (query) => {
+	// debug(`looking for ${key} = ${value}`);
+	// console.log(query)
 	try {
-		debug(`looking for ${key} = ${value}`);
-		return Page.findOne(
-			{ [key]: value, hidden: false },
+		return Page.find(
+			// {[key]: value},
+			// query,
+			// {hidden: false},
+			// {"pageName": { $all : ["testPage"]}},
+			// {"websitePath.0": "deleteMe"},
+			query,
 			"",
 			(err, page) => {
 				if (err) {

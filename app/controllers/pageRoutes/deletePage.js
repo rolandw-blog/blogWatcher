@@ -1,5 +1,5 @@
 const debug = require("debug")("blogWatcher:deletePage");
-const deletePageQuery = require("../queries/deletePage");
+const deletePageQuery = require("../../queries/deletePage");
 
 // This will always return true regardless of if any page was deleted or not
 

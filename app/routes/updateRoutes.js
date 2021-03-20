@@ -3,6 +3,7 @@ const buildRouter = require("./buildRouter");
 const bodyParser = require("body-parser");
 const updatePage = require("../controllers/updatePage");
 const addPageSource = require("../controllers/addPageSource");
+const deletePageFieldController = require("../controllers/updatePageField");
 // const verifyPayload = require("../middleware/verifyPayload");
 const debug = require("debug")("blogWatcher:routers");
 const router = express.Router();
@@ -34,6 +35,19 @@ const routes = [
 		method: "patch",
 		middleware: [],
 		handler: addPageSource,
+		help: {
+			description: "Add a source to a page in the database",
+			method: this.method,
+			parameters: [],
+			example: "/aaabbbccc",
+		},
+	},
+	{
+		path: "/source/:_id",
+		// add 1 field
+		method: "delete",
+		middleware: [],
+		handler: deletePageFieldController,
 		help: {
 			description: "Add a source to a page in the database",
 			method: this.method,

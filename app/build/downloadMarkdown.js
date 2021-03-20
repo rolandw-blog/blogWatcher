@@ -14,7 +14,7 @@ const treatUrl = (url) => {
 };
 
 /**
- * Downloads ram markdown from a url (usually github)
+ * Downloads raw markdown from a url (usually github)
  * @param {String} url
  */
 const downloadMarkdown = async (url) => {

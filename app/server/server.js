@@ -8,15 +8,18 @@ const webhooks = require("../routes/webhooks");
 const updateRoutes = require("../routes/updateRoutes");
 const historyRoutes = require("../routes/historyRoutes");
 const bodyParser = require("body-parser");
-const session = require("express-session");
 const ip = require("internal-ip");
+const {
+	useCorsMiddleware,
+	useJsonMiddleware,
+	useTestMiddleware,
+} = require("./middleware");
 require("dotenv").config();
 
 debug("============================================");
 debug("Blog watcher is starting...");
 debug(`WORKING IN:\t${process.env.ROOT}`);
 debug(`RUNNING ON PORT:\t${process.env.PROTOCOL}`);
-debug(`Builder IP:\t${process.env.PROTOCOL}:${process.env.BLOG_IP}`);
 debug("============================================");
 
 const app = express();
@@ -31,6 +34,9 @@ const urlencodedParser = bodyParser.urlencoded({
 });
 app.use(urlencodedParser);
 
+// support application/json on all routes
+app.use(express.json());
+
 // ? optional use express x-www-urlencoded parser
 // ? right now im using body-parser instead
 // app.use(express.urlencoded({ extended: true }));
@@ -38,7 +44,7 @@ app.use(urlencodedParser);
 // all the page routes live here
 app.use("/", pageRoutes.router);
 
-// github weebhooks live here
+// github webhooks live here
 app.use("/hooks", webhooks.router);
 
 // page update routes live here

@@ -1,15 +1,14 @@
 const debug = require("debug")("blogWatcher:findHistory");
-const findHistoryQuery = require("../queries/findHistory");
+const findHistoryQuery = require("../../queries/findHistory");
 
 const findHistory = async (req, res) => {
 	const pageID = req.params._id;
 	try {
 		// build the pages
 		const history = await findHistoryQuery(pageID);
-		return res.status(200).json({ success: true, data: history });
+		return res.status(200).json(history);
 	} catch (err) {
 		return res.status(500).json({
-			success: false,
 			message: "error: " + err,
 		});
 	}
