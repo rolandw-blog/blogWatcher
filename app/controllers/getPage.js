@@ -30,7 +30,8 @@ const getPage = async (req, res) => {
 			temp[`websitePath.${i}`] = arr[i];
 		}
 
-		// By default, we ONLY pass back the page if its an EXACT match, however, with the &level query this can be changed
+		// ##──── drillLayers ───────────────────────────────────────────────────────────────────────
+		// By default, we ONLY pass back the page if its an EXACT match (level="$eq"), however, with the &level query this can be changed to a range (level="$gte")
 		// =====================================================================================================================
 		// In the following situation:
 		// /notes
@@ -42,26 +43,29 @@ const getPage = async (req, res) => {
 		// /page?websitePath=/notes&level=1 => returns /notes, and /notes/networking (level 1 = neighbors)
 		// /page?websitePath=/notes&level=2 => returns /notes, and /notes/networking (level 2 = neighbors and neighbors children)
 
-		// If we give no level, then the returned path will match the exact website path
-		// If we give it a level, then we use "$gte" and the number of levels parsed in the query to get siblings
+		// If we give no level, then the returned path will match the exact website path (the length of the array of the passed websitePath)
+		// If we give it a level, then we use "$gte" and the number of levels parsed in the query to get siblings(by adding the level to the array length of the websitePath)
 		const drillLayers = arr.length + parseInt(req.query.level) || arr.length
+
+		// By default we will match the path EXACTLY
 		let level = "$eq"
+
+		// If a level is given, then the range web websitePath will change from EQ to GTE because we now want a range, not an exact match
 		if (req.query.level) {
 			level="$gte"
 		}
-		
+
 		query = {...query, ...temp, websitePathLength: {[level]: drillLayers, "$lt": drillLayers + 1}};
-		console.log(query)
+		// console.log(query)
 	}
 
 	if (req.query.pageName) {
-		// debug("searching by pageName");
-		key = "pageName";
-		value = req.query.pageName;
+		query={"pageName": req.query.pageName}
 	}
 
 	const pages = await findPage(query);
-	
+	console.log(`${await pages.length} pages`)
+
 	if (pages) return res.status(200).json(pages);
 	else return res.status(400).json({ success: false, error: pages });
 };
