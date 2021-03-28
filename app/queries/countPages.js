@@ -4,11 +4,10 @@ require("dotenv").config();
 
 const countPages = async (filter = {}) => {
 	try {
-		debug(`Counting all pages`);
 		if (Object.keys(filter).length !== 0) debug(filter);
 		return Page.countDocuments((err, count) => {
 			if (err) {
-				debug(`ERROR retrieving history: ${err}`);
+				debug(err);
 				return undefined;
 			}
 
@@ -17,7 +16,6 @@ const countPages = async (filter = {}) => {
 				return undefined;
 			}
 
-			debug(`Counted ${count} pages`);
 			return count;
 		});
 	} catch (err) {

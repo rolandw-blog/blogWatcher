@@ -54,8 +54,11 @@ const getPerPage = (per_page) => {
  * @example
  * getAllPages({pageName: "home"});
  */
-const getAllPages = async (filters, queries = {}) => {
+const getAllPages = async (filters, pageNumber, perPage) => {
 	debug("Running getAllPages from db queries...");
+
+	if (pageNumber === undefined) pageNumber = 0;
+	if (perPage === undefined) perPage = 10;
 
 	// only return pages that should be built
 	filters = {
@@ -65,12 +68,12 @@ const getAllPages = async (filters, queries = {}) => {
 
 	debug(filters);
 
-	// Internally controlls how many values to skip to give the illusion of pages
-	const skipCount = getSkipCount(queries.page, queries.per_page);
+	// Internally control's how many values to skip to give the illusion of pages
+	const skipCount = getSkipCount(pageNumber, perPage);
 
 	// ##──── Queries ───────────────────────────────────────────────────────────────────────────
 	// how many items per page - ?per_page
-	const per_page = getPerPage(queries.per_page);
+	const per_page = getPerPage(perPage);
 
 	// ##──── Run the query ─────────────────────────────────────────────────────────────────────
 	try {
