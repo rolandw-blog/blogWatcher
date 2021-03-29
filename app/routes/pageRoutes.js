@@ -1,8 +1,8 @@
 const express = require("express");
 const postPage = require("../controllers/pageRoutes/postPage");
 const deletePage = require("../controllers/pageRoutes/deletePage");
-const getPage = require("../controllers/getPage");
-const getPages = require("../controllers/getPages");
+const getPage = require("../controllers/pageRoutes/getPage");
+const getPages = require("../controllers/pageRoutes/getPages");
 const buildRouter = require("./buildRouter");
 const router = express.Router();
 

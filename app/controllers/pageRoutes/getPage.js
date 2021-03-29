@@ -1,4 +1,4 @@
-const findPage = require("../queries/pages/findPage");
+const findPage = require("../../queries/pages/findPage");
 const debug = require("debug")("blogWatcher:getPage");
 
 // ? The url needs to be formed with params:

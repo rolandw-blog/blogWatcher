@@ -1,5 +1,5 @@
-const getAllPages = require("../queries/pages/getAllPages");
-const countPages = require("../queries/pages/countPages");
+const getAllPages = require("../../queries/pages/getAllPages");
+const countPages = require("../../queries/pages/countPages");
 
 const getPages = async (req, res) => {
 	// we are gonna use this to filter the query
