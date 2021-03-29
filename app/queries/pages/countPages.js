@@ -12,7 +12,7 @@ const countPages = async (filter = {}) => {
 			}
 
 			if (!Number.isInteger(count)) {
-				debug("count wasnt a number");
+				debug("count wasn't a number");
 				return undefined;
 			}
 

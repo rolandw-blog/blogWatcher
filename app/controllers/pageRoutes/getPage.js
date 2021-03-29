@@ -9,6 +9,9 @@ const getPage = async (req, res) => {
 	let key = "_id";
 	let query = {};
 
+	const pageNumber = req.query.pageNumber;
+	const perPage = req.query.per_page;
+
 	if (req.query._id) {
 		let key = "_id";
 		query = { _id: req.query._id };
@@ -71,8 +74,8 @@ const getPage = async (req, res) => {
 		query = { pageName: req.query.pageName };
 	}
 
-	const pages = await findPage(query);
-	console.log(`${await pages.length} pages`);
+	const pages = await findPage(query, pageNumber, perPage);
+	console.log(`${pages.length} pages`);
 
 	if (pages) return res.status(200).json(pages);
 	else return res.status(400).json({ success: false, error: pages });

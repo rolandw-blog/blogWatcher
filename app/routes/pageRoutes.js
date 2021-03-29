@@ -2,7 +2,8 @@ const express = require("express");
 const postPage = require("../controllers/pageRoutes/postPage");
 const deletePage = require("../controllers/pageRoutes/deletePage");
 const getPage = require("../controllers/pageRoutes/getPage");
-const getPages = require("../controllers/pageRoutes/getPages");
+// const getPages = require("../controllers/pageRoutes/getPages");
+const countPages = require("../controllers/pageRoutes/countPages");
 const buildRouter = require("./buildRouter");
 const router = express.Router();
 
@@ -47,16 +48,27 @@ const routes = [
 		},
 	},
 	{
-		path: "/pages",
+		path: "/count",
 		method: "get",
 		middleware: [],
-		handler: getPages,
+		handler: countPages,
 		help: {
-			description: "Get all pages from the database",
+			description: "Get total number of pages in the database",
 			method: this.method,
-			example: "/pages",
+			example: "/count",
 		},
 	},
+	// {
+	// 	path: "/pages",
+	// 	method: "get",
+	// 	middleware: [],
+	// 	handler: getPages,
+	// 	help: {
+	// 		description: "Get all pages from the database",
+	// 		method: this.method,
+	// 		example: "/pages",
+	// 	},
+	// },
 ];
 
 const help = [];
