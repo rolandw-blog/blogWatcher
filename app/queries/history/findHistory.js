@@ -1,4 +1,4 @@
-const { History } = require("../models/history");
+const { History } = require("../../models/history");
 const debug = require("debug")("blogWatcher:query_history");
 require("dotenv").config();
 

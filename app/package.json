@@ -5,7 +5,7 @@
 	"main": "server/server.js",
 	"scripts": {
 		"start": "DEBUG=blogWatcher:* DEBUG_COLORS=true node ./server/server.js",
-		"monitor": "DEBUG=blogWatcher:* DEBUG_COLORS=true nodemon ./server/server.js",
+		"monitor": "DEBUG=blogWatcher:* DEBUG_COLORS=true nodemon --inspect ./server/server.js",
 		"test": "jest"
 	},
 	"keywords": [],

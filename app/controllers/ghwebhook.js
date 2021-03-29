@@ -1,8 +1,7 @@
 const debug = require("debug")("blogWatcher:ghWebHook");
-const postHistory = require("../queries/postHistory");
-const findPage = require("../queries/findPage");
-const updatePage = require("../queries/updatePageData.js");
-const pushPageHistory = require("../queries/pushPageHistory");
+const postHistory = require("../queries/history/postHistory");
+const findPage = require("../queries/pages/findPage");
+const updatePage = require("../queries/pages/updatePageData.js");
 const yup = require("yup");
 const path = require("path");
 

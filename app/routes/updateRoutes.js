@@ -1,55 +1,18 @@
 const express = require("express");
 const buildRouter = require("./buildRouter");
-const bodyParser = require("body-parser");
-const updatePage = require("../controllers/updatePage");
-const addPageSource = require("../controllers/addPageSource");
-const deletePageFieldController = require("../controllers/updatePageField");
-// const verifyPayload = require("../middleware/verifyPayload");
+const updateRouter = require("../controllers/UpdateRoutes/updateRouter")
 const debug = require("debug")("blogWatcher:routers");
 const router = express.Router();
-
-const urlencodedParser = bodyParser.urlencoded({
-	extended: false,
-});
-
-router.use(bodyParser.json());
-router.use(urlencodedParser);
 
 const routes = [
 	// update 1 field, takes a {filter, update}
 	{
-		path: "/:_id",
+		path: "/:field",
 		method: "patch",
 		middleware: [],
-		handler: updatePage,
+		handler: updateRouter,
 		help: {
 			description: "Update a document in the database",
-			method: this.method,
-			parameters: [],
-			example: "/aaabbbccc",
-		},
-	},
-	{
-		path: "/source/:_id",
-		// add 1 field
-		method: "patch",
-		middleware: [],
-		handler: addPageSource,
-		help: {
-			description: "Add a source to a page in the database",
-			method: this.method,
-			parameters: [],
-			example: "/aaabbbccc",
-		},
-	},
-	{
-		path: "/source/:_id",
-		// add 1 field
-		method: "delete",
-		middleware: [],
-		handler: deletePageFieldController,
-		help: {
-			description: "Add a source to a page in the database",
 			method: this.method,
 			parameters: [],
 			example: "/aaabbbccc",

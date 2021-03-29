@@ -1,17 +1,8 @@
 const express = require("express");
 const buildRouter = require("./buildRouter");
-const bodyParser = require("body-parser");
 const findHistory = require("../controllers/HistoryRoutes/findHistory");
-const verifyPayload = require("../middleware/verifyPayload");
 const debug = require("debug")("blogWatcher:routers");
 const router = express.Router();
-
-const urlencodedParser = bodyParser.urlencoded({
-	extended: false,
-});
-
-router.use(bodyParser.json());
-router.use(urlencodedParser);
 
 const routes = [
 	{

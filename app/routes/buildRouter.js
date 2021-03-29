@@ -6,7 +6,6 @@ const debug = require("debug")("blogWatcher:buildRouter");
  * @param {Array} routes - An array of routes
  */
 const buildRouter = (router, routes) => {
-	debug(`got ${routes.length} routes to build`);
 	// for each route in the provided routes array
 	for (let i in routes) {
 		// build the route like you would one by one
