@@ -1,5 +1,5 @@
 const debug = require("debug")("blogWatcher:findHistory");
-const findHistoryQuery = require("../../queries/findHistory");
+const findHistoryQuery = require("../../queries/history/findHistory");
 
 const findHistory = async (req, res) => {
 	const pageID = req.params._id;

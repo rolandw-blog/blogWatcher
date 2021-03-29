@@ -1,7 +1,7 @@
 const debug = require("debug")("blogWatcher:deletePage");
 // const deletePageQuery = require("../../queries/deletePage");
 const { Page } = require("../../models/page");
-const findPage = require("../../queries/findPage")
+const findPage = require("../../queries/pages/findPage")
 const { promisify } = require("util");
 
 // This will always return true regardless of if any page was deleted or not

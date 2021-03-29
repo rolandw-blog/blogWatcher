@@ -1,4 +1,4 @@
-const findPage = require("../queries/findPage");
+const findPage = require("../queries/pages/findPage");
 const debug = require("debug")("blogWatcher:getPage");
 
 // ? The url needs to be formed with params:
@@ -10,6 +10,7 @@ const getPage = async (req, res) => {
 	let query = {};
 
 	if (req.query._id) {
+		let key = "_id";
 		query = { _id: req.query._id };
 	}
 

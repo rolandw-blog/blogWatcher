@@ -1,14 +1,20 @@
-const getAllPages = require("../queries/getAllPages");
-const countPages = require("../queries/countPages");
+const getAllPages = require("../queries/pages/getAllPages");
+const countPages = require("../queries/pages/countPages");
 
 const getPages = async (req, res) => {
 	// we are gonna use this to filter the query
 	const filters = {};
+
 	// queries for ?per_page and ?page
 	const { page: pageNumber, per_page: perPage } = req.query;
 
+	// get the pages
 	const pages = await getAllPages(filters, pageNumber, perPage);
+
+	// count all the pages
 	const count = await countPages();
+
+	// return the data
 	if (pages) {
 		return res.status(200).json({
 			count: count,

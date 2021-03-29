@@ -1,4 +1,4 @@
-const { Page } = require("../models/page");
+const { Page } = require("../../models/page");
 const debug = require("debug")("blogWatcher:query_count");
 require("dotenv").config();
 

@@ -1,10 +1,11 @@
-const { Page } = require("../models/page");
+const { Page } = require("../../models/page");
 const debug = require("debug")("v_blogWatcher:query");
 require("dotenv").config();
 
-// * get a pages from the database by its id
-/** Returns a promise that resolves to a single pages
- * or undefined if not found
+
+/**
+ * get a pages from the database
+ * @returns Returns a promise that resolves to an array of pages
  */
 const findPage = async (query) => {
 	console.log("running query...")
@@ -28,7 +29,8 @@ const findPage = async (query) => {
 			}
 		);
 	} catch (err) {
-		return debug(`ERROR async block failed ${err}`);
+		debug(`ERROR async block failed ${err}`);
+		return undefined
 	}
 };
 

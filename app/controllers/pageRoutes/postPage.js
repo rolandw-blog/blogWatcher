@@ -1,7 +1,7 @@
 const { Page } = require("../../models/page");
 const debug = require("debug")("blogWatcher:postPage");
-const findPage = require("../../queries/findPage");
-const postHistory = require("../../queries/postHistory");
+const findPage = require("../../queries/pages/findPage");
+const postHistory = require("../../queries/history/postHistory");
 
 // ? example post data
 // {
