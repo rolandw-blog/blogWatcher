@@ -5,9 +5,14 @@ require("dotenv").config();
 const pageRouter = async (req, res) => {
     const fieldName = req.params.field;
 
+    // sanity checks
+    if (!req.body.filter) return res.status(400).json({ message: "no filter provided" });
+    if (!req.body.update) return res.status(400).json({ message: "no update provided" });
+
     // check that an _id was included in req.body.filter._id
     const err = "_id field must be included in update request. Place string _id in body.filter._id"
     if (!req.body.filter._id) return res.status(400).json({ message: err });
+
 
     // cast the _id
     req.body.filter._id = mongoose.Types.ObjectId(req.body.filter._id);
@@ -32,7 +37,12 @@ const pageRouter = async (req, res) => {
             let err = ""
 
             if (!Array.isArray(req.body.update.source)) {
-                err = "update.source not provided correctly. { update.source } must exist, and it must be an array";
+                err += "update.source not provided correctly. { update.source } must exist, and it must be an array";
+            }
+
+            // TODO actually validate this properly
+            if (!req.body.update.source[0].remote && !req.body.update.source[0].url) {
+                err += "incorrect structure for source array. update.source must container an array of {url: String, remote: Bool}"
             }
 
             if (err !== "") {
