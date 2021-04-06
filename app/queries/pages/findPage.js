@@ -11,8 +11,6 @@ require("dotenv").config();
 const findPage = async (query, pageNumber, perPage) => {
 	console.log("running query...");
 
-	console.log({ pageNumber, perPage });
-
 	if (!pageNumber) pageNumber = 0;
 	if (!perPage) perPage = 999;
 
@@ -21,8 +19,6 @@ const findPage = async (query, pageNumber, perPage) => {
 
 	// how many items per page - ?per_page
 	const per_page = getPerPage(perPage);
-
-	console.log({ pageNumber, perPage });
 
 	try {
 		return Page.find(

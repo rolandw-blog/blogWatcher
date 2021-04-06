@@ -9,7 +9,7 @@ const getPage = async (req, res) => {
 	let key = "_id";
 	let query = {};
 
-	const pageNumber = req.query.pageNumber;
+	const pageNumber = req.query.page;
 	const perPage = req.query.per_page;
 
 	if (req.query._id) {
