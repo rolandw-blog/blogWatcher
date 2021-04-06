@@ -9,8 +9,8 @@ const debug = require("debug")("blogWatcher:query");
 const getSkipCount = (page, per_page) => {
 	// get the per_page query and convert it to a number to set the numberOfItemsPerPage
 	per_page = Number(per_page);
-	debug(`page number: ${page}`);
-	debug(`per page number: ${per_page}`);
+	// debug(`page number: ${page}`);
+	// debug(`per page number: ${per_page}`);
 
 	// Set the number of items per page to the ?per_page=n if its between 10 and 100
 	const numberOfItemsPerPage =
@@ -22,9 +22,9 @@ const getSkipCount = (page, per_page) => {
 	// Internally control's how many values to skip to give the illusion of pages
 	const skipCount = pageNumber ? numberOfItemsPerPage * pageNumber : 0;
 
-	debug(
-		`Internally skipping ${skipCount} results to get to page ${pageNumber}`
-	);
+	// debug(
+	// 	`Internally skipping ${skipCount} results to get to page ${pageNumber}`
+	// );
 
 	return skipCount;
 };
