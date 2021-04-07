@@ -1,11 +1,10 @@
 const { History } = require("../../models/history");
-const debug = require("debug")("blogWatcher:query_history");
+const debug = require("debug")("app");
 require("dotenv").config();
 
 const findHistory = async (pageID) => {
 	debug("Running findHistory from db queries...");
 	try {
-		debug(`looking for history for the page ID: ${pageID}`);
 		return History.find({ for: pageID }, "", (err, historyArray) => {
 			if (err) {
 				debug(`ERROR retrieving history: ${err}`);
@@ -16,10 +15,6 @@ const findHistory = async (pageID) => {
 				debug("no history found");
 				return undefined;
 			}
-
-			debug(
-				`Found ${historyArray.length} history items for page ${pageID}`
-			);
 			return historyArray;
 		});
 	} catch (err) {
