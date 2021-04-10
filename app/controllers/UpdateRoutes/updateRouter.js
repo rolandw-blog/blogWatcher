@@ -1,107 +1,114 @@
 const updatePage = require("./common/updatePage.js");
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 require("dotenv").config();
 
 const pageRouter = async (req, res) => {
-    const fieldName = req.params.field;
+	const fieldName = req.params.field;
 
-    // sanity checks
-    if (!req.body.filter) return res.status(400).json({ message: "no filter provided" });
-    if (!req.body.update) return res.status(400).json({ message: "no update provided" });
+	// sanity checks
+	if (!req.body.filter) return res.status(400).json({ message: "no filter provided" });
+	if (!req.body.update) return res.status(400).json({ message: "no update provided" });
 
-    // check that an _id was included in req.body.filter._id
-    const err = "_id field must be included in update request. Place string _id in body.filter._id"
-    if (!req.body.filter._id) return res.status(400).json({ message: err });
+	// check that an _id was included in req.body.filter._id
+	const err = "_id field must be included in update request. Place string _id in body.filter._id";
+	if (!req.body.filter._id) return res.status(400).json({ message: err });
 
+	// cast the _id
+	req.body.filter._id = mongoose.Types.ObjectId(req.body.filter._id);
 
-    // cast the _id
-    req.body.filter._id = mongoose.Types.ObjectId(req.body.filter._id);
+	switch (fieldName) {
+		case "websitePath": {
+			let err = "";
 
-    switch (fieldName) {
-        case "websitePath": {
-            let err = ""
+			if (!Array.isArray(req.body.update.websitePath)) {
+				err =
+					"update.websitePath not provided correctly. { update.websitePath } must exist, and it must be an array";
+			}
 
-            if (!Array.isArray(req.body.update.websitePath)) {
-                err = "update.websitePath not provided correctly. { update.websitePath } must exist, and it must be an array";
-            }
+			if (err !== "") {
+				return res.status(400).json({ message: err });
+			}
 
-            if (err !== "") {
-                return res.status(400).json({message: err})
-            }
+			updatePage(req, res);
+			break;
+		}
 
-            updatePage(req, res);
-            break;
-        }
-        
-        case "source": {
-            let err = ""
+		case "source": {
+			let err = "";
 
-            if (!Array.isArray(req.body.update.source)) {
-                err += "update.source not provided correctly. { update.source } must exist, and it must be an array";
-            }
+			if (!Array.isArray(req.body.update.source)) {
+				err +=
+					"update.source not provided correctly. { update.source } must exist, and it must be an array";
+			}
 
-            // TODO actually validate this properly
-            if (!req.body.update.source[0].remote && !req.body.update.source[0].url) {
-                err += "incorrect structure for source array. update.source must container an array of {url: String, remote: Bool}"
-            }
+			// TODO actually validate this properly
+			// if (!req.body.update.source[0].remote && !req.body.update.source[0].url) {
+			//     err += "incorrect structure for source array. update.source must container an array of {url: String, remote: Bool}"
+			// }
 
-            if (err !== "") {
-                return res.status(400).json({message: err})
-            }
+			if (err !== "") {
+				return res.status(400).json({ message: err });
+			}
 
-            updatePage(req, res);
-            break;
-        }
+			updatePage(req, res);
+			break;
+		}
 
-        case "pageName": {
-            let err = ""
+		case "pageName": {
+			console.log("updating the pageName");
+			let err = "";
 
-            if (!req.body.update.pageName) {
-                err = "update.pageName not provided correctly. { update.source } must exist in update";
-            }
+			if (!req.body.update.pageName) {
+				err =
+					"update.pageName not provided correctly. { update.source } must exist in update";
+			}
 
-            if (err !== "") {
-                return res.status(400).json({message: err})
-            }
+			if (err !== "") {
+				return res.status(400).json({ message: err });
+			}
 
-            updatePage(req, res);
-            break;
-        }
-            
-        case "hidden": {
-            let err = ""
+			updatePage(req, res);
+			break;
+		}
 
-            if (!req.body.update.hidden) {
-                err = "update.hidden not provided correctly. { update.hidden } must exist in update";
-            }
+		case "hidden": {
+			let err = "";
 
-            if (err !== "") {
-                return res.status(400).json({message: err})
-            }
+			if (!req.body.update.hidden) {
+				err =
+					"update.hidden not provided correctly. { update.hidden } must exist in update";
+			}
 
-            updatePage(req, res);
-            break;
-        }
-            
-        case "template": {
-            let err = ""
+			if (err !== "") {
+				return res.status(400).json({ message: err });
+			}
 
-            if (!req.body.update.meta.template) {
-                err = "update.meta.template not provided correctly. { update.meta.template } must exist in update";
-            }
+			updatePage(req, res);
+			break;
+		}
 
-            if (err !== "") {
-                return res.status(400).json({message: err})
-            }
+		case "template": {
+			let err = "";
 
-            updatePage(req, res);
-            break;
-        }
-    
-        default:
-            return res.status(400).json({message: "Failed to update because the field isnt in the page model."})
-            break;
-    }
+			if (!req.body.update.meta.template) {
+				err =
+					"update.meta.template not provided correctly. { update.meta.template } must exist in update";
+			}
+
+			if (err !== "") {
+				return res.status(400).json({ message: err });
+			}
+
+			updatePage(req, res);
+			break;
+		}
+
+		default:
+			return res
+				.status(400)
+				.json({ message: "Failed to update because the field isnt in the page model." });
+			break;
+	}
 };
 
 module.exports = pageRouter;
