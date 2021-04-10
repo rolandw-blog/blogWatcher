@@ -21,6 +21,10 @@ const schema = {
 		type: Array,
 		require: true,
 	},
+	websitePathLength: {
+		type: Number,
+		require: true,
+	},
 	hidden: {
 		type: Boolean,
 		require: false,
