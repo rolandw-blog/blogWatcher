@@ -8,7 +8,8 @@ import loggerFunction from "./utils/genericLogger";
 import Database from "./database";
 const logger = loggerFunction(__filename);
 import dotenv from "dotenv";
-import PageRoute from "./routes/page.route";
+import GetPageRoute from "./routes/getPage.route";
+import PostPageRoute from "./routes/postPage.route";
 dotenv.config();
 
 logger.info("Starting up");
@@ -27,7 +28,12 @@ async function start() {
 
 		// We get the Route[] interface and use that to craft the IndexRoute
 		// The array of routes is passed into the App
-		const routes: Route[] = [new IndexRoute(), new UserRoute(conn), new PageRoute(conn)];
+		const routes: Route[] = [
+			new IndexRoute(),
+			new UserRoute(conn),
+			new GetPageRoute(conn),
+			new PostPageRoute(conn),
+		];
 
 		// push the last route which is a 404 page
 		routes.push(new PageNotFound());

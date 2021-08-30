@@ -13,12 +13,14 @@ export interface IPageDocument extends IPage, Document {
 // We need to give Model IPageDocument so that it knows how to create some of its queries and methods etc
 // Note that T must derive from mongoose.Document
 export interface IPageModel extends Model<IPageDocument> {
-	myStatic(model: IPageModel): Promise<Document[]>;
+	placeholder(model: IPageModel): Promise<Document[]>;
 }
 
+// `_id : {id:false}` means that mongoose will not generate an id for us when saving documents
+// mongoose wants to generate an id for this nested object for some reason so we need to tell it not to
 const pageSchema = new Schema<IPageDocument>({
 	name: { type: String },
-	source: [{ remote: { type: Boolean }, url: { type: String } }],
+	source: [{ remote: { type: Boolean }, url: { type: String }, _id: { id: false } }],
 	path: [{ type: String }],
 	meta: {
 		template: { type: String },

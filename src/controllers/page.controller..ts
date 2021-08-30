@@ -1,7 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import { Types } from "mongoose";
-import loggerFunction from "../utils/genericLogger";
-const logger = loggerFunction(__filename);
 import HttpException from "../exceptions/HttpException";
 import PageService from "../services/page.service";
 import Controller from "./controller.class";
@@ -17,7 +15,7 @@ class PageController extends Controller<PageService> {
 	}
 
 	// returns a page object
-	public page = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+	public getPage = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
 		if (req.params["id"] === undefined) {
 			throw new HttpException(500, "no ID provided");
 		}
@@ -39,7 +37,21 @@ class PageController extends Controller<PageService> {
 				throw new HttpException(500, "Something went wrong");
 			}
 		} catch (err) {
-			logger.debug("passing to next");
+			next(err);
+		}
+	};
+
+	// uploads a page
+	public postPage = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+		try {
+			const page = await this._service.postPage(req.body);
+
+			if (page) {
+				res.status(200).json(page);
+			} else {
+				throw new HttpException(500, "Something went wrong");
+			}
+		} catch (err) {
 			next(err);
 		}
 	};
