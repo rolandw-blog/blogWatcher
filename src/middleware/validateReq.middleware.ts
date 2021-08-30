@@ -14,7 +14,7 @@ function validationMiddleware<Type>(
 	return (req: Request, _: Response, next: NextFunction) => {
 		// run a validation check of the request ("body"/"query"/"params") against the schema we gave it
 		if (validate(req[value])) next();
-		else next(new HttpException(400, `wrong body from validate middleware`));
+		else next(new HttpException(400, `wrong ${value} from validate middleware`));
 	};
 }
 
