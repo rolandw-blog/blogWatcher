@@ -52,7 +52,7 @@ class PageRoute implements Route {
 	}
 
 	private initializeRoutes() {
-		this.router.get(`${this.path}`, [...this.middleware()], this.controller.page);
+		this.router.get(`${this.path}`, [...this.middleware()], this.controller.getPage);
 	}
 }
 
