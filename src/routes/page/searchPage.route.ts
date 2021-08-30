@@ -6,26 +6,26 @@
 
 import { Router } from "express";
 import { Connection } from "mongoose";
-import Route from "../interfaces/routes.interface";
-import PageController from "../controllers/page.controller.";
-import IPage from "../interfaces/page.interface";
+import Route from "../../interfaces/routes.interface";
+import PageController from "../../controllers/page.controller.";
+import PageSearchQuery from "../../interfaces/page.searchQuery.interface";
 
 // to register the model with the database connection
-import registerModel from "../registerModel";
-import pageSchema, { IPageDocument, IPageModel } from "../models/mongoose/page.schema";
+import registerModel from "../../registerModel";
+import pageSchema, { IPageDocument, IPageModel } from "../../models/mongoose/page.schema";
 
 // the service that provides methods for querying against in the database
-import PageService from "../services/page.service";
+import PageService from "../../services/page.service";
 
 // for validating the body of the request...
 //     The "userRequestSchema" is a JSONSchemaType for AJV to consume
 //     The UserRequest is a typescript <Type> for JSONSchemaType
 import Ajv from "ajv";
-import validationSchema from "../models/ajv/page.schema";
-import validateRequest from "../middleware/validateReq.middleware";
+import validationSchema from "../../models/ajv/page.searchQuery.schema";
+import validateRequest from "../../middleware/validateReq.middleware";
 
 class PageRoute implements Route {
-	public path = "/page";
+	public path = "/pages";
 	public router = Router({ strict: true });
 	private controller: PageController;
 	private model: IPageModel;
@@ -48,11 +48,11 @@ class PageRoute implements Route {
 	}
 
 	private middleware() {
-		return [validateRequest<IPage>("body", this.validator)];
+		return [validateRequest<PageSearchQuery>("query", this.validator)];
 	}
 
 	private initializeRoutes() {
-		this.router.post(`${this.path}`, [...this.middleware()], this.controller.postPage);
+		this.router.get(`${this.path}`, [...this.middleware()], this.controller.searchPage);
 	}
 }
 

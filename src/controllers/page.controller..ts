@@ -55,6 +55,15 @@ class PageController extends Controller<PageService> {
 			next(err);
 		}
 	};
+
+	public searchPage = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+		try {
+			// const searchBy = req.query[] as string;
+			res.status(200).json(req.query);
+		} catch (err) {
+			next(err);
+		}
+	};
 }
 
 export default PageController;

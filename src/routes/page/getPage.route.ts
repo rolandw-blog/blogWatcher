@@ -6,23 +6,23 @@
 
 import { Router } from "express";
 import { Connection } from "mongoose";
-import Route from "../interfaces/routes.interface";
-import PageController from "../controllers/page.controller.";
-import ID from "../interfaces/id.interface";
+import Route from "../../interfaces/routes.interface";
+import PageController from "../../controllers/page.controller.";
+import ID from "../../interfaces/id.interface";
 
 // to register the model with the database connection
-import registerModel from "../registerModel";
-import pageSchema, { IPageDocument, IPageModel } from "../models/mongoose/page.schema";
+import registerModel from "../../registerModel";
+import pageSchema, { IPageDocument, IPageModel } from "../../models/mongoose/page.schema";
 
 // the service that provides methods for querying against in the database
-import PageService from "../services/page.service";
+import PageService from "../../services/page.service";
 
 // for validating the body of the request...
 //     The "userRequestSchema" is a JSONSchemaType for AJV to consume
 //     The UserRequest is a typescript <Type> for JSONSchemaType
 import Ajv from "ajv";
-import validationSchema from "../models/ajv/objectID.schema";
-import validateRequest from "../middleware/validateReq.middleware";
+import validationSchema from "../../models/ajv/objectID.schema";
+import validateRequest from "../../middleware/validateReq.middleware";
 
 class PageRoute implements Route {
 	public path = "/page/:id";

@@ -11,12 +11,13 @@ function errorMiddleware(error: unknown, _: Request, res: Response, next: NextFu
 	if (error instanceof HttpException) {
 		const status: number = error.status || 500;
 		const message: string = error.message || "Something went wrong";
+		const details: unknown = error.details || {};
 
 		logger.warn(`HTTP Exception: ${status} ${message}`);
 
 		res.setHeader("Content-Type", "application/json");
 		res.status(status);
-		res.json({ message });
+		res.json({ message, details });
 	} else {
 		next(error);
 	}

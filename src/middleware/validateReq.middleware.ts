@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response, RequestHandler } from "express";
 import { ValidateFunction } from "ajv";
 import HttpException from "../exceptions/HttpException";
+// import Ajv from "ajv/dist/core";
 
 type Value = "body" | "query" | "params";
 
@@ -12,9 +13,14 @@ function validationMiddleware<Type>(
 ): RequestHandler {
 	// This is sort of like a factory pattern that returns some middleware function that can validate any <Type> of schema passed to it.
 	return (req: Request, _: Response, next: NextFunction) => {
-		// run a validation check of the request ("body"/"query"/"params") against the schema we gave it
-		if (validate(req[value])) next();
-		else next(new HttpException(400, `wrong ${value} from validate middleware`));
+		const isValid = validate(req[value]);
+		if (isValid) {
+			next();
+		} else {
+			next(
+				new HttpException(400, `wrong ${value} from validate middleware`, validate.errors)
+			);
+		}
 	};
 }
 
