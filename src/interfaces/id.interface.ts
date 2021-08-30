@@ -1,6 +1,6 @@
 // interface to use for the ajv schema validation
-interface IParamID {
+interface ID {
 	id: string;
 }
 
-export default IParamID;
+export default ID;

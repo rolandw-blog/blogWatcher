@@ -1,10 +1,10 @@
 import { JSONSchemaType } from "ajv";
-import IParamID from "../../interfaces/paramID.interface";
+import ID from "../../interfaces/id.interface";
 
 // to validate the ObjectID from mongoose i used this stack overflow post:
 // https://stackoverflow.com/questions/65823587/node-validate-request-params-using-ajv
 
-const schema: JSONSchemaType<IParamID> = {
+const schema: JSONSchemaType<ID> = {
 	type: "object",
 	required: ["id"],
 	properties: {

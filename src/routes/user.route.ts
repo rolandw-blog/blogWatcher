@@ -13,7 +13,8 @@ import UserController from "../controllers/user.controller";
 //     The "userRequestSchema" is a JSONSchemaType for AJV to consume
 //     The UserRequest is a typescript <Type> for JSONSchemaType
 import Ajv from "ajv";
-import userRequestSchema, { UserRequest } from "./requests/user_id";
+import userRequestSchema from "../models/ajv/id";
+import ID from "../interfaces/id.interface";
 import validateRequest from "../middleware/validateReq.middleware";
 
 // to register the model with the database connection
@@ -48,7 +49,7 @@ class UserRoute implements Route {
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	private middleware(): Array<any> {
-		return [validateRequest<UserRequest>("params", this.validator)];
+		return [validateRequest<ID>("params", this.validator)];
 	}
 
 	private initializeRoutes() {

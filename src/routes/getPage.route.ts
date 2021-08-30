@@ -8,7 +8,7 @@ import { Router } from "express";
 import { Connection } from "mongoose";
 import Route from "../interfaces/routes.interface";
 import PageController from "../controllers/page.controller.";
-import IParamID from "../interfaces/paramID.interface";
+import ID from "../interfaces/id.interface";
 
 // to register the model with the database connection
 import registerModel from "../registerModel";
@@ -48,7 +48,7 @@ class PageRoute implements Route {
 	}
 
 	private middleware() {
-		return [validateRequest<IParamID>("params", this.validator)];
+		return [validateRequest<ID>("params", this.validator)];
 	}
 
 	private initializeRoutes() {
