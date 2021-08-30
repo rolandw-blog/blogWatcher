@@ -14,6 +14,7 @@ const schema: JSONSchemaType<pageSearchQuery> = {
 	type: "object",
 	minProperties: 1,
 	required: [],
+	additionalProperties: false,
 	properties: {
 		name: { type: "string", minLength: 1, maxLength: 50 },
 	},
