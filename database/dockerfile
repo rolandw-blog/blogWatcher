@@ -1,0 +1,5 @@
+FROM mongo:4.4
+COPY ./mongo-init.js /docker-entrypoint-initdb.d
+# RUN mongo "mongodb://admin:rhinos@localhost:27017/admin?authSource=admin" mongo-init.js
+RUN chown mongodb:mongodb /docker-entrypoint-initdb.d/mongo-init.js
+# RUN chmod 777 /docker-entrypoint-initdb.d/mongo-init.js
