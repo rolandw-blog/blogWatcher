@@ -68,27 +68,27 @@ describe("user integrations", () => {
 		const response = await request.get("/user/not found");
 		expect(response.status).toBe(500);
 		expect(response.header["content-type"]).toBe("application/json; charset=utf-8");
-		expect(response.body).toEqual({ message: "Malformed ID" });
+		expect(response.body).toEqual({ message: "Malformed ID", details: {} });
 	});
 
 	test("Where user does not exist return 404 user not found", async () => {
 		const response = await request.get("/user/-1");
 		expect(response.status).toBe(500);
 		expect(response.header["content-type"]).toBe("application/json; charset=utf-8");
-		expect(response.body).toEqual({ message: "Malformed ID" });
+		expect(response.body).toEqual({ message: "Malformed ID", details: {} });
 	});
 
 	test("Where user does not exist return 404 user not found", async () => {
 		const response = await request.get("/user/99999");
 		expect(response.status).toBe(500);
 		expect(response.header["content-type"]).toBe("application/json; charset=utf-8");
-		expect(response.body).toEqual({ message: "Malformed ID" });
+		expect(response.body).toEqual({ message: "Malformed ID", details: {} });
 	});
 
 	test("No id param returns 404 page not found", async () => {
 		const response = await request.get("/users/");
 		expect(response.status).toBe(404);
 		expect(response.header["content-type"]).toBe("application/json; charset=utf-8");
-		expect(response.body).toEqual({ message: "Page not found" });
+		expect(response.body).toEqual({ message: "Page not found", details: {} });
 	});
 });
