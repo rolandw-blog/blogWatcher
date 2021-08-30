@@ -9,7 +9,7 @@ import HttpException from "../exceptions/HttpException";
 import UserService from "../services/user.service";
 import Controller from "./controller.class";
 
-class UserController extends Controller {
+class UserController extends Controller<UserService> {
 	private _userService: UserService;
 
 	// a service is a class from ./services the has functionality to interact with the database

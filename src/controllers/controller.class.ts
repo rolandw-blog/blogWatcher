@@ -6,13 +6,9 @@
 // Lastly, if your controller doesnt need a connection, this theres no pressure not to use it.
 //
 
-// import { Model } from "mongoose";
-// import { IUserModel } from "../models/mongoose/User.schema";
-import UserService from "../services/user.service";
-
-export default class Controller {
-	service: UserService;
-	constructor(service: UserService) {
+export default class Controller<T> {
+	service: T;
+	constructor(service: T) {
 		this.service = service;
 	}
 }
