@@ -8,9 +8,8 @@ import IPage, { ISource } from "../../interfaces/page.interface";
 // array item from page.source
 const source: JSONSchemaType<ISource, false> = {
 	type: "object",
-	required: ["remote", "url"],
+	required: ["url"],
 	properties: {
-		remote: { type: "boolean" },
 		url: { type: "string" },
 	},
 };

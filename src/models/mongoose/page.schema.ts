@@ -20,7 +20,7 @@ export interface IPageModel extends Model<IPageDocument> {
 // mongoose wants to generate an id for this nested object for some reason so we need to tell it not to
 const pageSchema = new Schema<IPageDocument>({
 	name: { type: String },
-	source: [{ remote: { type: Boolean }, url: { type: String }, _id: { id: false } }],
+	source: [{ url: { type: String }, _id: { id: false } }],
 	path: [{ type: String }],
 	meta: {
 		template: { type: String },

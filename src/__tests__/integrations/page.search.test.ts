@@ -13,12 +13,11 @@ const expectedAsArray = [
 	{
 		meta: { template: "blogPost.ejs", hero: "hero value", hidden: false },
 		path: ["deleteMe", "test1"],
-		_id: "612db903ee1fd0e410fe1db5",
+		_id: "612e1056ee1fd0e410fe1e29",
 		name: "testPage1",
 		source: [
 			{
 				url: "https://raw.githubusercontent.com/RolandWarburton/knowledge/master/Linux/Apt%20Package%20Manager.md",
-				remote: true,
 			},
 		],
 	},
@@ -27,12 +26,11 @@ const expectedAsArray = [
 const expectedAsObject = {
 	meta: { template: "blogPost.ejs", hero: "hero value", hidden: false },
 	path: ["deleteMe", "test1"],
-	_id: "612db903ee1fd0e410fe1db5",
+	_id: "612e1056ee1fd0e410fe1e29",
 	name: "testPage1",
 	source: [
 		{
 			url: "https://raw.githubusercontent.com/RolandWarburton/knowledge/master/Linux/Apt%20Package%20Manager.md",
-			remote: true,
 		},
 	],
 };
@@ -81,7 +79,7 @@ describe("user integrations", () => {
 	});
 
 	test("Search a page by its ID", async () => {
-		const response = await request.get("/page/612db903ee1fd0e410fe1db5");
+		const response = await request.get("/page/612e1056ee1fd0e410fe1e29");
 		expect(response.status).toBe(200);
 		expect(response.header["content-type"]).toBe("application/json; charset=utf-8");
 

@@ -15,7 +15,7 @@ const searchPageMock = (): jest.Mock => {
 			{
 				meta: { template: "blogPost.ejs", hero: "hero value", hidden: false },
 				path: ["deleteMe", "test1"],
-				_id: "612db903ee1fd0e410fe1db5",
+				_id: "612e1056ee1fd0e410fe1e29",
 				name: "testPage1",
 				source: [
 					{
@@ -112,7 +112,7 @@ describe("test page controller (search method)", () => {
 		expect(resultJson.length).toBe(1);
 		expect(resultJson[0]).toBeDefined();
 		expect(resultJson[0]?.name).toBe("testPage1");
-		expect(resultJson[0]?._id).toBe("612db903ee1fd0e410fe1db5");
+		expect(resultJson[0]?._id).toBe("612e1056ee1fd0e410fe1e29");
 	});
 
 	test("search returns correct object by template with pagination", async () => {
@@ -154,7 +154,7 @@ describe("test page controller (search method)", () => {
 		expect(resultJson.length).toBe(1);
 		expect(resultJson[0]).toBeDefined();
 		expect(resultJson[0]?.name).toBe("testPage1");
-		expect(resultJson[0]?._id).toBe("612db903ee1fd0e410fe1db5");
+		expect(resultJson[0]?._id).toBe("612e1056ee1fd0e410fe1e29");
 	});
 
 	test("search returns correct object by name with no pagination settings", async () => {
@@ -196,7 +196,7 @@ describe("test page controller (search method)", () => {
 		expect(resultJson.length).toBe(1);
 		expect(resultJson[0]).toBeDefined();
 		expect(resultJson[0]?.name).toBe("testPage1");
-		expect(resultJson[0]?._id).toBe("612db903ee1fd0e410fe1db5");
+		expect(resultJson[0]?._id).toBe("612e1056ee1fd0e410fe1e29");
 	});
 
 	test("search returns correct object by template with no pagination settings", async () => {
@@ -238,7 +238,7 @@ describe("test page controller (search method)", () => {
 		expect(resultJson.length).toBe(1);
 		expect(resultJson[0]).toBeDefined();
 		expect(resultJson[0]?.name).toBe("testPage1");
-		expect(resultJson[0]?._id).toBe("612db903ee1fd0e410fe1db5");
+		expect(resultJson[0]?._id).toBe("612e1056ee1fd0e410fe1e29");
 	});
 
 	test("search will not accept garbage query", async () => {
@@ -305,7 +305,7 @@ describe("test page controller (search method)", () => {
 		expect(resultJson.length).toBe(1);
 		expect(resultJson[0]).toBeDefined();
 		expect(resultJson[0]?.name).toBe("testPage1");
-		expect(resultJson[0]?._id).toBe("612db903ee1fd0e410fe1db5");
+		expect(resultJson[0]?._id).toBe("612e1056ee1fd0e410fe1e29");
 	});
 
 	test("search with no query", async () => {
