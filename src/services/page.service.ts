@@ -2,6 +2,8 @@ import { Types } from "mongoose";
 import HttpException from "../exceptions/HttpException";
 import IPage from "../interfaces/page.interface";
 import { IPageModel, IPageDocument } from "../models/mongoose/page.schema";
+import IPagePaginationParams from "../interfaces/page.pagination.interface";
+import IPageQueryParams from "../interfaces/page.query.interface";
 
 class PageService {
 	public model: IPageModel;
@@ -25,6 +27,24 @@ class PageService {
 			return await page.save();
 		} catch (err) {
 			throw new HttpException(500, "Something went wrong uploading the page");
+		}
+	}
+
+	async searchPage(
+		query: IPageQueryParams,
+		pagination: IPagePaginationParams
+	): Promise<IPageDocument[]> {
+		// this type of pagniation is not great (IO limited at scale) but it works for now
+		const { page, limit } = pagination;
+		try {
+			const pages = await this.model
+				.find(query as never)
+				.limit(limit)
+				.skip((page - 1) * limit)
+				.exec();
+			return pages;
+		} catch (err) {
+			throw new HttpException(500, "Something went wrong searching for pages");
 		}
 	}
 }

@@ -3,6 +3,8 @@ import { Types } from "mongoose";
 import HttpException from "../exceptions/HttpException";
 import PageService from "../services/page.service";
 import Controller from "./controller.class";
+import IPagePaginationParams from "../interfaces/page.pagination.interface";
+import IPageQueryParams from "../interfaces/page.query.interface";
 
 class PageController extends Controller<PageService> {
 	private _service: PageService;
@@ -57,9 +59,57 @@ class PageController extends Controller<PageService> {
 	};
 
 	public searchPage = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+		const queryParams: Partial<IPageQueryParams> = {};
+		const paginationParams: Partial<IPagePaginationParams> = {};
+		const unsorted = [];
+
+		// sort through which params we will use to build the query and pagination for mongoose
+		for (const key in req.query) {
+			switch (key) {
+				case "name":
+					queryParams["name"] = new RegExp((req.query[key] as string) || "^.*", "i");
+					break;
+				case "template":
+					// mongoose takes nested queries like this: { "meta.template": "test" }
+					// not: { "meta": { "template": "test" } }
+					queryParams["meta.template"] = req.query[key] as string;
+					break;
+				case "page":
+					paginationParams.page = parseInt(req.query[key] as string) as number;
+					break;
+				case "limit":
+					paginationParams.limit = parseInt(req.query[key] as string) as number;
+					break;
+				default:
+					unsorted.push({ [key]: req.query[key] });
+					break;
+			}
+		}
+
+		// set defaults for the pagination if they are not set
+		if (paginationParams["page"] === undefined) paginationParams["page"] = 1;
+		if (paginationParams["limit"] === undefined) paginationParams["limit"] = 3;
+
 		try {
-			// const searchBy = req.query[] as string;
-			res.status(200).json(req.query);
+			// if there was some incorrect filters passed in then throw an error
+			if (unsorted.length > 0) {
+				const valuesToRemove = unsorted.map((obj) => Object.keys(obj)[0]);
+				const msg = `Unsorted query params are not supported`;
+				throw new HttpException(500, `${msg}. Please remove ${valuesToRemove.join(", ")}`);
+			}
+
+			// if there was no query params passed
+			if (Object.keys(queryParams).length === 0) {
+				const msg = `No query given. Please refer to API documentation for valid query arguments`;
+				throw new HttpException(500, msg);
+			}
+
+			// search for pages
+			const pages = await this._service.searchPage(
+				queryParams,
+				paginationParams as IPagePaginationParams
+			);
+			res.status(200).json(pages);
 		} catch (err) {
 			next(err);
 		}
