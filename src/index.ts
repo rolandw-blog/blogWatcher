@@ -10,7 +10,7 @@ const logger = loggerFunction(__filename);
 import dotenv from "dotenv";
 import GetPageRoute from "./routes/page/getPage.route";
 import PostPageRoute from "./routes/page/postPage.route";
-import SearchPage from "./routes/page/searchPage.route";
+import SearchPageRoute from "./routes/page/searchPage.route";
 dotenv.config();
 
 logger.info("Starting up");
@@ -34,7 +34,7 @@ async function start() {
 			new UserRoute(conn),
 			new GetPageRoute(conn),
 			new PostPageRoute(conn),
-			new SearchPage(conn),
+			new SearchPageRoute(conn),
 		];
 
 		// push the last route which is a 404 page

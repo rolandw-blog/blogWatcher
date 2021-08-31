@@ -24,7 +24,7 @@ import Ajv from "ajv";
 import validationSchema from "../../models/ajv/page.searchQuery.schema";
 import validateRequest from "../../middleware/validateReq.middleware";
 
-class PageRoute implements Route {
+class SearchPageRoute implements Route {
 	public path = "/pages";
 	public router = Router({ strict: true });
 	private controller: PageController;
@@ -56,4 +56,4 @@ class PageRoute implements Route {
 	}
 }
 
-export default PageRoute;
+export default SearchPageRoute;

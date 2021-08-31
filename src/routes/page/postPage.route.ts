@@ -24,7 +24,7 @@ import Ajv from "ajv";
 import validationSchema from "../../models/ajv/page.schema";
 import validateRequest from "../../middleware/validateReq.middleware";
 
-class PageRoute implements Route {
+class PostPageRoute implements Route {
 	public path = "/page";
 	public router = Router({ strict: true });
 	private controller: PageController;
@@ -56,4 +56,4 @@ class PageRoute implements Route {
 	}
 }
 
-export default PageRoute;
+export default PostPageRoute;
