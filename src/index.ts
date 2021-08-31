@@ -2,7 +2,6 @@ import App from "./app";
 import Route from "./interfaces/routes.interface";
 import IndexRoute from "./routes/index.route";
 import PageNotFound from "./routes/pageNotFound.route";
-import UserRoute from "./routes/user.route";
 import validateEnv from "./utils/validateEnv";
 import loggerFunction from "./utils/genericLogger";
 import Database from "./database";
@@ -31,7 +30,6 @@ async function start() {
 		// The array of routes is passed into the App
 		const routes: Route[] = [
 			new IndexRoute(),
-			new UserRoute(conn),
 			new GetPageRoute(conn),
 			new PostPageRoute(conn),
 			new SearchPageRoute(conn),

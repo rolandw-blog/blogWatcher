@@ -2,15 +2,13 @@ import { Request } from "express";
 import { Response } from "express";
 import { NextFunction } from "express";
 import dotenv from "dotenv";
-// import { Types } from "mongoose";
-// import HttpException from "../exceptions/HttpException";
 import { IPageDocument } from "../models/mongoose/page.schema";
 import PageService from "../services/page.service";
 import PageController from "../controllers/page.controller.";
 import HttpException from "../exceptions/HttpException";
 dotenv.config();
 
-// here we mock what the service will return when we call the getUser method
+// here we mock what the service will return when we call the searchPage method
 const searchPageMock = (): jest.Mock => {
 	return jest.fn().mockImplementation(() => {
 		return Promise.resolve([
@@ -44,11 +42,11 @@ describe("test page controller (search method)", () => {
 
 		// =========== mock service =============================================================
 		// our service is a class that uses the mongoose model to abstract requests to the database
-		// we create the mock service instead of calling `new UserService(model: IUserModel);`
+		// we create the mock service instead of calling `new PageService(model: IPageModel);`
 		service = {
-			// the service has methods that we define like getUser which internally calls the findById method on the mongoose model
+			// the service has methods that we define like searchPage which internally calls the findById method on the mongoose model
 			// however we can avoid that internal call by defining a mock implementation by skipping it and replacing it with our own jest.fn() mock
-			// we will later add implementation in each test based on what we want getUser to return from the "database"
+			// we will later add implementation in each test based on what we want searchPage to return from the "database"
 			searchPage: jest.fn(),
 		};
 
@@ -76,14 +74,14 @@ describe("test page controller (search method)", () => {
 	});
 
 	test("search returns correct object by name with pagination", async () => {
-		// here we mock what the service will return when we call the getUser method
+		// here we mock what the service will return when we call the searchPage method
 		service.searchPage = searchPageMock();
 
 		// next we create the controller and pass in the mocked service
-		// the mocked service will be used to call the getUser method internally
+		// the mocked service will be used to call the searchPage method internally
 		const controller = new PageController(service as PageService);
 
-		// we modify the params object to have the id of the user we want to get from the mocked service "database"
+		// we modify the params object to have the id of the page we want to get from the mocked service "database"
 		mockRequest = { query: { name: "testPage", page: "1", limit: "1" } };
 
 		// we call the search method on the controller
@@ -118,14 +116,14 @@ describe("test page controller (search method)", () => {
 	});
 
 	test("search returns correct object by template with pagination", async () => {
-		// here we mock what the service will return when we call the getUser method
+		// here we mock what the service will return when we call the searchPage method
 		service.searchPage = searchPageMock();
 
 		// next we create the controller and pass in the mocked service
-		// the mocked service will be used to call the getUser method internally
+		// the mocked service will be used to call the searchPage method internally
 		const controller = new PageController(service as PageService);
 
-		// we modify the params object to have the id of the user we want to get from the mocked service "database"
+		// we modify the params object to have the id of the page we want to get from the mocked service "database"
 		mockRequest = { query: { template: "blogPost.ejs", page: "1", limit: "1" } };
 
 		// we call the search method on the controller
@@ -160,14 +158,14 @@ describe("test page controller (search method)", () => {
 	});
 
 	test("search returns correct object by name with no pagination settings", async () => {
-		// here we mock what the service will return when we call the getUser method
+		// here we mock what the service will return when we call the searchPage method
 		service.searchPage = searchPageMock();
 
 		// next we create the controller and pass in the mocked service
-		// the mocked service will be used to call the getUser method internally
+		// the mocked service will be used to call the searchPage method internally
 		const controller = new PageController(service as PageService);
 
-		// we modify the params object to have the id of the user we want to get from the mocked service "database"
+		// we modify the params object to have the id of the page we want to get from the mocked service "database"
 		mockRequest = { query: { name: "testPage" } };
 
 		// we call the search method on the controller
@@ -202,14 +200,14 @@ describe("test page controller (search method)", () => {
 	});
 
 	test("search returns correct object by template with no pagination settings", async () => {
-		// here we mock what the service will return when we call the getUser method
+		// here we mock what the service will return when we call the searchPage method
 		service.searchPage = searchPageMock();
 
 		// next we create the controller and pass in the mocked service
-		// the mocked service will be used to call the getUser method internally
+		// the mocked service will be used to call the searchPage method internally
 		const controller = new PageController(service as PageService);
 
-		// we modify the params object to have the id of the user we want to get from the mocked service "database"
+		// we modify the params object to have the id of the page we want to get from the mocked service "database"
 		mockRequest = { query: { template: "blogPost.ejs" } };
 
 		// we call the search method on the controller
@@ -245,10 +243,10 @@ describe("test page controller (search method)", () => {
 
 	test("search will not accept garbage query", async () => {
 		// next we create the controller and pass in the mocked service
-		// the mocked service will be used to call the getUser method internally
+		// the mocked service will be used to call the searchPage method internally
 		const controller = new PageController(service as PageService);
 
-		// we modify the params object to have the id of the user we want to get from the mocked service "database"
+		// we modify the params object to have the id of the page we want to get from the mocked service "database"
 		mockRequest = { query: { garbage: "danger" } };
 
 		// we call the search method on the controller
@@ -269,14 +267,14 @@ describe("test page controller (search method)", () => {
 	});
 
 	test("search handles multiple queries (name and template)", async () => {
-		// here we mock what the service will return when we call the getUser method
+		// here we mock what the service will return when we call the searchPage method
 		service.searchPage = searchPageMock();
 
 		// next we create the controller and pass in the mocked service
-		// the mocked service will be used to call the getUser method internally
+		// the mocked service will be used to call the searchPage method internally
 		const controller = new PageController(service as PageService);
 
-		// we modify the params object to have the id of the user we want to get from the mocked service "database"
+		// we modify the params object to have the id of the page we want to get from the mocked service "database"
 		mockRequest = { query: { template: "blogPost.ejs", name: "testPage" } };
 
 		// we call the search method on the controller
@@ -312,10 +310,10 @@ describe("test page controller (search method)", () => {
 
 	test("search with no query", async () => {
 		// next we create the controller and pass in the mocked service
-		// the mocked service will be used to call the getUser method internally
+		// the mocked service will be used to call the searchPage method internally
 		const controller = new PageController(service as PageService);
 
-		// we modify the params object to have the id of the user we want to get from the mocked service "database"
+		// we modify the params object to have the id of the page we want to get from the mocked service "database"
 		mockRequest = {};
 
 		// we call the search method on the controller
