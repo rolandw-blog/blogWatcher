@@ -97,12 +97,12 @@ class PageController extends Controller<PageService> {
 					if (pathSegments.length >= 1) {
 						// append {path.n: "value"} to the query where n is the index of the segment in the path
 						for (let i = 0; i < pathSegments.length; i++) {
-							queryParams[(`path.` + i) as IQueryPathIndex] = pathSegments[i];
+							queryParams[`path.${i}` as IQueryPathIndex] = pathSegments[i];
 						}
 
 						// an array of exactly the same length as the path segments
-						// +1 for siblings of the path given
-						// +2 for siblings and children of the path given
+						// +1 for children of the path given
+						// +2 for children of the children of the path given
 						queryParams[`path.${pathSegments.length + 1}` as IQueryPathIndex] = {
 							$exists: false,
 						};
