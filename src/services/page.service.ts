@@ -5,6 +5,16 @@ import { IPageModel, IPageDocument } from "../models/mongoose/page.schema";
 import IPagePaginationParams from "../interfaces/page.pagination.interface";
 import IPageQueryParams from "../interfaces/page.query.interface";
 
+// quick compare function to sort by page name
+function compare(a: IPage, b: IPage): -1 | 0 | 1 {
+	if (a.name < b.name) {
+		return -1;
+	}
+	if (a.name > b.name) {
+		return 1;
+	}
+	return 0;
+}
 class PageService {
 	public model: IPageModel;
 
@@ -42,7 +52,7 @@ class PageService {
 				.limit(limit)
 				.skip((page - 1) * limit)
 				.exec();
-			return pages;
+			return pages.sort(compare);
 		} catch (err) {
 			throw new HttpException(500, "Something went wrong searching for pages");
 		}
