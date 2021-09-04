@@ -93,24 +93,29 @@ class PageController extends Controller<PageService> {
 					// the purpose of filter it to remove empty strings
 					const pathSegments = path.split("/").filter((segment) => segment !== "");
 
+					// 0 = siblings of the level of the path given
+					// 1 = children of the path given
+					let drillDown = 0;
+					if (pathSegments[pathSegments.length - 1] === "*") {
+						// if the last segment is a wildcard, we will use the +1 for the path length to get its children
+						drillDown = 1;
+						// pop the last segment off the array
+						pathSegments.pop();
+					}
+
 					// if there are any path segments, we will use them to build the query
-					if (pathSegments.length >= 1) {
+					if (pathSegments.length >= 0) {
 						// append {path.n: "value"} to the query where n is the index of the segment in the path
 						for (let i = 0; i < pathSegments.length; i++) {
 							queryParams[`path.${i}` as IQueryPathIndex] = pathSegments[i];
 						}
 
-						// an array of exactly the same length as the path segments
-						// +1 for children of the path given
-						// +2 for children of the children of the path given
-						queryParams[`path.${pathSegments.length + 1}` as IQueryPathIndex] = {
-							$exists: false,
-						};
-					} else {
-						// failsafe if the query is "example.com?path" and no value was passed in
-						queryParams["path.0"] = "";
-						// an array of exactly 1 index
-						queryParams["path.1"] = { $exists: false };
+						if (pathSegments.length === 0) {
+							// if there are no path segments, we will use the +1 for the path length to get its children
+							drillDown = 1;
+						}
+
+						queryParams["meta.pathLength"] = { $eq: pathSegments.length + drillDown };
 					}
 					break;
 				}
