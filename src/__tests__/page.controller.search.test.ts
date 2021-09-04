@@ -4,7 +4,7 @@ import { NextFunction } from "express";
 import dotenv from "dotenv";
 import { IPageDocument } from "../models/mongoose/page.schema";
 import PageService from "../services/page.service";
-import PageController from "../controllers/page.controller.";
+import PageController from "../controllers/page.controller";
 import HttpException from "../exceptions/HttpException";
 dotenv.config();
 

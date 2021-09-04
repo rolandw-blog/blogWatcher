@@ -7,7 +7,7 @@
 import { Router } from "express";
 import { Connection } from "mongoose";
 import Route from "../../interfaces/routes.interface";
-import PageController from "../../controllers/page.controller.";
+import PageController from "../../controllers/page.controller";
 import ID from "../../interfaces/id.interface";
 
 // to register the model with the database connection
