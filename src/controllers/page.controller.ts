@@ -82,7 +82,11 @@ class PageController extends Controller<PageService> {
 					paginationParams.page = parseInt(req.query[key] as string) as number;
 					break;
 				case "limit":
-					paginationParams.limit = parseInt(req.query[key] as string) as number;
+					if ((req.query[key] as string) === "-1") {
+						paginationParams.limit = 999999999;
+					} else {
+						paginationParams.limit = parseInt(req.query[key] as string) as number;
+					}
 					break;
 				case "path": {
 					const path = req.query[key] as string;
