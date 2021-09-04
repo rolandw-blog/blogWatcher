@@ -93,7 +93,7 @@ class PageController extends Controller<PageService> {
 					// the purpose of filter it to remove empty strings
 					const pathSegments = path.split("/").filter((segment) => segment !== "");
 
-					// 0 = siblings of the level of the path given
+					// 0 = the page that matches this path exactly
 					// 1 = children of the path given
 					let drillDown = 0;
 					if (pathSegments[pathSegments.length - 1] === "*") {
