@@ -99,7 +99,7 @@ class PageController extends Controller<PageService> {
 						// an array of exactly the same length as the path segments
 						// +1 for siblings of the path given
 						// +2 for siblings and children of the path given
-						queryParams[("path." + pathSegments.length + 1) as IQueryPathIndex] = {
+						queryParams[`path.${pathSegments.length + 1}` as IQueryPathIndex] = {
 							$exists: false,
 						};
 					} else {
