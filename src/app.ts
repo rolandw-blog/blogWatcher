@@ -30,7 +30,7 @@ class App {
 
 	public listen(): Server {
 		const server = this.app.listen(this.port, () => {
-			logger.debug(`🚀 App listening on the port ${this.port}`);
+			logger.debug(`App listening on the port ${this.port}`);
 		});
 
 		// return the server to close it later (in tests)
