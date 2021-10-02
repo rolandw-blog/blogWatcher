@@ -46,6 +46,33 @@ class PageController extends Controller<PageService> {
 		}
 	};
 
+	// returns a lean page object
+	public getPageLean = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+		if (req.params["id"] === undefined) {
+			throw new HttpException(500, "no ID provided");
+		}
+
+		try {
+			const unparsed_page_id = req.params["id"] as string;
+			if (!Types.ObjectId.isValid(unparsed_page_id)) {
+				throw new HttpException(500, "Malformed ID");
+			}
+
+			const id = Types.ObjectId(req.params["id"]?.toString());
+
+			const page = await this._service.getPageLean(id);
+
+			if (page) {
+				// the service should throw an error if no page is found
+				res.status(200).json(page);
+			} else {
+				throw new HttpException(500, "Something went wrong");
+			}
+		} catch (err) {
+			next(err);
+		}
+	};
+
 	// uploads a page
 	public postPage = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
 		try {

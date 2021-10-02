@@ -10,6 +10,7 @@ import dotenv from "dotenv";
 import GetPageRoute from "./routes/page/getPage.route";
 import PostPageRoute from "./routes/page/postPage.route";
 import SearchPageRoute from "./routes/page/searchPage.route";
+import GetPageRouteLean from "./routes/page/getPageLean.route";
 dotenv.config();
 
 logger.info("Starting up");
@@ -31,6 +32,7 @@ async function start() {
 		const routes: Route[] = [
 			new IndexRoute(),
 			new GetPageRoute(conn),
+			new GetPageRouteLean(conn),
 			new PostPageRoute(conn),
 			new SearchPageRoute(conn),
 		];
