@@ -116,6 +116,12 @@ class PageController extends Controller<PageService> {
 					}
 					break;
 				case "path": {
+					// =============================================================================
+					// Valid queries:
+					// /pages?path=/notes/*&page=1
+					// /pages?path=/notes/&limit=1
+					// =============================================================================
+
 					const path = req.query[key] as string;
 					// the purpose of filter it to remove empty strings
 					const pathSegments = path.split("/").filter((segment) => segment !== "");
