@@ -18,16 +18,22 @@ export interface IPageModel extends Model<IPageDocument> {
 
 // `_id : {id:false}` means that mongoose will not generate an id for us when saving documents
 // mongoose wants to generate an id for this nested object for some reason so we need to tell it not to
-const pageSchema = new Schema<IPageDocument>({
-	name: { type: String },
-	source: [{ url: { type: String }, _id: { id: false } }],
-	path: [{ type: String }],
-	meta: {
-		template: { type: String },
-		hero: { type: String },
-		hidden: { type: Boolean },
+const pageSchema = new Schema<IPageDocument>(
+	{
+		name: { type: String },
+		source: [{ url: { type: String }, _id: { id: false } }],
+		path: [{ type: String }],
+		meta: {
+			template: { type: String },
+			hero: { type: String },
+			hidden: { type: Boolean },
+		},
 	},
-});
+	{
+		toObject: { virtuals: true },
+		toJSON: { virtuals: true },
+	}
+);
 
 pageSchema.virtual("url").get(function (this: IPage) {
 	return this.path.join("/");
