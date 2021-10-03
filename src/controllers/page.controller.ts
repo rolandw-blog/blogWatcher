@@ -129,11 +129,21 @@ class PageController extends Controller<PageService> {
 					// 0 = the page that matches this path exactly
 					// 1 = children of the path given
 					let drillDown = 0;
+					// double wildcard /** = all recursive children and siblings
+					// single wildcard /* = all direct children
+					let sign = "$eq";
 					if (pathSegments[pathSegments.length - 1] === "*") {
 						// if the last segment is a wildcard, we will use the +1 for the path length to get its children
 						drillDown = 1;
 						// pop the last segment off the array
 						pathSegments.pop();
+					} else if (pathSegments[pathSegments.length - 1] === "**") {
+						drillDown = 1;
+						sign = "$gte";
+						pathSegments.pop();
+					} else if (pathSegments.length === 0) {
+						// if there are no path segments, we will use the +1 for the path length to get its children
+						drillDown = 1;
 					}
 
 					// if there are any path segments, we will use them to build the query
@@ -143,12 +153,9 @@ class PageController extends Controller<PageService> {
 							queryParams[`path.${i}` as IQueryPathIndex] = pathSegments[i];
 						}
 
-						if (pathSegments.length === 0) {
-							// if there are no path segments, we will use the +1 for the path length to get its children
-							drillDown = 1;
-						}
-
-						queryParams["meta.pathLength"] = { $eq: pathSegments.length + drillDown };
+						queryParams["meta.pathLength"] = {
+							[sign]: pathSegments.length + drillDown,
+						};
 					}
 					break;
 				}
