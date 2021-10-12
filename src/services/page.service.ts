@@ -23,7 +23,7 @@ class PageService {
 	}
 
 	async getPage(id: Types.ObjectId): Promise<IPageDocument> {
-		const page = await this.model.findById(id).exec();
+		const page = await this.model.findById(id, { "meta.hidden": false }).exec();
 		if (page === null) {
 			throw new HttpException(404, "Page was not found");
 		} else {
@@ -32,7 +32,7 @@ class PageService {
 	}
 
 	async getPageLean(id: Types.ObjectId): Promise<LeanDocument<IPageDocument>> {
-		const page = await this.model.findById(id).lean();
+		const page = await this.model.findById(id, { "meta.hidden": false }).lean();
 		if (page === null) {
 			throw new HttpException(404, "Page was not found");
 		} else {
@@ -57,7 +57,7 @@ class PageService {
 		const { page, limit } = pagination;
 		try {
 			const pages = await this.model
-				.find(query as never)
+				.find({ ...query, "meta.hidden": false } as never)
 				.limit(limit)
 				.skip((page - 1) * limit)
 				.exec();
