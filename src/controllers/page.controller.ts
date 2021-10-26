@@ -108,6 +108,10 @@ class PageController extends Controller<PageService> {
 				case "page":
 					paginationParams.page = parseInt(req.query[key] as string) as number;
 					break;
+				case "id":
+					// page.searchQueryParams only allows ?id=<id> and we just change it to _id here for the database request
+					queryParams["_id"] = req.query[key] as string;
+					break;
 				case "limit":
 					if ((req.query[key] as string) === "-1") {
 						paginationParams.limit = 999999999;

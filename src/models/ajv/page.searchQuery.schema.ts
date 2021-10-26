@@ -9,6 +9,7 @@ const schema: JSONSchemaType<pageSearchQuery> = {
 	additionalProperties: false,
 	nullable: true,
 	properties: {
+		id: { type: "string", pattern: "^[a-f\\d]{24}$", nullable: true },
 		name: { type: "string", nullable: true },
 		template: { type: "string", nullable: true },
 		path: { type: "string", nullable: true },

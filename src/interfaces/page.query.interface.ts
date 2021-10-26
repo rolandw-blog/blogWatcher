@@ -18,6 +18,8 @@ type IQueryPathIndex =
 	| "path.10";
 
 interface IPageQueryParams {
+	// page.searchQueryParams.interface.ts takes only ?id
+	_id?: string;
 	name?: RegExp;
 	// this is how mongoose stores nested objects for queries
 	// dont use ?meta.template=templateName
