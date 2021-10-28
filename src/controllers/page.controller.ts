@@ -5,9 +5,6 @@ import { Types } from "mongoose";
 import HttpException from "../exceptions/HttpException";
 import PageService from "../services/page.service";
 import Controller from "./controller.class";
-import IPagePaginationParams from "../interfaces/page.pagination.interface";
-import IPageQueryParams from "../interfaces/page.query.interface";
-import { IQueryPathIndex } from "../interfaces/page.query.interface";
 
 class PageController extends Controller<PageService> {
 	private _service: PageService;
@@ -89,109 +86,16 @@ class PageController extends Controller<PageService> {
 	};
 
 	public searchPage = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-		const queryParams: Partial<IPageQueryParams> = {};
-		const paginationParams: Partial<IPagePaginationParams> = {};
-		// const queryPathSegments: IQuertPathSegments = {};
-		const unsorted = [];
-
-		// sort through which params we will use to build the query and pagination for mongoose
-		for (const key in req.query) {
-			switch (key) {
-				case "name":
-					queryParams["name"] = new RegExp((req.query[key] as string) || "^.*", "i");
-					break;
-				case "template":
-					// mongoose takes nested queries like this: { "meta.template": "test" }
-					// not: { "meta": { "template": "test" } }
-					queryParams["meta.template"] = req.query[key] as string;
-					break;
-				case "page":
-					paginationParams.page = parseInt(req.query[key] as string) as number;
-					break;
-				case "id":
-					// page.searchQueryParams only allows ?id=<id> and we just change it to _id here for the database request
-					queryParams["_id"] = req.query[key] as string;
-					break;
-				case "limit":
-					if ((req.query[key] as string) === "-1") {
-						paginationParams.limit = 999999999;
-					} else {
-						paginationParams.limit = parseInt(req.query[key] as string) as number;
-					}
-					break;
-				case "path": {
-					// =============================================================================
-					// Valid queries:
-					// /pages?path=/notes/*&page=1
-					// /pages?path=/notes/&limit=1
-					// =============================================================================
-
-					const path = req.query[key] as string;
-					// the purpose of filter it to remove empty strings
-					const pathSegments = path.split("/").filter((segment) => segment !== "");
-
-					// 0 = the page that matches this path exactly
-					// 1 = children of the path given
-					let drillDown = 0;
-					// double wildcard /** = all recursive children and siblings
-					// single wildcard /* = all direct children
-					let sign = "$eq";
-					if (pathSegments[pathSegments.length - 1] === "*") {
-						// if the last segment is a wildcard, we will use the +1 for the path length to get its children
-						drillDown = 1;
-						// pop the last segment off the array
-						pathSegments.pop();
-					} else if (pathSegments[pathSegments.length - 1] === "**") {
-						drillDown = 1;
-						sign = "$gte";
-						pathSegments.pop();
-					} else if (pathSegments.length === 0) {
-						// if there are no path segments, we will use the +1 for the path length to get its children
-						drillDown = 1;
-					}
-
-					// if there are any path segments, we will use them to build the query
-					if (pathSegments.length >= 0) {
-						// append {path.n: "value"} to the query where n is the index of the segment in the path
-						for (let i = 0; i < pathSegments.length; i++) {
-							queryParams[`path.${i}` as IQueryPathIndex] = pathSegments[i];
-						}
-
-						queryParams["meta.pathLength"] = {
-							[sign]: pathSegments.length + drillDown,
-						};
-					}
-					break;
-				}
-				default:
-					unsorted.push({ [key]: req.query[key] });
-					break;
-			}
-		}
-
-		// set defaults for the pagination if they are not set
-		if (paginationParams["page"] === undefined) paginationParams["page"] = 1;
-		if (paginationParams["limit"] === undefined) paginationParams["limit"] = 3;
-
 		try {
-			// if there was some incorrect filters passed in then throw an error
-			if (unsorted.length > 0) {
-				const valuesToRemove = unsorted.map((obj) => Object.keys(obj)[0]);
-				const msg = `Unsorted query params are not supported`;
-				throw new HttpException(500, `${msg}. Please remove ${valuesToRemove.join(", ")}`);
-			}
-
-			// if there was no query params passed
-			if (Object.keys(queryParams).length === 0) {
+			// If there was no query params passed
+			// This should never really be needed, but better to be safe
+			if (Object.keys(req.query).length === 0) {
 				const msg = `No query given. Please refer to API documentation for valid query arguments`;
 				throw new HttpException(500, msg);
 			}
 
-			// search for pages
-			const pages = await this._service.searchPage(
-				queryParams,
-				paginationParams as IPagePaginationParams
-			);
+			// pass the query params to the service to do a construct a query and do a page search
+			const pages = await this._service.searchPage(req);
 			res.status(200).json(pages);
 		} catch (err) {
 			next(err);

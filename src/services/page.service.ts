@@ -2,8 +2,10 @@ import { LeanDocument, Types } from "mongoose";
 import HttpException from "../exceptions/HttpException";
 import IPage from "../interfaces/page.interface";
 import { IPageModel, IPageDocument } from "../models/mongoose/page.schema";
-import IPagePaginationParams from "../interfaces/page.pagination.interface";
-import IPageQueryParams from "../interfaces/page.query.interface";
+import constructSearchQuery from "./common/constructSearchQuery";
+import { Request } from "express";
+import genericLogger from "../utils/genericLogger";
+const logger = genericLogger(__filename);
 
 // quick compare function to sort by page name
 function compare(a: IPage, b: IPage): -1 | 0 | 1 {
@@ -49,15 +51,17 @@ class PageService {
 		}
 	}
 
-	async searchPage(
-		query: IPageQueryParams,
-		pagination: IPagePaginationParams
-	): Promise<IPageDocument[]> {
+	async searchPage(req: Request): Promise<IPageDocument[]> {
 		// this type of pagniation is not great (IO limited at scale) but it works for now
-		const { page, limit } = pagination;
+		const formedQuery = constructSearchQuery(req);
+		const { queryParams } = formedQuery;
+		const { paginationParams } = formedQuery;
+		const { limit, page } = paginationParams;
+		logger.debug(`searchPage: queryParams: ${JSON.stringify(queryParams)}`);
+
 		try {
 			const pages = await this.model
-				.find({ ...query, "meta.hidden": false } as never)
+				.find({ ...queryParams, "meta.hidden": false } as never)
 				.limit(limit)
 				.skip((page - 1) * limit)
 				.exec();
