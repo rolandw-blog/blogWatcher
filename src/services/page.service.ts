@@ -9,10 +9,6 @@ const logger = genericLogger(__filename);
 
 // quick compare function to sort by page name
 function compare(a: IPage, b: IPage): -1 | 0 | 1 {
-	// do a check to see if the page is the index, if so, put it at the top
-	if (a.name === "index") {
-		return -1;
-	}
 	if (a.name < b.name) {
 		return -1;
 	}
