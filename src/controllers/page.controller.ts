@@ -94,6 +94,10 @@ class PageController extends Controller<PageService> {
 				throw new HttpException(500, msg);
 			}
 
+			if (parseInt(req.query["page"] as string) === 0) {
+				throw new HttpException(500, "Page number must start at 1");
+			}
+
 			// pass the query params to the service to do a construct a query and do a page search
 			const pages = await this._service.searchPage(req);
 			res.status(200).json(pages);
