@@ -38,11 +38,11 @@ function handlePath(path: string, queryParams: IPageQueryParams): void {
 		pathSegments.pop();
 	} else if (pathSegments.length === 0) {
 		// if there are no path segments, we will use the +1 for the path length to get its children
-		drillDown = 1;
+		drillDown = 0;
 	}
 
 	// if there are any path segments, we will use them to build the query
-	if (pathSegments.length >= 0) {
+	if (pathSegments.length > 0) {
 		// append {path.n: "value"} to the query where n is the index of the segment in the path
 		for (let i = 0; i < pathSegments.length; i++) {
 			// add a new property to the queryParams object
@@ -50,6 +50,11 @@ function handlePath(path: string, queryParams: IPageQueryParams): void {
 		}
 
 		// set the filter "meta.pathLength" which will be "gte|eq|lte: number"
+		queryParams["meta.pathLength"] = {
+			[sign]: pathSegments.length + drillDown,
+		};
+	} else {
+		// looking for root path
 		queryParams["meta.pathLength"] = {
 			[sign]: pathSegments.length + drillDown,
 		};
