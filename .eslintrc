@@ -29,7 +29,7 @@
 		"complexity": ["error", 10],
 		"no-mixed-spaces-and-tabs": ["warn", "smart-tabs"],
 		"max-nested-callbacks": ["error", 3],
-		"max-lines-per-function": ["error", 50],
+		"max-lines-per-function": ["error", 50, { "skipComments": true }],
 		// TODO enable these rules
 		// "max-len": [
 		// 	"error",
