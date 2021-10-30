@@ -124,7 +124,7 @@ function processPaginationParam(
 	switch (key) {
 		case "page": {
 			// check page is a number
-			if (Number.isInteger(req.query["page"])) {
+			if (Number.isInteger(parseInt(req.query["page"] as string))) {
 				// set the page, fall back on 0
 				const tmp = Number.parseInt(req.query["page"] as string) || 0;
 				handlePage(tmp, paginationParams);
@@ -135,7 +135,7 @@ function processPaginationParam(
 		}
 		case "limit": {
 			// check limit is a number
-			if (Number.isInteger(req.query["limit"])) {
+			if (Number.isInteger(parseInt(req.query["limit"] as string))) {
 				// set the limit, fall back on 1
 				const tmp = Number.parseInt(req.query["limit"] as string) || 10;
 				handleLimit(tmp, paginationParams);

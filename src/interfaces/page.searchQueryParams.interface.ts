@@ -7,8 +7,8 @@ interface IPageSearchQuery {
 	template?: string;
 	path?: string;
 	// pagination: when these come from express query params they are strings
-	page?: string;
-	limit?: string;
+	page: string;
+	limit: string;
 }
 
 export default IPageSearchQuery;

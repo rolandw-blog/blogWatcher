@@ -13,8 +13,8 @@ const schema: JSONSchemaType<pageSearchQuery> = {
 		name: { type: "string", nullable: true },
 		template: { type: "string", nullable: true },
 		path: { type: "string", nullable: true },
-		page: { type: "string", nullable: true },
-		limit: { type: "string", nullable: true },
+		page: { type: "string", pattern: "^[1-9]+$" },
+		limit: { type: "string", pattern: "^[-1-9]+$" },
 	},
 };
 
