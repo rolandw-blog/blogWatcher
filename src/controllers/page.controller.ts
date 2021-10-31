@@ -105,6 +105,19 @@ class PageController extends Controller<PageService> {
 			next(err);
 		}
 	};
+
+	public getRecentCreatedPages = async (
+		_req: Request,
+		res: Response,
+		next: NextFunction
+	): Promise<void> => {
+		try {
+			const pages = await this._service.getRecentCreatedPages();
+			res.status(200).json(pages);
+		} catch (err) {
+			next(err);
+		}
+	};
 }
 
 export default PageController;

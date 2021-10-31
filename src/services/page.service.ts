@@ -64,6 +64,21 @@ class PageService {
 				.find({ ...queryParams, "meta.hidden": false } as never)
 				.limit(limit)
 				.skip((page - 1) * limit)
+				.sort({ _id: -1 })
+				// .limit(1)
+				.exec();
+			return pages.sort(compare);
+		} catch (err) {
+			throw new HttpException(500, "Something went wrong searching for pages");
+		}
+	}
+
+	async getRecentCreatedPages(): Promise<IPageDocument[]> {
+		try {
+			const pages = await this.model
+				.find({ "meta.hidden": false } as never)
+				.sort({ _id: 1 })
+				.limit(5)
 				.exec();
 			return pages.sort(compare);
 		} catch (err) {

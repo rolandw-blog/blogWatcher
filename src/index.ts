@@ -11,6 +11,7 @@ import GetPageRoute from "./routes/page/getPage.route";
 import PostPageRoute from "./routes/page/postPage.route";
 import SearchPageRoute from "./routes/page/searchPage.route";
 import GetPageRouteLean from "./routes/page/getPageLean.route";
+import getRecentCreatedPages from "./routes/page/getRecentCreatedPages.route";
 dotenv.config();
 
 logger.info("Starting up");
@@ -35,6 +36,7 @@ async function start() {
 			new GetPageRouteLean(conn),
 			new PostPageRoute(conn),
 			new SearchPageRoute(conn),
+			new getRecentCreatedPages(conn),
 		];
 
 		// push the last route which is a 404 page
