@@ -9,10 +9,13 @@ const logger = genericLogger(__filename);
 
 // quick compare function to sort by page name
 function compare(a: IPage, b: IPage): -1 | 0 | 1 {
-	if (a.name < b.name) {
+	if (a.meta.template === "menu.ejs") {
 		return -1;
-	}
-	if (a.name > b.name) {
+	} else if (b.meta.template === "menu.ejs") {
+		return 1;
+	} else if (a.name < b.name) {
+		return -1;
+	} else if (a.name > b.name) {
 		return 1;
 	}
 	return 0;
