@@ -1,11 +1,18 @@
-import isDocker from "is-docker";
+import {
+	MONGOOSE_AUTH_SOURCE,
+	MONGOOSE_DATABASE,
+	MONGOOSE_HOST,
+	MONGOOSE_PASSWORD,
+	MONGOOSE_PORT,
+	MONGOOSE_USERNAME,
+} from "../constants";
 
-const username = process.env["MONGOOSE_USERNAME"];
-const password = process.env["MONGOOSE_PASSWORD"];
-const host = isDocker() ? process.env["MONGOOSE_HOST"] : "localhost";
-const port = process.env["MONGOOSE_PORT"];
-const database = process.env["MONGOOSE_DATABASE"];
-const authSource = process.env["MONGOOSE_AUTH_SOURCE"];
+const username = MONGOOSE_USERNAME;
+const password = MONGOOSE_PASSWORD;
+const host = MONGOOSE_HOST;
+const port = MONGOOSE_PORT;
+const database = MONGOOSE_DATABASE;
+const authSource = MONGOOSE_AUTH_SOURCE;
 
 export const dbConnection = {
 	url: `mongodb://${username}:${password}@${host}:${port}/${database}?authSource=${authSource}`,

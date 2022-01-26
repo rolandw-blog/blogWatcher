@@ -68,8 +68,8 @@ class PageService {
 				.limit(limit)
 				.skip((page - 1) * limit)
 				.sort({ _id: -1 })
-				// .limit(1)
 				.exec();
+
 			return pages.sort(compare);
 		} catch (err) {
 			throw new HttpException(500, "Something went wrong searching for pages");

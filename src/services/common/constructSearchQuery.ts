@@ -2,6 +2,7 @@
 // Should take a query object from express (req.query) and return a service friendly mongo query
 // =================================================================================================
 import { Request } from "express";
+import { Types } from "mongoose";
 import HttpException from "../../exceptions/HttpException";
 import IPagePaginationParams from "../../interfaces/page.pagination.interface";
 import IPageQueryParams, { IndexedPath } from "../../interfaces/page.query.interface";
@@ -64,8 +65,9 @@ function handlePath(path: string, queryParams: IPageQueryParams): void {
 function handleId(idToSearchFor: string, queryParams: Partial<IPageQueryParams>): void {
 	// assign the name as a filter for the queryParams object
 	Object.defineProperty(queryParams, "_id", {
-		value: idToSearchFor,
+		value: Types.ObjectId(idToSearchFor),
 		writable: false,
+		enumerable: true,
 	});
 }
 
@@ -114,7 +116,7 @@ function processQueryParam(key: string, req: Request, queryParams: IPageQueryPar
 			handleTemplate((req.query["template"] as string) || "", queryParams);
 			break;
 		case "id":
-			handleId((req.query["_id"] as string) || "aaaaaaaaaaaaaaaaaaaaaaaa", queryParams);
+			handleId(req.query["id"] as string, queryParams);
 			break;
 		case "path":
 			handlePath((req.query["path"] as string) || "/", queryParams);
