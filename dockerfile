@@ -36,6 +36,6 @@ USER node
 CMD [ "npm", "run", "dev" ]
 
 FROM common as production
-ENV NODE_ENV development
+ENV NODE_ENV production
 USER node
 CMD [ "npm", "run", "start" ]
