@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { NODE_ENV } from "./constants";
 import { dbConnection as db } from "./database/database";
 import loggerFunction from "./utils/genericLogger";
 const logger = loggerFunction(__filename);
@@ -10,7 +11,7 @@ class Database {
 	constructor() {
 		this.conn = mongoose.connection;
 
-		if (process.env["NODE_ENV"] === "development") {
+		if (NODE_ENV === "development") {
 			// logs to winston (or console if not using winston) every time a query is made on this connection
 			mongoose.set("debug", true);
 		}
@@ -28,6 +29,12 @@ class Database {
 		conn.on("connected", () => {
 			// we can get the mongo driver using this method to get a bunch of useful lower level methods
 			logger.info(`connected to database: ${conn.getClient().isConnected()}`);
+		});
+
+		// when we see the connected event https://mongoosejs.com/docs/connections.html#connection-events
+		conn.on("connecting", () => {
+			// we can get the mongo driver using this method to get a bunch of useful lower level methods
+			logger.info(`connecting to the database`);
 		});
 
 		// when we lose connection to the database

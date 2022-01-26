@@ -12,6 +12,7 @@ import PostPageRoute from "./routes/page/postPage.route";
 import SearchPageRoute from "./routes/page/searchPage.route";
 import GetPageRouteLean from "./routes/page/getPageLean.route";
 import getRecentCreatedPages from "./routes/page/getRecentCreatedPages.route";
+import { PORT } from "./constants";
 dotenv.config();
 
 logger.info("Starting up");
@@ -43,7 +44,7 @@ async function start() {
 		routes.push(new PageNotFound());
 
 		// then create the app and start listening on the port
-		new App(routes, { port: "3001" }).listen();
+		new App(routes, { port: PORT }).listen();
 	} catch (err) {
 		// if there is an error on the initial connection it will be caught here
 		logger.error(err);

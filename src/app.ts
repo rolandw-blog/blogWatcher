@@ -8,6 +8,7 @@ import httpExceptionMiddleware from "./middleware/httpException.middleware";
 import openapiSpecification from "./swagger";
 import AppOptions from "./interfaces/appOptions.interface";
 import { Server } from "http";
+import { DOMAIN, NODE_ENV } from "./constants";
 
 class App {
 	// List all the fields that this class will contain
@@ -15,12 +16,12 @@ class App {
 	// 	Thats because the routes are consumer immediately by initializeRoutes and attached to the app at runtime
 	public app: express.Application;
 	public port: string;
-	public env: boolean;
+	public env: "development" | "production";
 
-	constructor(routes: Route[], options: AppOptions = { port: "3000" }) {
+	constructor(routes: Route[], options: AppOptions) {
 		this.app = express();
 		this.port = options.port;
-		this.env = process.env["NODE_ENV"] === "production" ? true : false;
+		this.env = NODE_ENV as "development" | "production";
 
 		this.initializeMiddlewares();
 		this.initilizeDocs();
@@ -49,10 +50,10 @@ class App {
 			next();
 		});
 
-		if (this.env) {
+		if (this.env === "production") {
 			// running in production
 			this.app.use(helmet());
-			this.app.use(cors({ origin: `${process.env["DOMAIN"]}`, credentials: true }));
+			this.app.use(cors({ origin: DOMAIN, credentials: true }));
 		} else {
 			this.app.use(cors({ origin: true, credentials: true }));
 		}
